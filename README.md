@@ -32,7 +32,7 @@ the [Chakra UI](https://chakra-ui.com/) component library.
     ```sh
     npm run dev
     ```
-4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 5. The page will reload if you make edits.
 6. You will also see any lint errors in the console.
 
@@ -44,7 +44,7 @@ the [Chakra UI](https://chakra-ui.com/) component library.
    ```sh
    npm run dev
    ```
-2. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 3. The page will reload if you make edits.
 
 ### Production
@@ -54,6 +54,8 @@ the [Chakra UI](https://chakra-ui.com/) component library.
    npm run build
    npm run preview
    ```
+
+2. Open [http://localhost:4173](http://localhost:4173) to view it in the browser.
 
 ## Developer
 
