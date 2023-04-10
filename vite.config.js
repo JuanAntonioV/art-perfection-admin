@@ -15,4 +15,9 @@ export default defineConfig({
             '@hooks': '/src/hooks',
         },
     },
+    server: {
+        watch: {
+            usePolling: true,
+        },
+    },
 });
