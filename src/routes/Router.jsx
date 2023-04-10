@@ -1,12 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 // Pages
-import HomePage from '../pages/HomePage';
+import LoginPage from '@pages/auth/LoginPage';
+import ForgotPasswordPage from '@pages/auth/ForgotPasswordPage';
 
 const Router = () => {
     return (
         <Routes>
-            <Route path='/' Component={HomePage} />
+            <Route path='/' element={<Navigate to={'login'} />} />
+            <Route path='/login' Component={LoginPage} />
+            <Route path='/forgot-password' Component={ForgotPasswordPage} />
         </Routes>
     );
 };
