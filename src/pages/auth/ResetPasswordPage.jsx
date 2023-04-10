@@ -1,5 +1,5 @@
 import AuthLayout from '@/layouts/AuthLayout';
-import { Box, Stack, Heading, Text, Alert, AlertTitle } from '@chakra-ui/react';
+import { Box, Stack, Heading, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import ResetPasswordForm from './partials/ResetPasswordForm';
 
