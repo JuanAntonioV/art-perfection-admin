@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from './stores';
 
 import './styles/main.css';
+import '@fontsource/inter';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
