@@ -31,7 +31,7 @@ const ResetPasswordPage = () => {
                         </Stack>
                     </Stack>
 
-                    <ResetPasswordForm submitAction={handleSubmit} />
+                    <ResetPasswordForm onSubmit={handleSubmit} />
                 </Stack>
             </Box>
         </AuthLayout>

@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { Field, Form, Formik } from 'formik';
 
-const ResetPasswordForm = ({ submitAction }) => {
+const ResetPasswordForm = ({ onSubmit }) => {
     return (
         <Formik
             initialValues={{
@@ -39,7 +39,7 @@ const ResetPasswordForm = ({ submitAction }) => {
 
                 return errors;
             }}
-            onSubmit={(values, actions) => submitAction(values, actions)}
+            onSubmit={(values, actions) => onSubmit(values, actions)}
         >
             {(props) => (
                 <Form>
