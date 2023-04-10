@@ -19,7 +19,13 @@ const ForgotPasswordPage = () => {
     const [value, setValue] = useState('');
     const [isSending, setIsSending] = useState(false);
 
-    const handleChange = (e) => setValue(e.target.value);
+    const handleChange = (e) => {
+        if (e.target.value.match(/^[A-Za-z0-9@. ]*$/)) {
+            setValue(e.target.value);
+        } else if (e.target.value === '') {
+            setValue(e.target.value);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,7 +58,7 @@ const ForgotPasswordPage = () => {
                                     name='email'
                                     type='email'
                                     placeholder='e.g. name@email.com'
-                                    value={value.email}
+                                    value={value}
                                     onChange={handleChange}
                                 />
                                 {isSending ? (
