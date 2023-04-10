@@ -21,7 +21,6 @@ const LoginPage = () => {
     const [value, setValue] = useState({
         email: '',
         password: '',
-        rememberMe: false,
     });
 
     const [errors, setErrors] = useState('');
@@ -79,7 +78,7 @@ const LoginPage = () => {
                         <Stack spacing={4}>
                             <FormControl id='email' isRequired>
                                 <FormLabel fontSize={'sm'}>
-                                    Email address
+                                    Alamat email
                                 </FormLabel>
                                 <Input
                                     name='email'
@@ -101,29 +100,22 @@ const LoginPage = () => {
                                 />
                             </FormControl>
 
-                            <Stack spacing={8}>
+                            <Stack spacing={6}>
                                 <Stack
                                     direction={{
                                         base: 'column',
                                         sm: 'row',
                                     }}
                                     align={'start'}
-                                    justify={'space-between'}
+                                    justify={'end'}
                                 >
-                                    <Checkbox
-                                        name='rememberMe'
-                                        value={value.rememberMe}
-                                        onChange={handleChange}
-                                    >
-                                        Remember me
-                                    </Checkbox>
                                     <ChakraLink
                                         color={'blue.400'}
                                         fontSize={'sm'}
                                         to='/forgot-password'
                                         as={Link}
                                     >
-                                        Forgot password?
+                                        Lupa password?
                                     </ChakraLink>
                                 </Stack>
 
@@ -136,11 +128,30 @@ const LoginPage = () => {
                                         bg: 'blue.500',
                                     }}
                                 >
-                                    Sign in
+                                    Masuk
                                 </Button>
                             </Stack>
                         </Stack>
                     </form>
+                </Stack>
+
+                <Stack
+                    direction={{ base: 'column', sm: 'row' }}
+                    align={'start'}
+                    justify={'space-between'}
+                    mt={6}
+                >
+                    <Text fontSize={'sm'} color={'gray.600'}>
+                        Belum punya akun?{' '}
+                        <ChakraLink
+                            as={Link}
+                            to={'/register'}
+                            color={'blue.400'}
+                            fontWeight={'bold'}
+                        >
+                            Daftar
+                        </ChakraLink>
+                    </Text>
                 </Stack>
             </Box>
 
