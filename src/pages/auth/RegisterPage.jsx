@@ -13,7 +13,7 @@ import {
     Button,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
     const [value, setValue] = useState({
@@ -23,6 +23,8 @@ const RegisterPage = () => {
     });
 
     const [errors, setErrors] = useState('');
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         setValue({
@@ -42,6 +44,7 @@ const RegisterPage = () => {
         } else {
             console.log('Register success');
             setErrors('');
+            navigate('/login');
         }
     };
 
@@ -75,7 +78,7 @@ const RegisterPage = () => {
 
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={4}>
-                            <FormControl id='email' isRequired>
+                            <FormControl id='fullName' isRequired>
                                 <FormLabel fontSize={'sm'}>
                                     Nama lengkap
                                 </FormLabel>
