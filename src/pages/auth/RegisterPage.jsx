@@ -1,7 +1,5 @@
 import AuthLayout from '@/layouts/AuthLayout';
 import {
-    Alert,
-    AlertTitle,
     Box,
     FormControl,
     FormLabel,
@@ -12,40 +10,18 @@ import {
     Text,
     Button,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import RegisterForm from './partials/RegisterForm';
 
 const RegisterPage = () => {
-    const [value, setValue] = useState({
-        fullName: '',
-        email: '',
-        password: '',
-    });
-
-    const [errors, setErrors] = useState('');
-
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
-        setValue({
-            ...value,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // check if fullName is contain number or symbol
-        if (/[0-9!@#$%^&*(),.?":{}|<>]/.test(value.fullName)) {
-            setErrors('Nama lengkap tidak boleh mengandung angka atau simbol.');
-        } else if (value.password.length < 6) {
-            setErrors('Password minimal 6 karakter.');
-        } else {
-            console.log('Register success');
-            setErrors('');
+    const handleSubmit = (values, setSubmitting) => {
+        setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            setSubmitting(false);
             navigate('/login');
-        }
+        }, 1000);
     };
 
     return (
@@ -62,74 +38,9 @@ const RegisterPage = () => {
                                 Daftar untuk melanjutkan ke dashboard
                             </Text>
                         </Stack>
-
-                        {errors ? (
-                            <Alert status='error' rounded={'lg'}>
-                                <AlertTitle
-                                    fontSize={'sm'}
-                                    textColor={'red.600'}
-                                    fontWeight={'normal'}
-                                >
-                                    {errors}
-                                </AlertTitle>
-                            </Alert>
-                        ) : null}
                     </Stack>
 
-                    <form onSubmit={handleSubmit}>
-                        <Stack spacing={4}>
-                            <FormControl id='fullName' isRequired>
-                                <FormLabel fontSize={'sm'}>
-                                    Nama lengkap
-                                </FormLabel>
-                                <Input
-                                    name='fullName'
-                                    type='text'
-                                    placeholder='e.g. Reza Pratama'
-                                    value={value.fullName}
-                                    onChange={handleChange}
-                                />
-                            </FormControl>
-
-                            <FormControl id='email' isRequired>
-                                <FormLabel fontSize={'sm'}>
-                                    Alamat email
-                                </FormLabel>
-                                <Input
-                                    name='email'
-                                    type='email'
-                                    placeholder='e.g. name@email.com'
-                                    value={value.email}
-                                    onChange={handleChange}
-                                />
-                            </FormControl>
-
-                            <FormControl id='password' isRequired>
-                                <FormLabel fontSize={'sm'}>Password</FormLabel>
-                                <Input
-                                    name='password'
-                                    type='password'
-                                    placeholder={'••••••••'}
-                                    value={value.password}
-                                    onChange={handleChange}
-                                />
-                            </FormControl>
-                        </Stack>
-
-                        <Button
-                            bg={'blue.400'}
-                            color={'white'}
-                            fontSize={'sm'}
-                            type={'submit'}
-                            w={'full'}
-                            mt={6}
-                            _hover={{
-                                bg: 'blue.500',
-                            }}
-                        >
-                            Daftar
-                        </Button>
-                    </form>
+                    <RegisterForm onSubmit={handleSubmit} />
                 </Stack>
 
                 <Stack
