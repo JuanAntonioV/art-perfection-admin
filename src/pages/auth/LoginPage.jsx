@@ -35,7 +35,9 @@ const LoginPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (
+        if (value.password.length < 6) {
+            setErrors('Password minimal 6 karakter.');
+        } else if (
             value.email !== 'admin@email.com' ||
             value.password !== 'admin123'
         ) {
