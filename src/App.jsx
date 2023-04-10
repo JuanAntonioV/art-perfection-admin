@@ -1,16 +1,10 @@
 import Router from './routes/Router';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-
-const theme = extendTheme({
-    fonts: {
-        heading: `'Inter', sans-serif`,
-        body: `'Inter', sans-serif`,
-    },
-});
+import { ChakraProvider } from '@chakra-ui/react';
+import { theme } from './styles/themes';
 
 const App = () => {
     return (
-        <ChakraProvider theme={theme}>
+        <ChakraProvider resetCSS theme={theme}>
             <Router />
         </ChakraProvider>
     );
