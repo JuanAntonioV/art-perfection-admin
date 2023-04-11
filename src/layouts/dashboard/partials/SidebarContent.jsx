@@ -60,7 +60,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
             {LinkItems.map((link, index) => (
                 <React.Fragment key={index}>
-                    <NavbarItem icon={link.icon} link={link.to}>
+                    <NavbarItem
+                        icon={link.icon}
+                        link={link.to}
+                        onClick={onClose}
+                    >
                         {link.name}
                     </NavbarItem>
 

@@ -1,13 +1,14 @@
 import { Flex, Icon, Link as ChakraLink } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 
-const NavbarItem = ({ icon, children, link, ...rest }) => {
+const NavbarItem = ({ icon, children, link, onClick, ...rest }) => {
     return (
         <ChakraLink
             as={Link}
             to={link}
             style={{ textDecoration: 'none' }}
             _focus={{ boxShadow: 'none' }}
+            onClick={onClick}
         >
             <Flex
                 align='center'
