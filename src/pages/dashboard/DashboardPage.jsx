@@ -1,9 +1,7 @@
+import StatSection from './partials/StatSection';
+
 const DashboardPage = () => {
-    return (
-        <div>
-            <h1>Dashboard Parent Child</h1>
-        </div>
-    );
+    return <StatSection />;
 };
 
 export default DashboardPage;
