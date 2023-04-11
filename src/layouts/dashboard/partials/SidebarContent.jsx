@@ -10,6 +10,7 @@ import {
 import { HiOutlineUsers } from 'react-icons/hi';
 
 import NavbarItem from './NavbarItem';
+import React from 'react';
 
 const SidebarContent = ({ onClose, ...rest }) => {
     const LinkItems = [
@@ -21,7 +22,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         },
         { name: 'Users', icon: HiOutlineUsers, to: '/users', devider: false },
         { name: 'Heads', icon: RiUserStarLine, to: '/heads', devider: false },
-        { name: 'Teams', icon: FiStar, to: '/trending', devider: false },
+        { name: 'Teams', icon: FiStar, to: '/teams', devider: false },
         {
             name: 'Analitics',
             icon: TbBrandGoogleAnalytics,
@@ -56,16 +57,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     onClick={onClose}
                 />
             </Flex>
-            {LinkItems.map((link) => (
-                <>
-                    <NavbarItem key={link.name} icon={link.icon} link={link.to}>
+
+            {LinkItems.map((link, index) => (
+                <React.Fragment key={index}>
+                    <NavbarItem icon={link.icon} link={link.to}>
                         {link.name}
                     </NavbarItem>
 
                     {link.devider ? (
                         <Box mx='8' my='2' h='px' bg='gray.200' />
                     ) : null}
-                </>
+                </React.Fragment>
             ))}
         </Box>
     );
