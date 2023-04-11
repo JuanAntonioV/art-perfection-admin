@@ -22,13 +22,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
         },
         { name: 'Users', icon: HiOutlineUsers, to: '/users', devider: false },
         { name: 'Heads', icon: RiUserStarLine, to: '/heads', devider: false },
-        { name: 'Teams', icon: FiStar, to: '/teams', devider: false },
-        {
-            name: 'Analitics',
-            icon: TbBrandGoogleAnalytics,
-            to: '/analitics',
-            devider: true,
-        },
+        { name: 'Teams', icon: FiStar, to: '/teams', devider: true },
+        // {
+        //     name: 'Analitics',
+        //     icon: TbBrandGoogleAnalytics,
+        //     to: '/analitics',
+        //     devider: true,
+        // },
         { name: 'Settings', icon: FiSettings, to: '/settings', devider: false },
     ];
 

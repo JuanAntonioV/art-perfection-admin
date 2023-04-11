@@ -83,7 +83,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             </HStack>
                         </MenuButton>
                         <MenuList bg={'white'} borderColor={'gray.200'}>
-                            <MenuItem>Profile</MenuItem>
+                            <MenuItem onClick={() => navigate('/profiles')}>
+                                Profile
+                            </MenuItem>
                             <MenuDivider />
                             <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </MenuList>
