@@ -10,7 +10,7 @@ import {
     StatNumber,
 } from '@chakra-ui/react';
 import { BsFillCalendar2CheckFill } from 'react-icons/bs';
-import { FaStar, FaUserAlt, FaUserFriends } from 'react-icons/fa';
+import { FaUserAlt, FaUserFriends } from 'react-icons/fa';
 import { RiUserStarFill } from 'react-icons/ri';
 
 const StatSection = () => {
