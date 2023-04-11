@@ -34,6 +34,12 @@ const ResetPasswordPage = () => {
                     <ResetPasswordForm onSubmit={handleSubmit} />
                 </Stack>
             </Box>
+
+            <Stack align={'center'}>
+                <Text fontSize={'sm'} color={'gray.400'}>
+                    &copy; 2023 Art Perfection Group. All rights reserved.
+                </Text>
+            </Stack>
         </AuthLayout>
     );
 };
