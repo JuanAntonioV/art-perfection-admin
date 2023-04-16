@@ -20,8 +20,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
             to: '/dashboard',
             devider: true,
         },
-        { name: 'Users', icon: HiOutlineUsers, to: '/users', devider: false },
         { name: 'Heads', icon: RiUserStarLine, to: '/heads', devider: false },
+        {
+            name: 'Employes',
+            icon: HiOutlineUsers,
+            to: '/employes',
+            devider: false,
+        },
         { name: 'Teams', icon: FiStar, to: '/teams', devider: true },
         // {
         //     name: 'Analitics',
@@ -35,7 +40,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
     return (
         <Box
             transition='3s ease'
-            bg={'white'}
+            bg={'gray.800'}
+            textColor={'white'}
             borderRight='1px'
             borderRightColor={'gray.200'}
             w={{ base: 'full', md: 60 }}
@@ -69,7 +75,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     </NavbarItem>
 
                     {link.devider ? (
-                        <Box mx='8' my='2' h='px' bg='gray.200' />
+                        <Box mx='8' my='2' h='px' bg='gray.600' />
                     ) : null}
                 </React.Fragment>
             ))}

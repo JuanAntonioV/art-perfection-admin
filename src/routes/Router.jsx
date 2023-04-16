@@ -8,7 +8,7 @@ import ResetPasswordPage from '@/pages/auth/ResetPasswordPage';
 import NotFound from '@/pages/NotFound';
 import DashboardPage from '@/pages/dashboard/DashboardPage';
 import DashboardLayout from '@/layouts/dashboard/DashboardLayout';
-import UserPage from '@/pages/users/UserPage';
+import EmployePage from '@/pages/employes/EmployePage';
 import HeadPage from '@/pages/heads/HeadPage';
 import TeamPage from '@/pages/teams/TeamPage';
 import SettingPage from '@/pages/settings/SettingPage';
@@ -24,7 +24,7 @@ const Router = () => {
             <Route path='/reset-password' Component={ResetPasswordPage} />
             <Route Component={DashboardLayout}>
                 <Route path='dashboard' Component={DashboardPage} />
-                <Route path='users' Component={UserPage} />
+                <Route path='employes' Component={EmployePage} />
                 <Route path='heads' Component={HeadPage} />
                 <Route path='teams' Component={TeamPage} />
                 <Route path='settings' Component={SettingPage} />
