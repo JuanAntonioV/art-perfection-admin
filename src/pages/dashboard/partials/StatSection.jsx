@@ -9,9 +9,12 @@ import {
     StatLabel,
     StatNumber,
 } from '@chakra-ui/react';
-import { BsFillCalendar2CheckFill } from 'react-icons/bs';
-import { FaUserAlt, FaUserFriends } from 'react-icons/fa';
-import { RiUserStarFill } from 'react-icons/ri';
+import {
+    BsFillCalendar2CheckFill,
+    FaUserAlt,
+    FaUserFriends,
+    RiUserStarFill,
+} from 'react-icons/all';
 
 const StatSection = () => {
     return (

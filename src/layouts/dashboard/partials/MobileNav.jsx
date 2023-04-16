@@ -12,7 +12,7 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { FiChevronDown, FiMenu } from 'react-icons/fi';
+import { FiChevronDown, FiMenu } from 'react-icons/all';
 import { useNavigate } from 'react-router-dom';
 
 const MobileNav = ({ onOpen, ...rest }) => {
