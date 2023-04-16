@@ -6,16 +6,18 @@ import {
     Heading,
     Text,
 } from '@chakra-ui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from './partials/LoginForm';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
+
     const handleSubmit = (values, setSubmitting) => {
         setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             console.log('Login berhasil');
             setSubmitting(false);
-            setErrors('');
+            navigate('/dashboard');
         }, 1000);
     };
 
