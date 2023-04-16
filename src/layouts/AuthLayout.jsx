@@ -6,7 +6,7 @@ const AuthLayout = ({ children }) => {
             minH={'100vh'}
             align={'center'}
             justify={'center'}
-            bg={'gray.200'}
+            bg={'gray.100'}
         >
             <Stack
                 spacing={10}

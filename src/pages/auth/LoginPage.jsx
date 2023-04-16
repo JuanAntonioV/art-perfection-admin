@@ -16,8 +16,8 @@ const LoginPage = () => {
         setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
             console.log('Login berhasil');
-            setSubmitting(false);
             navigate('/dashboard');
+            setSubmitting(false);
         }, 1000);
     };
 
