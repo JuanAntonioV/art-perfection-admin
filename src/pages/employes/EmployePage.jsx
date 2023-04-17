@@ -14,6 +14,7 @@ import {
     Tr,
     Button,
     useDisclosure,
+    Badge,
 } from '@chakra-ui/react';
 import { TbUserSearch, TiWarningOutline } from 'react-icons/all';
 import { employes } from './data';
@@ -63,6 +64,7 @@ const EmployePage = () => {
                                 <Th w={10}>#</Th>
                                 <Th>Name</Th>
                                 <Th>Email</Th>
+                                <Th>Status</Th>
                                 <Th>Registered At</Th>
                                 <Th isNumeric>Action</Th>
                             </Tr>
@@ -73,6 +75,23 @@ const EmployePage = () => {
                                     <Td>{index + 1}</Td>
                                     <Td>{employe.name}</Td>
                                     <Td>{employe.email}</Td>
+                                    <Td>
+                                        {employe.status === 'active' ? (
+                                            <Badge
+                                                variant='solid'
+                                                colorScheme='green'
+                                            >
+                                                Active
+                                            </Badge>
+                                        ) : (
+                                            <Badge
+                                                variant='solid'
+                                                colorScheme='red'
+                                            >
+                                                Nonactive
+                                            </Badge>
+                                        )}
+                                    </Td>
                                     <Td>{employe.registeredAt}</Td>
                                     <Td isNumeric>
                                         <Button
