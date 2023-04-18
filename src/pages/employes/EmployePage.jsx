@@ -5,7 +5,6 @@ import {
     Stack,
     Text,
     Table,
-    TableCaption,
     TableContainer,
     Tbody,
     Td,

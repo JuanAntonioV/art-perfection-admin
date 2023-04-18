@@ -1,3 +1,4 @@
+import { upperFirst } from '@/helpers/TextHelper';
 import {
     Avatar,
     Box,
@@ -13,10 +14,12 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { FiChevronDown, FiMenu } from 'react-icons/all';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const MobileNav = ({ onOpen, ...rest }) => {
     const navigate = useNavigate();
+    const user = useSelector((state) => state.auth.user);
 
     const handleLogout = () => {
         navigate('/login', { replace: true });
@@ -72,9 +75,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     spacing='1px'
                                     ml='2'
                                 >
-                                    <Text fontSize='sm'>Justina Clark</Text>
+                                    <Text fontSize='sm'>{user.name}</Text>
                                     <Text fontSize='xs' color='gray.600'>
-                                        Admin
+                                        {user.role ? upperFirst(user.role) : ''}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>
