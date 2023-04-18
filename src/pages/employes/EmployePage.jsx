@@ -65,12 +65,12 @@ const EmployePage = () => {
                     <Badge
                         px={3}
                         py={1}
-                        bg={employe.status == 'active' ? 'cyan' : 'red'}
+                        bg={employe.status == 'active' ? 'green.400' : 'red'}
                         textColor={'white'}
                         rounded={'md'}
                         fontSize={'x-small'}
                     >
-                        {employe.status ? 'active' : 'nonactive'}
+                        {employe.status == 'active' ? 'Aktif' : 'Nonaktif'}
                     </Badge>
                 ),
                 registeredAt: employe.registeredAt,

@@ -1,12 +1,10 @@
-import { Td, Tr } from '@chakra-ui/react';
+import { Td } from '@chakra-ui/react';
 
-const TableNoData = () => {
+const TableNoData = (props) => {
     return (
-        <Tr>
-            <Td colSpan={6} textAlign='center' py={4}>
-                Data tidak ditemukan
-            </Td>
-        </Tr>
+        <Td colSpan={6} textAlign='center' py={4} {...props}>
+            Data tidak ditemukan
+        </Td>
     );
 };
 
