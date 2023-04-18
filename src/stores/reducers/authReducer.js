@@ -5,6 +5,7 @@ const initialState = {
         name: 'John Doe',
         email: 'jhondoe@email.com',
         role: 'admin',
+        status: 'active',
     },
 };
 

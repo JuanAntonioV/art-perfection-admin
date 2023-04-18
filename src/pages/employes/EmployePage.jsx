@@ -1,23 +1,18 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import {
+    Badge,
     Box,
+    Button,
     Heading,
     Stack,
     Text,
-    Table,
-    TableContainer,
-    Tbody,
-    Td,
-    Th,
-    Thead,
-    Tr,
-    Button,
     useDisclosure,
-    Badge,
 } from '@chakra-ui/react';
-import { TbUserSearch, TiWarningOutline } from 'react-icons/all';
-import { employes } from './data';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import TableBasic from '@/components/tables/TableBasic';
+import { TbUserSearch } from 'react-icons/tb';
+import { TiWarningOutline } from 'react-icons/ti';
 
 const EmployePage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,6 +21,93 @@ const EmployePage = () => {
     const handleUnactive = (id) => {
         console.log('ID Employes', id);
     };
+
+    const employes = useSelector((state) => state.employes.employes);
+
+    const columns = useMemo(
+        () => [
+            {
+                Header: '#',
+                accessor: 'count',
+            },
+            {
+                Header: 'Name',
+                accessor: 'name',
+            },
+            {
+                Header: 'Email',
+                accessor: 'email',
+            },
+            {
+                Header: 'Status',
+                accessor: 'status',
+            },
+            {
+                Header: 'Registered At',
+                accessor: 'registeredAt',
+            },
+            {
+                Header: 'Action',
+                accessor: 'action',
+            },
+        ],
+        []
+    );
+
+    const data = useMemo(() => {
+        let count = 1;
+        return employes.map((employe) => {
+            return {
+                count: count++,
+                name: employe.name,
+                email: employe.email,
+                status: (
+                    <Badge
+                        px={3}
+                        py={1}
+                        bg={employe.status == 'active' ? 'cyan' : 'red'}
+                        textColor={'white'}
+                        rounded={'md'}
+                        fontSize={'x-small'}
+                    >
+                        {employe.status ? 'active' : 'nonactive'}
+                    </Badge>
+                ),
+                registeredAt: employe.registeredAt,
+                action: (
+                    <Box>
+                        <Button
+                            size='sm'
+                            textColor={'blue.400'}
+                            bg={'transparent'}
+                            _hover={{
+                                bg: 'blue.400',
+                                textColor: 'white',
+                            }}
+                        >
+                            <TbUserSearch size={20} />
+                        </Button>
+                        <Button
+                            size='sm'
+                            ml={2}
+                            textColor={'red'}
+                            bg={'transparent'}
+                            _hover={{
+                                bg: 'red',
+                                textColor: 'white',
+                            }}
+                            onClick={() => {
+                                setEmployeId(employe.id);
+                                onOpen();
+                            }}
+                        >
+                            <TiWarningOutline size={20} />
+                        </Button>
+                    </Box>
+                ),
+            };
+        });
+    }, [employes]);
 
     return (
         <>
@@ -56,76 +138,7 @@ const EmployePage = () => {
                     </Text>
                 </Stack>
 
-                <TableContainer mt={4}>
-                    <Table variant='striped' colorScheme='gray' size={'sm'}>
-                        <Thead>
-                            <Tr>
-                                <Th w={10}>#</Th>
-                                <Th>Name</Th>
-                                <Th>Email</Th>
-                                <Th>Status</Th>
-                                <Th>Registered At</Th>
-                                <Th isNumeric>Action</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {employes.map((employe, index) => (
-                                <Tr key={employe.id}>
-                                    <Td>{index + 1}</Td>
-                                    <Td>{employe.name}</Td>
-                                    <Td>{employe.email}</Td>
-                                    <Td>
-                                        {employe.status === 'active' ? (
-                                            <Badge
-                                                variant='solid'
-                                                colorScheme='green'
-                                            >
-                                                Active
-                                            </Badge>
-                                        ) : (
-                                            <Badge
-                                                variant='solid'
-                                                colorScheme='red'
-                                            >
-                                                Nonactive
-                                            </Badge>
-                                        )}
-                                    </Td>
-                                    <Td>{employe.registeredAt}</Td>
-                                    <Td isNumeric>
-                                        <Button
-                                            size='sm'
-                                            textColor={'blue.400'}
-                                            bg={'transparent'}
-                                            _hover={{
-                                                bg: 'blue.400',
-                                                textColor: 'white',
-                                            }}
-                                        >
-                                            <TbUserSearch size={20} />
-                                        </Button>
-                                        <Button
-                                            size='sm'
-                                            ml={2}
-                                            textColor={'red'}
-                                            bg={'transparent'}
-                                            _hover={{
-                                                bg: 'red',
-                                                textColor: 'white',
-                                            }}
-                                            onClick={() => {
-                                                setEmployeId(employe.id);
-                                                onOpen();
-                                            }}
-                                        >
-                                            <TiWarningOutline size={20} />
-                                        </Button>
-                                    </Td>
-                                </Tr>
-                            ))}
-                        </Tbody>
-                    </Table>
-                </TableContainer>
+                <TableBasic columns={columns} data={data} />
             </Box>
         </>
     );
