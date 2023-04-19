@@ -11,7 +11,6 @@ import DashboardLayout from '@/layouts/dashboard/DashboardLayout';
 import EmployePage from '@/pages/employes/EmployePage';
 import HeadPage from '@/pages/heads/HeadPage';
 import TeamPage from '@/pages/teams/TeamPage';
-import SettingPage from '@/pages/settings/SettingPage';
 import ProfilePage from '@/pages/profiles/ProfilePage';
 
 const Router = () => {
@@ -27,7 +26,7 @@ const Router = () => {
                 <Route path='employes' Component={EmployePage} />
                 <Route path='heads' Component={HeadPage} />
                 <Route path='teams' Component={TeamPage} />
-                <Route path='settings' Component={SettingPage} />
+                {/* <Route path='settings' Component={SettingPage} /> */}
                 <Route path='profiles' Component={ProfilePage} />
             </Route>
 

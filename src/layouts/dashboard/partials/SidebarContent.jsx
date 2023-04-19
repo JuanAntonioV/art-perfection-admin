@@ -1,11 +1,5 @@
 import { Box, CloseButton, Flex, Text } from '@chakra-ui/react';
-import {
-    FiSettings,
-    FiStar,
-    RxDashboard,
-    RiUserStarLine,
-    TbBrandGoogleAnalytics,
-} from 'react-icons/all';
+import { FiStar, RxDashboard, RiUserStarLine } from 'react-icons/all';
 
 import { HiOutlineUsers } from 'react-icons/hi';
 
@@ -27,14 +21,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
             to: '/employes',
             devider: false,
         },
-        { name: 'Teams', icon: FiStar, to: '/teams', devider: true },
+        { name: 'Teams', icon: FiStar, to: '/teams', devider: false },
         // {
         //     name: 'Analitics',
         //     icon: TbBrandGoogleAnalytics,
         //     to: '/analitics',
         //     devider: true,
         // },
-        { name: 'Settings', icon: FiSettings, to: '/settings', devider: false },
+        // { name: 'Settings', icon: FiSettings, to: '/settings', devider: false },
     ];
 
     return (
