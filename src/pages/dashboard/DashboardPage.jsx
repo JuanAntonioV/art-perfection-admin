@@ -3,22 +3,55 @@ import { Badge, Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import StatSection from './partials/StatSection';
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import { dateParser } from '@/helpers/dateHelper';
+import { useEffect, useState } from 'react';
 
 const DashboardPage = () => {
-    // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4 and not allow decimal
-    const data = Array.from({ length: 30 }, (_, i) => {
-        const date = new Date();
-        date.setDate(date.getDate() + i);
-        return {
-            date: dateParser(date),
-            kehadiran: Math.floor(Math.random() * 4) + 1,
-            kedisiplinan: Math.floor(Math.random() * 4) + 1,
-            kemandirian: Math.floor(Math.random() * 4) + 1,
-            saran: Math.floor(Math.random() * 4) + 1,
-            ketepatan: Math.floor(Math.random() * 4) + 1,
-            progress: Math.floor(Math.random() * 4) + 1,
-        };
-    });
+    // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const data = [];
+
+        for (let i = 0; i < 30; i++) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+
+            data.push({
+                date: dateParser(date),
+                kehadiran:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].kehadiran),
+                kedisiplinan:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].kedisiplinan),
+                kemandirian:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].kemandirian),
+                saran:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].saran),
+                ketepatan:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].ketepatan),
+                progress:
+                    Math.floor(Math.random() * 4) +
+                    1 +
+                    (i === 0 ? 0 : data[i - 1].progress),
+                iSangatTidakSesuai:
+                    1 + (i === 0 ? 0 : data[i - 1].iSangatTidakSesuai),
+                iTidakSesuai: 2 + (i === 0 ? 0 : data[i - 1].iTidakSesuai),
+                iSesuai: 3 + (i === 0 ? 0 : data[i - 1].iSesuai),
+                iSangatSesuai: 4 + (i === 0 ? 0 : data[i - 1].iSangatSesuai),
+            });
+
+            setData(data);
+        }
+    }, []);
 
     return (
         <>
@@ -51,7 +84,8 @@ const DashboardPage = () => {
                             mb={5}
                         >
                             <Badge
-                                colorScheme='red'
+                                bg='#FF0000'
+                                color={'white'}
                                 rounded={'sm'}
                                 px={4}
                                 py={1}
@@ -61,7 +95,8 @@ const DashboardPage = () => {
                                 1: Sangat Tidak Sesuai
                             </Badge>
                             <Badge
-                                colorScheme='red'
+                                bg='#FFFF00'
+                                color={'black'}
                                 rounded={'sm'}
                                 px={4}
                                 py={1}
@@ -71,7 +106,8 @@ const DashboardPage = () => {
                                 2: Tidak Sesuai
                             </Badge>
                             <Badge
-                                colorScheme='green'
+                                bg={'#FF9900'}
+                                color={'white'}
                                 rounded={'sm'}
                                 px={4}
                                 py={1}
@@ -81,7 +117,8 @@ const DashboardPage = () => {
                                 3: Sesuai
                             </Badge>
                             <Badge
-                                colorScheme='green'
+                                bg={'#00FF00'}
+                                color={'white'}
                                 rounded={'sm'}
                                 px={4}
                                 py={1}

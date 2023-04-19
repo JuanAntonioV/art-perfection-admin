@@ -12,6 +12,9 @@ import EmployePage from '@/pages/employes/EmployePage';
 import HeadPage from '@/pages/heads/HeadPage';
 import TeamPage from '@/pages/teams/TeamPage';
 import ProfilePage from '@/pages/profiles/ProfilePage';
+import TeamDetailPage from '@/pages/teams/TeamDetailPage';
+import SettingPage from '@/pages/settings/SettingPage';
+import TeamCreatePage from '@/pages/teams/TeamCreatePage';
 
 const Router = () => {
     return (
@@ -23,10 +26,22 @@ const Router = () => {
             <Route path='/reset-password' Component={ResetPasswordPage} />
             <Route Component={DashboardLayout}>
                 <Route path='dashboard' Component={DashboardPage} />
+
+                {/* Employes */}
                 <Route path='employes' Component={EmployePage} />
+                <Route path='heads/:id' Component={TeamDetailPage} />
+
+                {/* Heads */}
                 <Route path='heads' Component={HeadPage} />
+                <Route path='heads/:id' Component={TeamDetailPage} />
+                <Route path='heads/create' Component={TeamCreatePage} />
+
+                {/* Teams */}
                 <Route path='teams' Component={TeamPage} />
-                {/* <Route path='settings' Component={SettingPage} /> */}
+                <Route path='teams/:id' Component={TeamDetailPage} />
+                <Route path='teams/create' Component={TeamCreatePage} />
+
+                <Route path='settings' Component={SettingPage} />
                 <Route path='profiles' Component={ProfilePage} />
             </Route>
 

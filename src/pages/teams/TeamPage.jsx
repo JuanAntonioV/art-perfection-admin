@@ -5,21 +5,33 @@ import {
     Box,
     Button,
     Heading,
+    IconButton,
     Stack,
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
-import { TbUserSearch } from 'react-icons/tb';
-import { TiWarningOutline } from 'react-icons/ti';
+import { MdManageSearch } from 'react-icons/md';
+import { TiTrash, TiWarningOutline } from 'react-icons/ti';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const TeamPage = () => {
+    const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [teamId, setteamId] = useState(null);
+    const [teamId, setTeamId] = useState(null);
 
-    const handleUnactive = (id) => {
+    const handleDelete = (id) => {
         console.log('ID teams', id);
+    };
+
+    const handleViewDetail = (id) => {
+        console.log('ID teams', id);
+        navigate(`/teams/${id}`);
+    };
+
+    const handleAdd = () => {
+        navigate('/teams/create');
     };
 
     const teams = useSelector((state) => state.team.teams);
@@ -39,8 +51,8 @@ const TeamPage = () => {
                 accessor: 'head',
             },
             {
-                Header: 'Status',
-                accessor: 'status',
+                Header: 'Total Anggota',
+                accessor: 'employeeTotal',
             },
             {
                 Header: 'Created At',
@@ -61,22 +73,11 @@ const TeamPage = () => {
                 count: count++,
                 name: team.name,
                 head: team.head,
-                status: (
-                    <Badge
-                        px={3}
-                        py={1}
-                        bg={team.status == 'active' ? 'green.400' : 'red'}
-                        textColor={'white'}
-                        rounded={'md'}
-                        fontSize={'x-small'}
-                    >
-                        {team.status == 'active' ? 'Aktif' : 'Nonaktif'}
-                    </Badge>
-                ),
+                employeeTotal: team.employeeTotal + ' Orang',
                 createdAt: team.createdAt,
                 action: (
                     <Box>
-                        <Button
+                        <IconButton
                             size='sm'
                             textColor={'blue.400'}
                             bg={'transparent'}
@@ -84,10 +85,11 @@ const TeamPage = () => {
                                 bg: 'blue.400',
                                 textColor: 'white',
                             }}
+                            onClick={() => handleViewDetail(team.id)}
                         >
-                            <TbUserSearch size={20} />
-                        </Button>
-                        <Button
+                            <MdManageSearch size={20} />
+                        </IconButton>
+                        <IconButton
                             size='sm'
                             ml={2}
                             textColor={'red'}
@@ -97,12 +99,12 @@ const TeamPage = () => {
                                 textColor: 'white',
                             }}
                             onClick={() => {
-                                setteamId(team.id);
+                                setTeamId(team.id);
                                 onOpen();
                             }}
                         >
-                            <TiWarningOutline size={20} />
-                        </Button>
+                            <TiTrash size={20} />
+                        </IconButton>
                     </Box>
                 ),
             };
@@ -114,10 +116,10 @@ const TeamPage = () => {
             <AlertDeleteDialog
                 isOpen={isOpen}
                 onClose={onClose}
-                title={'Nonaktifkan Akun'}
-                detail={'Anda yakin untuk menonaktifkan akun ini?'}
-                btnText={'Nonaktifkan'}
-                action={handleUnactive}
+                title={'Hapus Tim'}
+                detail={'Anda yakin untuk menghapus tim ini?'}
+                btnText={'Hapus'}
+                action={handleDelete}
                 id={teamId}
             />
 
@@ -138,7 +140,11 @@ const TeamPage = () => {
                     </Text>
                 </Stack>
 
-                <TableBasic columns={columns} data={data} />
+                <TableBasic
+                    columns={columns}
+                    data={data}
+                    addAction={handleAdd}
+                />
             </Box>
         </>
     );

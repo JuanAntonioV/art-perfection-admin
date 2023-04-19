@@ -5,6 +5,7 @@ import {
     Box,
     Button,
     Heading,
+    IconButton,
     Stack,
     Text,
     useDisclosure,
@@ -75,7 +76,7 @@ const HeadPage = () => {
                 registeredAt: heads.registeredAt,
                 action: (
                     <Box>
-                        <Button
+                        <IconButton
                             size='sm'
                             textColor={'blue.400'}
                             bg={'transparent'}
@@ -85,8 +86,8 @@ const HeadPage = () => {
                             }}
                         >
                             <TbUserSearch size={20} />
-                        </Button>
-                        <Button
+                        </IconButton>
+                        <IconButton
                             size='sm'
                             ml={2}
                             textColor={'red'}
@@ -101,7 +102,7 @@ const HeadPage = () => {
                             }}
                         >
                             <TiWarningOutline size={20} />
-                        </Button>
+                        </IconButton>
                     </Box>
                 ),
             };

@@ -1,5 +1,6 @@
 import {
     Box,
+    Button,
     ButtonGroup,
     Flex,
     IconButton,
@@ -17,9 +18,9 @@ import {
     Thead,
     Tr,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
 import { IoSearch } from 'react-icons/io5';
+import { MdAdd } from 'react-icons/md';
 import {
     useAsyncDebounce,
     useGlobalFilter,
@@ -28,7 +29,7 @@ import {
     useTable,
 } from 'react-table';
 
-const TableBasic = ({ columns, data }) => {
+const TableBasic = ({ columns, data, addAction }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -58,11 +59,23 @@ const TableBasic = ({ columns, data }) => {
 
     return (
         <TableContainer mt={4}>
-            <Flex align={'center'} justify={'end'} mb={4}>
+            <Flex align={'center'} justify={'end'} mb={4} gap={2}>
                 <GlobalFilter
                     filter={globalFilter}
                     setFilter={setGlobalFilter}
                 />
+
+                {addAction ? (
+                    <Button
+                        leftIcon={<MdAdd size={16} />}
+                        colorScheme='teal'
+                        variant='solid'
+                        size={'sm'}
+                        onClick={addAction}
+                    >
+                        New
+                    </Button>
+                ) : null}
             </Flex>
             <Table
                 variant='striped'
