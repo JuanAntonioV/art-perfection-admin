@@ -43,7 +43,7 @@ const ChangeProfile = () => {
                 </Heading>
 
                 <Text fontSize={'sm'} color={'gray.500'}>
-                    Menu untuk mengelola data user yang login pada sistem.
+                    Menu untuk mengelola data akun.
                 </Text>
             </Stack>
 

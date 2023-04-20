@@ -17,7 +17,7 @@ import { useSelector } from 'react-redux';
 
 const HeadPage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [headsId, setheadsId] = useState(null);
+    const [headsId, setHeadsId] = useState(null);
     const heads = useSelector((state) => state.head.heads);
 
     const handleUnactive = (id) => {
@@ -97,7 +97,7 @@ const HeadPage = () => {
                                 textColor: 'white',
                             }}
                             onClick={() => {
-                                setheadsId(heads.id);
+                                setHeadsId(heads.id);
                                 onOpen();
                             }}
                         >

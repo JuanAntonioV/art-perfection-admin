@@ -15,6 +15,7 @@ import ProfilePage from '@/pages/profiles/ProfilePage';
 import TeamDetailPage from '@/pages/teams/TeamDetailPage';
 import SettingPage from '@/pages/settings/SettingPage';
 import TeamCreatePage from '@/pages/teams/TeamCreatePage';
+import EmployeDetailPage from '@/pages/employes/EmployeDetailPage';
 
 const Router = () => {
     return (
@@ -29,7 +30,7 @@ const Router = () => {
 
                 {/* Employes */}
                 <Route path='employes' Component={EmployePage} />
-                <Route path='heads/:id' Component={TeamDetailPage} />
+                <Route path='employes/:id' Component={EmployeDetailPage} />
 
                 {/* Heads */}
                 <Route path='heads' Component={HeadPage} />

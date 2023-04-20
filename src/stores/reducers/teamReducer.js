@@ -32,7 +32,11 @@ const initialState = {
 const teamSlice = createSlice({
     name: 'team',
     initialState,
-    reducers: {},
+    reducers: {
+        createTeam: (state, action) => {
+            state.teams.push(action.payload);
+        },
+    },
 });
 
 export const {} = teamSlice.actions;

@@ -14,10 +14,19 @@ import { useSelector } from 'react-redux';
 import TableBasic from '@/components/tables/TableBasic';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
+import { useNavigate } from 'react-router-dom';
 
 const EmployePage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [employeId, setEmployeId] = useState(null);
+
+    const navigate = useNavigate();
+
+    const handleViewDetail = (id) => {
+        console.log('ID Employes', id);
+
+        navigate(`/employes/${id}`);
+    };
 
     const handleUnactive = (id) => {
         console.log('ID Employes', id);
@@ -85,6 +94,7 @@ const EmployePage = () => {
                                 bg: 'blue.400',
                                 textColor: 'white',
                             }}
+                            onClick={() => handleViewDetail(employe.id)}
                         >
                             <TbUserSearch size={20} />
                         </IconButton>
