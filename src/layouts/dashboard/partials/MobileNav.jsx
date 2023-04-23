@@ -1,4 +1,5 @@
 import { upperFirst } from '@/helpers/TextHelper';
+import { logout } from '@/stores/thunks/authThunk';
 import {
     Avatar,
     Box,
@@ -14,15 +15,20 @@ import {
     VStack,
 } from '@chakra-ui/react';
 import { FiChevronDown, FiMenu } from 'react-icons/all';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const MobileNav = ({ onOpen, ...rest }) => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.user);
+    const token = useSelector((state) => state.auth.token);
 
     const handleLogout = () => {
-        navigate('/login', { replace: true });
+        dispatch(logout(token)).then((res) => {
+            if (res.payload.data?.code === 200)
+                navigate('/login', { replace: true });
+        });
     };
 
     return (

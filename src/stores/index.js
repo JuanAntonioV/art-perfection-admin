@@ -13,4 +13,8 @@ export const store = configureStore({
         head: headReducer,
         team: teamReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }),
 });

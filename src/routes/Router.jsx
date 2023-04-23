@@ -16,16 +16,52 @@ import TeamDetailPage from '@/pages/teams/TeamDetailPage';
 import SettingPage from '@/pages/settings/SettingPage';
 import TeamCreatePage from '@/pages/teams/TeamCreatePage';
 import EmployeDetailPage from '@/pages/employes/EmployeDetailPage';
+import { Authenticated, Guest } from './middleware/AuthMiddleware';
 
 const Router = () => {
     return (
         <Routes>
             <Route path='/' element={<Navigate to={'login'} />} />
-            <Route path='/login' Component={LoginPage} />
-            <Route path='/register' Component={RegisterPage} />
-            <Route path='/forgot-password' Component={ForgotPasswordPage} />
-            <Route path='/reset-password' Component={ResetPasswordPage} />
-            <Route Component={DashboardLayout}>
+            <Route
+                path='/login'
+                element={
+                    <Guest>
+                        <LoginPage />
+                    </Guest>
+                }
+            />
+            <Route
+                path='/register'
+                element={
+                    <Guest>
+                        <RegisterPage />
+                    </Guest>
+                }
+            />
+            <Route
+                path='/forgot-password'
+                element={
+                    <Guest>
+                        <ForgotPasswordPage />
+                    </Guest>
+                }
+            />
+            <Route
+                path='/reset-password'
+                element={
+                    <Guest>
+                        <ResetPasswordPage />
+                    </Guest>
+                }
+            />
+
+            <Route
+                element={
+                    <Authenticated>
+                        <DashboardLayout />
+                    </Authenticated>
+                }
+            >
                 <Route path='dashboard' Component={DashboardPage} />
 
                 {/* Employes */}

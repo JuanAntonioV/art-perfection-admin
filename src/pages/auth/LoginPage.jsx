@@ -5,18 +5,27 @@ import {
     Link as ChakraLink,
     Heading,
     Text,
+    Alert,
+    AlertTitle,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from './partials/LoginForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '@/stores/thunks/authThunk';
+import { upperFirst } from '@/helpers/TextHelper';
 
 const LoginPage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const status = useSelector((state) => state.auth.status);
+    const error = useSelector((state) => state.auth.error);
 
     const handleSubmit = (values, setSubmitting) => {
         setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log('Login berhasil');
-            navigate('/dashboard');
+            dispatch(login(values)).then((res) => {
+                if (res.payload.data?.data?.token) navigate('/dashboard');
+            });
+
             setSubmitting(false);
         }, 1000);
     };
@@ -36,6 +45,16 @@ const LoginPage = () => {
                             </Text>
                         </Stack>
                     </Stack>
+
+                    <Alert
+                        status={'error'}
+                        display={status === 'failed' ? 'block' : 'none'}
+                        rounded={'md'}
+                        fontSize={'sm'}
+                        textColor={'red.500'}
+                    >
+                        <AlertTitle>{upperFirst(error?.message)}</AlertTitle>
+                    </Alert>
 
                     <LoginForm onSubmit={handleSubmit} />
                 </Stack>

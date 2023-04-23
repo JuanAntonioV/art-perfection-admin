@@ -36,13 +36,6 @@ const LoginForm = ({ onSubmit }) => {
                     errors.password = 'Password minimal 6 karakter';
                 }
 
-                if (
-                    values.email !== 'admin@email.com' ||
-                    values.password !== 'admin123'
-                ) {
-                    errors.email = 'Email atau password salah';
-                }
-
                 return errors;
             }}
             onSubmit={(values, { setSubmitting }) =>
