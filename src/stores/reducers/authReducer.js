@@ -1,4 +1,4 @@
-import { login, logout } from '@/stores/thunks/authThunk';
+import { login, logout, register } from '@/stores/thunks/authThunk';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -51,6 +51,19 @@ const userSlice = createSlice({
                 state.token = null;
             })
             .addCase(logout.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload?.data;
+            });
+
+        // Register
+        builder
+            .addCase(register.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.status = 'success';
+            })
+            .addCase(register.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload?.data;
             });

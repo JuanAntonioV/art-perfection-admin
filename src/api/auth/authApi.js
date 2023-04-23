@@ -13,3 +13,8 @@ export const logoutApi = async (payload) => {
     });
     return response;
 };
+
+export const registerApi = async (payload) => {
+    const response = await api.post('auth/register', payload);
+    return response;
+};

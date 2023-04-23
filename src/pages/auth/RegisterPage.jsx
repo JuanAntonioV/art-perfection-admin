@@ -1,26 +1,38 @@
 import AuthLayout from '@/layouts/AuthLayout';
 import {
     Box,
-    FormControl,
-    FormLabel,
     Heading,
-    Input,
     Link as ChakraLink,
     Stack,
     Text,
-    Button,
+    Alert,
+    AlertTitle,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import RegisterForm from './partials/RegisterForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '@/stores/thunks/authThunk';
+import { upperFirst } from '@/helpers/TextHelper';
 
 const RegisterPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const error = useSelector((state) => state.auth.error);
+    const status = useSelector((state) => state.auth.status);
 
     const handleSubmit = (values, setSubmitting) => {
+        const payload = {
+            full_name: values.fullName,
+            email: values.email,
+            password: values.password,
+        };
+
         setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+            dispatch(register(payload)).then((res) => {
+                if (res.payload.data?.code === 200) navigate('/login');
+            });
+
             setSubmitting(false);
-            navigate('/login');
         }, 1000);
     };
 
@@ -39,6 +51,16 @@ const RegisterPage = () => {
                             </Text>
                         </Stack>
                     </Stack>
+
+                    <Alert
+                        status={'error'}
+                        display={status === 'failed' ? 'block' : 'none'}
+                        rounded={'md'}
+                        fontSize={'sm'}
+                        textColor={'red.500'}
+                    >
+                        <AlertTitle>{upperFirst(error?.message)}</AlertTitle>
+                    </Alert>
 
                     <RegisterForm onSubmit={handleSubmit} />
                 </Stack>
