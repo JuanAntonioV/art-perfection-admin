@@ -14,6 +14,7 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { FiChevronDown, FiMenu } from 'react-icons/all';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -81,9 +82,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     spacing='1px'
                                     ml='2'
                                 >
-                                    <Text fontSize='sm'>{user.name}</Text>
+                                    <Text fontSize='sm'>{user?.full_name}</Text>
                                     <Text fontSize='xs' color='gray.600'>
-                                        {user.role ? upperFirst(user.role) : ''}
+                                        {user?.role?.length > 0
+                                            ? upperFirst(user?.role[0])
+                                            : ''}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>

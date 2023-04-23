@@ -6,7 +6,7 @@ export const loginApi = async (payload) => {
 };
 
 export const logoutApi = async (payload) => {
-    const response = await api.post('auth/logout', payload, {
+    const response = await api.post('auth/logout', {
         headers: {
             Authorization: payload,
         },
@@ -26,5 +26,14 @@ export const forgotPasswordApi = async (payload) => {
 
 export const resetPasswordApi = async (payload) => {
     const response = await api.post('auth/reset-password', payload);
+    return response;
+};
+
+export const getUserApi = async (token) => {
+    const response = await api.get('auth/me', {
+        headers: {
+            Authorization: token,
+        },
+    });
     return response;
 };

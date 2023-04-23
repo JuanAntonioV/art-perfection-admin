@@ -1,3 +1,4 @@
+import { getStats } from '@/stores/thunks/statsThunk';
 import {
     Box,
     Flex,
@@ -9,14 +10,26 @@ import {
     StatLabel,
     StatNumber,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import {
     BsFillCalendar2CheckFill,
     FaUserAlt,
     FaUserFriends,
     RiUserStarFill,
 } from 'react-icons/all';
+import { useDispatch, useSelector } from 'react-redux';
 
 const StatSection = () => {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.auth.token);
+
+    const stats = useSelector((state) => state.stat.stats);
+    const status = useSelector((state) => state.stat.status);
+
+    useEffect(() => {
+        status === 'idle' && dispatch(getStats(token));
+    }, [dispatch]);
+
     return (
         <StatGroup
             display={'grid'}
@@ -31,7 +44,7 @@ const StatSection = () => {
                     >
                         <Stack spacing={1}>
                             <StatLabel>Total Teams</StatLabel>
-                            <StatNumber>20</StatNumber>
+                            <StatNumber>{stats.total_teams}</StatNumber>
                             <StatHelpText>Dari awal bulan</StatHelpText>
                         </Stack>
 
@@ -58,7 +71,7 @@ const StatSection = () => {
                     >
                         <Stack spacing={1}>
                             <StatLabel>Total Pimpinan</StatLabel>
-                            <StatNumber>50</StatNumber>
+                            <StatNumber>{stats.total_heads}</StatNumber>
                             <StatHelpText>Dari awal bulan</StatHelpText>
                         </Stack>
 
@@ -85,7 +98,7 @@ const StatSection = () => {
                     >
                         <Stack spacing={1}>
                             <StatLabel>Total Anggota</StatLabel>
-                            <StatNumber>345</StatNumber>
+                            <StatNumber>{stats.total_employee}</StatNumber>
                             <StatHelpText>Dari awal bulan</StatHelpText>
                         </Stack>
 
@@ -112,7 +125,7 @@ const StatSection = () => {
                     >
                         <Stack spacing={1}>
                             <StatLabel>Total Votes</StatLabel>
-                            <StatNumber>201</StatNumber>
+                            <StatNumber>{stats.total_votes}</StatNumber>
                             <StatHelpText>Dari hari ini</StatHelpText>
                         </Stack>
 

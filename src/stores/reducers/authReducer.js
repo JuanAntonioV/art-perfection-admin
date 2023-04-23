@@ -1,5 +1,6 @@
 import {
     forgotPassword,
+    getUser,
     login,
     logout,
     register,
@@ -14,13 +15,13 @@ const initialState = {
         role: 'admin',
         status: 'active',
     },
-    token: null,
+    token: localStorage.getItem('token') || null,
     forgotPassword: {
         email: '',
         token: '',
         expires: '',
     },
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('token') ? true : false,
     status: 'idle', // idle || loading || success || failed
     error: null,
 };
@@ -114,6 +115,22 @@ const userSlice = createSlice({
             .addCase(resetPassword.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload?.data;
+            });
+
+        // Me
+        builder
+            .addCase(getUser.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getUser.fulfilled, (state, action) => {
+                state.status = 'success';
+
+                localStorage.setItem('token', action.payload.data.data.token);
+
+                state.user = action.payload.data.data.user;
+                state.token = action.payload.data.data.token;
+                state.isAuthenticated = true;
+                state.error = null;
             });
     },
 });

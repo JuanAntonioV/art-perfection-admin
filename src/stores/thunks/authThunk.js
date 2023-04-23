@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
     forgotPasswordApi,
+    getUserApi,
     loginApi,
     logoutApi,
     registerApi,
@@ -60,6 +61,18 @@ export const resetPassword = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await resetPasswordApi(payload);
+            return response;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response);
+        }
+    }
+);
+
+export const getUser = createAsyncThunk(
+    'auth/getUser',
+    async (payload, thunkAPI) => {
+        try {
+            const response = await getUserApi(payload);
             return response;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response);
