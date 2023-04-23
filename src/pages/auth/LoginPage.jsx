@@ -5,14 +5,12 @@ import {
     Link as ChakraLink,
     Heading,
     Text,
-    Alert,
-    AlertTitle,
 } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import LoginForm from './partials/LoginForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '@/stores/thunks/authThunk';
-import { upperFirst } from '@/helpers/TextHelper';
+import AlertResponseError from '@/components/alerts/AlertResponseError';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
@@ -46,15 +44,7 @@ const LoginPage = () => {
                         </Stack>
                     </Stack>
 
-                    <Alert
-                        status={'error'}
-                        display={status === 'failed' ? 'block' : 'none'}
-                        rounded={'md'}
-                        fontSize={'sm'}
-                        textColor={'red.500'}
-                    >
-                        <AlertTitle>{upperFirst(error?.message)}</AlertTitle>
-                    </Alert>
+                    <AlertResponseError status={status} error={error} />
 
                     <LoginForm onSubmit={handleSubmit} />
                 </Stack>

@@ -39,7 +39,9 @@ const ResetPasswordForm = ({ onSubmit }) => {
 
                 return errors;
             }}
-            onSubmit={(values, actions) => onSubmit(values, actions)}
+            onSubmit={(values, { setSubmitting }) =>
+                onSubmit(values, setSubmitting)
+            }
         >
             {(props) => (
                 <Form>

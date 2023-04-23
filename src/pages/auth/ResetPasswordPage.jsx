@@ -1,17 +1,34 @@
 import AuthLayout from '@/layouts/AuthLayout';
 import { Box, Stack, Heading, Text } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import ResetPasswordForm from './partials/ResetPasswordForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { resetPassword } from '@/stores/thunks/authThunk';
+import AlertResponseError from '@/components/alerts/AlertResponseError';
+import { useEffect } from 'react';
 
 const ResetPasswordPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const [searchParams] = useSearchParams();
 
-    const handleSubmit = (values, actions) => {
+    const status = useSelector((state) => state.auth.status);
+    const error = useSelector((state) => state.auth.error);
+
+    const handleSubmit = (values, setSubmitting) => {
+        const payload = {
+            email: searchParams.get('email'),
+            password: values.password,
+            password_confirmation: values.passwordConfirmation,
+            token: searchParams.get('token'),
+        };
+
         setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            console.log('Ubah password berhasil');
-            navigate('/login');
-            actions.setSubmitting(false);
+            dispatch(resetPassword(payload)).then((res) => {
+                if (res.payload.data.code === 200) navigate('/login');
+            });
+
+            setSubmitting(false);
         }, 1000);
     };
 
@@ -30,6 +47,8 @@ const ResetPasswordPage = () => {
                             </Text>
                         </Stack>
                     </Stack>
+
+                    <AlertResponseError status={status} error={error} />
 
                     <ResetPasswordForm onSubmit={handleSubmit} />
                 </Stack>

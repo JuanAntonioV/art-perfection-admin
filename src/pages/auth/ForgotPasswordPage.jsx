@@ -1,5 +1,8 @@
+import AlertResponseError from '@/components/alerts/AlertResponseError';
+import AlertResponseInfo from '@/components/alerts/AlertResponseInfo';
 import CountdownTimer from '@/components/timers/CountdownTimer';
 import AuthLayout from '@/layouts/AuthLayout';
+import { forgotPassword } from '@/stores/thunks/authThunk';
 import {
     Box,
     Button,
@@ -13,25 +16,40 @@ import {
     Text,
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const ForgotPasswordPage = () => {
-    const [value, setValue] = useState('');
+    const dispatch = useDispatch();
+
+    const [email, setEmail] = useState('');
     const [isSending, setIsSending] = useState(false);
+
+    const error = useSelector((state) => state.auth.error);
+    const status = useSelector((state) => state.auth.status);
+    const expiredAt = useSelector((state) => state.auth.forgotPassword.expires);
 
     const handleChange = (e) => {
         if (e.target.value.match(/^[A-Za-z0-9@. ]*$/)) {
-            setValue(e.target.value);
+            setEmail(e.target.value);
         } else if (e.target.value === '') {
-            setValue(e.target.value);
+            setEmail(e.target.value);
         }
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        sendEmail(email);
+    };
 
-        setIsSending(true);
-        console.log(value, isSending);
+    const sendEmail = (value) => {
+        const payload = {
+            email: value,
+        };
+
+        dispatch(forgotPassword(payload)).then((res) => {
+            if (res.payload.data.code === 200) setIsSending(true);
+        });
     };
 
     return (
@@ -48,6 +66,12 @@ const ForgotPasswordPage = () => {
                         </Text>
                     </Stack>
 
+                    <AlertResponseError status={status} error={error} />
+                    <AlertResponseInfo
+                        status={status}
+                        info={'Link berhasil dikirim'}
+                    />
+
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={8}>
                             <FormControl id='email' isRequired>
@@ -58,13 +82,16 @@ const ForgotPasswordPage = () => {
                                     name='email'
                                     type='email'
                                     placeholder='e.g. name@email.com'
-                                    value={value}
+                                    value={email}
                                     onChange={handleChange}
                                 />
                                 {isSending ? (
                                     <Stack mt={2} mb={-2}>
                                         <CountdownTimer
-                                            timer={Date.now() + 10000}
+                                            timer={expiredAt}
+                                            resendAction={() =>
+                                                sendEmail(email)
+                                            }
                                         />
                                     </Stack>
                                 ) : (

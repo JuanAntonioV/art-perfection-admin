@@ -1,4 +1,10 @@
-import { login, logout, register } from '@/stores/thunks/authThunk';
+import {
+    forgotPassword,
+    login,
+    logout,
+    register,
+    resetPassword,
+} from '@/stores/thunks/authThunk';
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -9,6 +15,11 @@ const initialState = {
         status: 'active',
     },
     token: null,
+    forgotPassword: {
+        email: '',
+        token: '',
+        expires: '',
+    },
     isAuthenticated: false,
     status: 'idle', // idle || loading || success || failed
     error: null,
@@ -31,6 +42,7 @@ const userSlice = createSlice({
 
                 state.isAuthenticated = true;
                 state.token = action.payload.data.data.token;
+                state.error = null;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed';
@@ -47,8 +59,10 @@ const userSlice = createSlice({
 
                 localStorage.removeItem('token');
 
+                state.user = null;
                 state.isAuthenticated = false;
                 state.token = null;
+                state.error = null;
             })
             .addCase(logout.rejected, (state, action) => {
                 state.status = 'failed';
@@ -62,8 +76,42 @@ const userSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.status = 'success';
+                state.error = null;
             })
             .addCase(register.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload?.data;
+            });
+
+        // Forgot Password
+        builder
+            .addCase(forgotPassword.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(forgotPassword.fulfilled, (state, action) => {
+                state.status = 'success';
+
+                state.forgotPassword.email = action.payload.data.data.email;
+                state.forgotPassword.token = action.payload.data.data.token;
+                state.forgotPassword.expires = Date.now() + 59 * 1000;
+
+                state.error = null;
+            })
+            .addCase(forgotPassword.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload?.data;
+            });
+
+        // Reset Password
+        builder
+            .addCase(resetPassword.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.error = null;
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload?.data;
             });
