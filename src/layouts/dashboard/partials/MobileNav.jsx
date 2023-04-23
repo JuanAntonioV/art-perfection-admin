@@ -1,4 +1,5 @@
 import { upperFirst } from '@/helpers/TextHelper';
+import { logoutAction } from '@/stores/reducers/authReducer';
 import { logout } from '@/stores/thunks/authThunk';
 import {
     Avatar,

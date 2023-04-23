@@ -4,8 +4,13 @@ import StatSection from './partials/StatSection';
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import { dateParser } from '@/helpers/dateHelper';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser, logout } from '@/stores/thunks/authThunk';
 
 const DashboardPage = () => {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.auth.token);
+
     // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
     const [data, setData] = useState([]);
 
@@ -52,6 +57,12 @@ const DashboardPage = () => {
             setData(data);
         }
     }, []);
+
+    useEffect(() => {
+        dispatch(getUser(token)).then((res) => {
+            if (res.payload?.data?.status === 401) dispatch(logout(token));
+        });
+    }, [dispatch]);
 
     return (
         <>

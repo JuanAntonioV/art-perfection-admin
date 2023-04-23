@@ -23,6 +23,12 @@ const statsSlice = createSlice({
             })
             .addCase(getStats.rejected, (state, action) => {
                 state.status = 'failed';
+
+                if (action.payload?.status === 401) {
+                    localStorage.removeItem('token');
+                    state.isAuthenticated = false;
+                }
+
                 state.error = action.payload?.data;
             });
     },

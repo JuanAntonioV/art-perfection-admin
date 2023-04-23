@@ -29,7 +29,15 @@ const initialState = {
 const userSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {},
+    reducers: {
+        logoutAction: (state) => {
+            localStorage.removeItem('token');
+            state.user = null;
+            state.isAuthenticated = false;
+            state.token = null;
+            state.error = null;
+        },
+    },
     extraReducers(builder) {
         // Login
         builder
@@ -67,6 +75,7 @@ const userSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.status = 'failed';
+                console.log(action.payload);
                 state.error = action.payload?.data;
             });
 
@@ -125,16 +134,21 @@ const userSlice = createSlice({
             .addCase(getUser.fulfilled, (state, action) => {
                 state.status = 'success';
 
-                localStorage.setItem('token', action.payload.data.data.token);
-
                 state.user = action.payload.data.data.user;
                 state.token = action.payload.data.data.token;
                 state.isAuthenticated = true;
+
                 state.error = null;
+            })
+            .addCase(getUser.rejected, (state, action) => {
+                if (action.payload?.status === 401) {
+                    localStorage.removeItem('token');
+                    state.isAuthenticated = false;
+                }
             });
     },
 });
 
-export const {} = userSlice.actions;
+export const { logoutAction } = userSlice.actions;
 
 export default userSlice.reducer;

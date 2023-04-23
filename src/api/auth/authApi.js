@@ -1,36 +1,36 @@
 import api from '../client';
 
-export const loginApi = async (payload) => {
-    const response = await api.post('auth/login', payload);
+export const loginApi = (payload) => {
+    const response = api.post('auth/login', payload);
     return response;
 };
 
-export const logoutApi = async (payload) => {
-    const response = await api.post('auth/logout', {
+export const logoutApi = (token) => {
+    const response = api.post('auth/logout', null, {
         headers: {
-            Authorization: payload,
+            Authorization: token,
         },
     });
     return response;
 };
 
-export const registerApi = async (payload) => {
-    const response = await api.post('auth/register', payload);
+export const registerApi = (payload) => {
+    const response = api.post('auth/register', payload);
     return response;
 };
 
-export const forgotPasswordApi = async (payload) => {
-    const response = await api.post('auth/forgot-password', payload);
+export const forgotPasswordApi = (payload) => {
+    const response = api.post('auth/forgot-password', payload);
     return response;
 };
 
-export const resetPasswordApi = async (payload) => {
-    const response = await api.post('auth/reset-password', payload);
+export const resetPasswordApi = (payload) => {
+    const response = api.post('auth/reset-password', payload);
     return response;
 };
 
-export const getUserApi = async (token) => {
-    const response = await api.get('auth/me', {
+export const getUserApi = (token) => {
+    const response = api.get('auth/me', {
         headers: {
             Authorization: token,
         },

@@ -22,9 +22,9 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     'auth/logout',
-    async (payload, thunkAPI) => {
+    async (token, thunkAPI) => {
         try {
-            const response = await logoutApi(payload);
+            const response = await logoutApi(token);
             return response;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response);
@@ -70,9 +70,9 @@ export const resetPassword = createAsyncThunk(
 
 export const getUser = createAsyncThunk(
     'auth/getUser',
-    async (payload, thunkAPI) => {
+    async (token, thunkAPI) => {
         try {
-            const response = await getUserApi(payload);
+            const response = await getUserApi(token);
             return response;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response);
