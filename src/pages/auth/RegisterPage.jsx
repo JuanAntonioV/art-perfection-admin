@@ -29,7 +29,7 @@ const RegisterPage = () => {
 
         setTimeout(() => {
             dispatch(register(payload)).then((res) => {
-                if (res.payload.data?.code === 200) navigate('/login');
+                if (res.payload.code === 200) navigate('/login');
             });
 
             setSubmitting(false);

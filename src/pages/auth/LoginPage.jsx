@@ -21,7 +21,8 @@ const LoginPage = () => {
     const handleSubmit = (values, setSubmitting) => {
         setTimeout(() => {
             dispatch(login(values)).then((res) => {
-                if (res.payload.data?.data?.token) navigate('/dashboard');
+                if (res.payload.data?.token)
+                    navigate('/dashboard', { replace: true });
             });
 
             setSubmitting(false);

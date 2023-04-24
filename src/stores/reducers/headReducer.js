@@ -1,38 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getHeads } from '../thunks/headsThunk';
 
 const initialState = {
-    heads: [
-        {
-            id: 1,
-            name: 'John Doe',
-            email: 'jhondoe@email.com',
-            status: 'active',
-            registeredAt: '12 May 2023',
-        },
-        {
-            id: 2,
-            name: 'Fulano de Tal',
-            email: 'fill@email.com',
-            status: 'nonactive',
-            registeredAt: '14 May 2023',
-        },
-        {
-            id: 3,
-            name: 'Ciclano de Tal',
-            email: 'cnasd@email.com',
-            status: 'active',
-            registeredAt: '15 May 2023',
-        },
-        {
-            id: 4,
-            name: 'John Doe',
-            email: 'jhondoe@email.com',
-            status: 'nonactive',
-            registeredAt: '12 May 2023',
-        },
-    ],
+    heads: [],
     head: {},
-    loading: false,
+    status: 'idle', // idle | loading | succeeded | failed
     error: null,
 };
 
@@ -40,6 +12,21 @@ const headSlice = createSlice({
     name: 'head',
     initialState,
     reducers: {},
+    extraReducers(builder) {
+        // Get heads
+        builder
+            .addCase(getHeads.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getHeads.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.heads = action.payload.data;
+            })
+            .addCase(getHeads.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+    },
 });
 
 export const {} = headSlice.actions;

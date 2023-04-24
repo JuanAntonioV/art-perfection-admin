@@ -1,41 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getTeams } from '../thunks/teamsThunk';
 
 const initialState = {
-    teams: [
-        {
-            id: 1,
-            head: 'John Doe',
-            name: 'Team 1',
-            employeeTotal: 5,
-            createdAt: '12 May 2023',
-        },
-        {
-            id: 2,
-            head: 'Fulano de Tal',
-            name: 'Team 2',
-            employeeTotal: 3,
-            createdAt: '14 May 2023',
-        },
-        {
-            id: 3,
-            head: 'Ciclano de Tal',
-            name: 'Team 3',
-            employeeTotal: 2,
-            createdAt: '15 May 2023',
-        },
-    ],
+    teams: [],
     team: {},
-    loading: false,
+    status: 'idle', //idle | loading | success | failed
     error: null,
 };
 
 const teamSlice = createSlice({
     name: 'team',
     initialState,
-    reducers: {
-        createTeam: (state, action) => {
-            state.teams.push(action.payload);
-        },
+    reducers: {},
+    extraReducers(builder) {
+        // getTeams
+        builder
+            .addCase(getTeams.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(getTeams.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.teams = action.payload.data;
+            })
+            .addCase(getTeams.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
     },
 });
 

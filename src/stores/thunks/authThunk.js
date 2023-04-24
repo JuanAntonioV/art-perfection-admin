@@ -13,9 +13,9 @@ export const login = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await loginApi(payload);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );
@@ -25,9 +25,9 @@ export const logout = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await logoutApi(token);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );
@@ -37,9 +37,9 @@ export const register = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await registerApi(payload);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );
@@ -49,9 +49,9 @@ export const forgotPassword = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await forgotPasswordApi(payload);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );
@@ -61,9 +61,9 @@ export const resetPassword = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await resetPasswordApi(payload);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );
@@ -73,9 +73,9 @@ export const getUser = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await getUserApi(token);
-            return response;
+            return response.data;
         } catch (err) {
-            return thunkAPI.rejectWithValue(err.response);
+            return thunkAPI.rejectWithValue(err.response?.data);
         }
     }
 );

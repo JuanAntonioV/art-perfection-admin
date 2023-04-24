@@ -19,7 +19,7 @@ const statsSlice = createSlice({
             })
             .addCase(getStats.fulfilled, (state, action) => {
                 state.status = 'success';
-                state.stats = action.payload.data.data;
+                state.stats = action.payload.data;
             })
             .addCase(getStats.rejected, (state, action) => {
                 state.status = 'failed';
@@ -29,7 +29,7 @@ const statsSlice = createSlice({
                     state.isAuthenticated = false;
                 }
 
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
     },
 });

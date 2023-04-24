@@ -1,21 +1,22 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
+import { getHeads } from '@/stores/thunks/headsThunk';
 import {
     Badge,
     Box,
-    Button,
     Heading,
     IconButton,
     Stack,
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const HeadPage = () => {
+    const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [headsId, setHeadsId] = useState(null);
     const heads = useSelector((state) => state.head.heads);
@@ -23,6 +24,13 @@ const HeadPage = () => {
     const handleUnactive = (id) => {
         console.log('ID Heads', id);
     };
+
+    const status = useSelector((state) => state.head.status);
+    const token = useSelector((state) => state.auth.token);
+
+    useEffect(() => {
+        status === 'idle' && dispatch(getHeads(token));
+    }, [dispatch]);
 
     const columns = useMemo(
         () => [

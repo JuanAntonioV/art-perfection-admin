@@ -1,52 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getEmployee } from '../thunks/employeeThunk';
 
 const initialState = {
-    employes: [
-        {
-            id: 1,
-            name: 'John Doe',
-            email: 'jhondoe@email.com',
-            status: 'active',
-            registeredAt: '12 May 2023',
-        },
-        {
-            id: 2,
-            name: 'Fulano de Tal',
-            email: 'fill@email.com',
-            status: 'nonactive',
-            registeredAt: '14 May 2023',
-        },
-        {
-            id: 3,
-            name: 'Ciclano de Tal',
-            email: 'cnasd@email.com',
-            status: 'active',
-            registeredAt: '15 May 2023',
-        },
-        {
-            id: 4,
-            name: 'John Doe',
-            email: 'jhondoe@email.com',
-            status: 'nonactive',
-            registeredAt: '12 May 2023',
-        },
-        {
-            id: 5,
-            name: 'Fulano de Tal',
-            email: 'fill@email.com',
-            status: 'nonactive',
-            registeredAt: '14 May 2023',
-        },
-        {
-            id: 6,
-            name: 'Ciclano de Tal',
-            email: 'cnasd@email.com',
-            status: 'active',
-            registeredAt: '15 May 2023',
-        },
-    ],
+    employes: [],
     employee: {},
-    loading: false,
+    status: 'idle', //idle, loading, success, failed
     error: null,
 };
 
@@ -54,6 +12,21 @@ const employeeSlice = createSlice({
     name: 'employes',
     initialState,
     reducers: {},
+    extraReducers(builder) {
+        // getEmployee
+        builder
+            .addCase(getEmployee.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(getEmployee.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.employes = action.payload.data;
+            })
+            .addCase(getEmployee.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+    },
 });
 
 export const {} = employeeSlice.actions;

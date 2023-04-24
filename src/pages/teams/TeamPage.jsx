@@ -1,5 +1,6 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
+import { getTeams } from '@/stores/thunks/teamsThunk';
 import {
     Badge,
     Box,
@@ -10,13 +11,14 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdManageSearch } from 'react-icons/md';
 import { TiTrash, TiWarningOutline } from 'react-icons/ti';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const TeamPage = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [teamId, setTeamId] = useState(null);
@@ -35,6 +37,16 @@ const TeamPage = () => {
     };
 
     const teams = useSelector((state) => state.team.teams);
+    const status = useSelector((state) => state.team.status);
+    const token = useSelector((state) => state.auth.token);
+
+    useEffect(() => {
+        console.log('teams', teams);
+    }, [teams]);
+
+    useEffect(() => {
+        status === 'idle' && dispatch(getTeams(token));
+    }, [dispatch]);
 
     const columns = useMemo(
         () => [

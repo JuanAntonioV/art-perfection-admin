@@ -12,79 +12,49 @@ import {
 } from 'recharts';
 
 const DefaultLineChart = ({ data }) => {
+    const colors = [
+        // make randomg colors that not the same with indicator colors and eye catching
+        '#B22222',
+        '#FFA500',
+        '#FFD700',
+        '#008000',
+    ];
+
+    const indicatorColors = ['#FF0000', '#FFFF00', '#FF9900', '#00FF00'];
+
     return (
         <ResponsiveContainer width='100%' height={400}>
             <ComposedChart
                 data={data}
                 margin={{ top: 5, right: 20, bottom: 5, left: -10 }}
             >
-                <Area
-                    type='monotone'
-                    dataKey='kehadiran'
-                    stroke='#4A86E8'
-                    strokeWidth={3}
-                />
-                <Area
-                    type='monotone'
-                    dataKey='kedisiplinan'
-                    stroke='#9900FF'
-                    strokeWidth={3}
-                />
-                <Area
-                    type='monotone'
-                    dataKey='kemandirian'
-                    stroke='#0000FF'
-                    strokeWidth={3}
-                />
-                <Area
-                    type='monotone'
-                    dataKey='saran'
-                    stroke='#999999'
-                    strokeWidth={3}
-                />
-                <Area
-                    type='monotone'
-                    dataKey='ketepatan'
-                    stroke='#FF00FF'
-                    strokeWidth={3}
-                />
-                <Area
-                    type='monotone'
-                    dataKey='progress'
-                    stroke='#46BDC6'
-                    strokeWidth={3}
-                />
+                {data[0]?.criteria?.map((entry, index) => (
+                    <Area
+                        key={entry.criteria}
+                        type='monotone'
+                        dataKey={`criteria[${index}].total_score`}
+                        name={entry.criteria}
+                        stroke={colors[index]}
+                        fill={colors[index]}
+                        dot={true}
+                        strokeWidth={3}
+                    />
+                ))}
+
                 {/* Indikator */}
-                <Line
-                    type='monotone'
-                    dataKey='iSangatTidakSesuai'
-                    stroke='#FF0000'
-                    strokeDasharray='5 5'
-                    dot={false}
-                />
-                <Line
-                    type='monotone'
-                    dataKey='iTidakSesuai'
-                    stroke='#FFFF00'
-                    strokeDasharray='5 5'
-                    dot={false}
-                />
-                <Line
-                    type='monotone'
-                    dataKey='iSesuai'
-                    stroke='#FF9900'
-                    strokeDasharray='5 5'
-                    dot={false}
-                />
-                <Line
-                    type='monotone'
-                    dataKey='iSangatSesuai'
-                    stroke='#00FF00'
-                    strokeDasharray='5 5'
-                    dot={false}
-                />
+                {data[0]?.indicators?.map((entry, index) => (
+                    <Line
+                        key={entry.name}
+                        type='monotone'
+                        dataKey={`indicators[${index}].value`}
+                        name={entry.name}
+                        stroke={indicatorColors[index]}
+                        dot={false}
+                        strokeWidth={3}
+                    />
+                ))}
                 <CartesianGrid stroke='#ccc' strokeDasharray='6 6' />
-                <XAxis dataKey='date' />
+                <XAxis dataKey='vote_date' allowDuplicatedCategory={false} />
                 <YAxis />
                 <Tooltip />
             </ComposedChart>

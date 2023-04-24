@@ -6,63 +6,83 @@ import { dateParser } from '@/helpers/dateHelper';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, logout } from '@/stores/thunks/authThunk';
+import { getGlobalAnalytics } from '@/stores/thunks/analyticsThunk';
 
 const DashboardPage = () => {
+    // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
+    // const [data, setData] = useState([]);
+
+    // useEffect(() => {
+    //     const data = [];
+
+    //     for (let i = 0; i < 30; i++) {
+    //         const date = new Date();
+    //         date.setDate(date.getDate() - i);
+
+    //         data.push({
+    //             date: dateParser(date),
+    //             kehadiran:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].kehadiran),
+    //             kedisiplinan:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].kedisiplinan),
+    //             kemandirian:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].kemandirian),
+    //             saran:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].saran),
+    //             ketepatan:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].ketepatan),
+    //             progress:
+    //                 Math.floor(Math.random() * 4) +
+    //                 1 +
+    //                 (i === 0 ? 0 : data[i - 1].progress),
+    //             iSangatTidakSesuai:
+    //                 1 + (i === 0 ? 0 : data[i - 1].iSangatTidakSesuai),
+    //             iTidakSesuai: 2 + (i === 0 ? 0 : data[i - 1].iTidakSesuai),
+    //             iSesuai: 3 + (i === 0 ? 0 : data[i - 1].iSesuai),
+    //             iSangatSesuai: 4 + (i === 0 ? 0 : data[i - 1].iSangatSesuai),
+    //         });
+
+    //         setData(data);
+    //     }
+    // }, []);
+
     const dispatch = useDispatch();
+    const status = useSelector((state) => state.analytics.status);
+    const analytics = useSelector((state) => state.analytics.analytics);
     const token = useSelector((state) => state.auth.token);
 
-    // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
-    const [data, setData] = useState([]);
-
     useEffect(() => {
-        const data = [];
-
-        for (let i = 0; i < 30; i++) {
-            const date = new Date();
-            date.setDate(date.getDate() - i);
-
-            data.push({
-                date: dateParser(date),
-                kehadiran:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].kehadiran),
-                kedisiplinan:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].kedisiplinan),
-                kemandirian:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].kemandirian),
-                saran:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].saran),
-                ketepatan:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].ketepatan),
-                progress:
-                    Math.floor(Math.random() * 4) +
-                    1 +
-                    (i === 0 ? 0 : data[i - 1].progress),
-                iSangatTidakSesuai:
-                    1 + (i === 0 ? 0 : data[i - 1].iSangatTidakSesuai),
-                iTidakSesuai: 2 + (i === 0 ? 0 : data[i - 1].iTidakSesuai),
-                iSesuai: 3 + (i === 0 ? 0 : data[i - 1].iSesuai),
-                iSangatSesuai: 4 + (i === 0 ? 0 : data[i - 1].iSangatSesuai),
-            });
-
-            setData(data);
-        }
-    }, []);
-
-    useEffect(() => {
-        dispatch(getUser(token)).then((res) => {
-            if (res.payload?.data?.status === 401) dispatch(logout(token));
-        });
+        status === 'idle' && dispatch(getGlobalAnalytics(token));
     }, [dispatch]);
+
+    // const indicators = [
+    //     {
+    //         name: 'Sangat Tidak Sesuai',
+    //         value: 1,
+    //     },
+    //     {
+    //         name: 'Tidak Sesuai',
+    //         value: 2,
+    //     },
+    //     {
+    //         name: 'Sesuai',
+    //         value: 3,
+    //     },
+    //     {
+    //         name: 'Sangat Sesuai',
+    //         value: 4,
+    //     },
+    // ];
 
     return (
         <>
@@ -140,7 +160,13 @@ const DashboardPage = () => {
                             </Badge>
                         </Flex>
 
-                        <DefaultLineChart data={data} />
+                        {analytics ? (
+                            <DefaultLineChart data={analytics} />
+                        ) : (
+                            <Text fontSize={'sm'} color={'gray.500'}>
+                                Data tidak ditemukan
+                            </Text>
+                        )}
                     </Box>
                 </Box>
             </Stack>

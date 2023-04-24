@@ -28,6 +28,7 @@ import {
     useSortBy,
     useTable,
 } from 'react-table';
+import TableNoData from '../handlers/TableNoData';
 
 const TableBasic = ({ columns, data, addAction }) => {
     const {
@@ -106,21 +107,27 @@ const TableBasic = ({ columns, data, addAction }) => {
                     ))}
                 </Thead>
                 <Tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                        prepareRow(row);
+                    {page.length > 0 ? (
+                        page.map((row, i) => {
+                            prepareRow(row);
 
-                        return (
-                            <Tr {...row.getRowProps()}>
-                                {row.cells.map((cell) => {
-                                    return (
-                                        <Td {...cell.getCellProps()}>
-                                            {cell.render('Cell')}
-                                        </Td>
-                                    );
-                                })}
-                            </Tr>
-                        );
-                    })}
+                            return (
+                                <Tr {...row.getRowProps()}>
+                                    {row.cells.map((cell) => {
+                                        return (
+                                            <Td {...cell.getCellProps()}>
+                                                {cell.render('Cell')}
+                                            </Td>
+                                        );
+                                    })}
+                                </Tr>
+                            );
+                        })
+                    ) : (
+                        <Tr>
+                            <TableNoData />
+                        </Tr>
+                    )}
                 </Tbody>
             </Table>
             <Box mt={6} display='flex' justifyContent='space-between'>

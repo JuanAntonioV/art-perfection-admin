@@ -9,14 +9,17 @@ import {
     Text,
     useDisclosure,
 } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TableBasic from '@/components/tables/TableBasic';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
+import { getEmployee } from '@/stores/thunks/employeeThunk';
+import { dateParser } from '@/helpers/dateHelper';
 
 const EmployePage = () => {
+    const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [employeId, setEmployeId] = useState(null);
 
@@ -33,6 +36,12 @@ const EmployePage = () => {
     };
 
     const employes = useSelector((state) => state.employes.employes);
+    const status = useSelector((state) => state.employes.status);
+    const token = useSelector((state) => state.auth.token);
+
+    useEffect(() => {
+        status === 'idle' && dispatch(getEmployee(token));
+    }, [dispatch]);
 
     const columns = useMemo(
         () => [
@@ -69,21 +78,21 @@ const EmployePage = () => {
         return employes.map((employe) => {
             return {
                 count: count++,
-                name: employe.name,
+                name: employe.full_name,
                 email: employe.email,
                 status: (
                     <Badge
                         px={3}
                         py={1}
-                        bg={employe.status == 'active' ? 'green.400' : 'red'}
+                        bg={employe.status ? 'green.400' : 'red'}
                         textColor={'white'}
                         rounded={'md'}
                         fontSize={'x-small'}
                     >
-                        {employe.status == 'active' ? 'Aktif' : 'Nonaktif'}
+                        {employe.status ? 'Aktif' : 'Nonaktif'}
                     </Badge>
                 ),
-                registeredAt: employe.registeredAt,
+                registeredAt: dateParser(employe.registered_at),
                 action: (
                     <Box>
                         <IconButton

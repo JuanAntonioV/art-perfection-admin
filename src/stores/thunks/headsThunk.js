@@ -1,11 +1,10 @@
-import { getStatsApi } from '@/api/statsApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getStats = createAsyncThunk(
-    'stats/getStats',
-    async (payload, thunkAPI) => {
+export const getHeads = createAsyncThunk(
+    'heads/getHeads',
+    async (token, thunkAPI) => {
         try {
-            const response = await getStatsApi(payload);
+            const response = await getHeadsApi(token);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

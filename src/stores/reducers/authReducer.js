@@ -10,10 +10,10 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     user: {
-        name: 'John Doe',
-        email: 'jhondoe@email.com',
-        role: 'admin',
-        status: 'active',
+        name: '',
+        email: '',
+        role: '',
+        status: '',
     },
     token: localStorage.getItem('token') || null,
     forgotPassword: {
@@ -47,15 +47,15 @@ const userSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.status = 'success';
 
-                localStorage.setItem('token', action.payload.data.data.token);
+                localStorage.setItem('token', action.payload.data.token);
 
                 state.isAuthenticated = true;
-                state.token = action.payload.data.data.token;
+                state.token = action.payload.data.token;
                 state.error = null;
             })
             .addCase(login.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
 
         // Logout
@@ -75,8 +75,7 @@ const userSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.status = 'failed';
-                console.log(action.payload);
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
 
         // Register
@@ -90,7 +89,7 @@ const userSlice = createSlice({
             })
             .addCase(register.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
 
         // Forgot Password
@@ -101,15 +100,15 @@ const userSlice = createSlice({
             .addCase(forgotPassword.fulfilled, (state, action) => {
                 state.status = 'success';
 
-                state.forgotPassword.email = action.payload.data.data.email;
-                state.forgotPassword.token = action.payload.data.data.token;
+                state.forgotPassword.email = action.payload.data.email;
+                state.forgotPassword.token = action.payload.data.token;
                 state.forgotPassword.expires = Date.now() + 59 * 1000;
 
                 state.error = null;
             })
             .addCase(forgotPassword.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
 
         // Reset Password
@@ -123,7 +122,7 @@ const userSlice = createSlice({
             })
             .addCase(resetPassword.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload?.data;
+                state.error = action.payload;
             });
 
         // Me
@@ -134,8 +133,8 @@ const userSlice = createSlice({
             .addCase(getUser.fulfilled, (state, action) => {
                 state.status = 'success';
 
-                state.user = action.payload.data.data.user;
-                state.token = action.payload.data.data.token;
+                state.user = action.payload.data.user;
+                state.token = action.payload.data.token;
                 state.isAuthenticated = true;
 
                 state.error = null;

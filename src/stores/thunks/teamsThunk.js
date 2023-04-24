@@ -1,11 +1,11 @@
-import { getStatsApi } from '@/api/statsApi';
+import { getTeamsApi } from '@/api/teamsApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getStats = createAsyncThunk(
-    'stats/getStats',
-    async (payload, thunkAPI) => {
+export const getTeams = createAsyncThunk(
+    'teams/getTeams',
+    async (token, thunkAPI) => {
         try {
-            const response = await getStatsApi(payload);
+            const response = await getTeamsApi(token);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);
