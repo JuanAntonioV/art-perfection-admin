@@ -37,3 +37,12 @@ export const getUserApi = (token) => {
     });
     return response;
 };
+
+export const updateProfileApi = (payload, token) => {
+    const response = api.post('profile/update', payload, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};

@@ -1,13 +1,14 @@
 import { upperFirst } from '@/helpers/TextHelper';
 import { Alert, AlertTitle } from '@chakra-ui/react';
 
-const AlertResponseError = ({ status, error }) => {
+const AlertResponseError = ({ status, error, my = 0 }) => {
     return (
         <Alert
             status={'error'}
             display={status === 'failed' ? 'block' : 'none'}
             rounded={'md'}
             fontSize={'sm'}
+            my={my}
             textColor={'red.500'}
         >
             <AlertTitle>

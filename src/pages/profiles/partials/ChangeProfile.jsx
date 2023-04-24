@@ -1,3 +1,6 @@
+import AlertResponseError from '@/components/alerts/AlertResponseError';
+import AlertResponseInfo from '@/components/alerts/AlertResponseInfo';
+import { getUser, updateProfile } from '@/stores/thunks/authThunk';
 import {
     Badge,
     Box,
@@ -12,11 +15,14 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { FaRegQuestionCircle } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ChangeProfile = () => {
+    const dispatch = useDispatch();
+    const error = useSelector((state) => state.auth.error);
     const user = useSelector((state) => state.auth.user);
     const status = useSelector((state) => state.auth.status);
+    const token = useSelector((state) => state.auth.token);
     const [value, setValue] = useState({
         name: '',
         email: '',
@@ -31,8 +37,8 @@ const ChangeProfile = () => {
 
     useEffect(() => {
         setValue({
-            name: user.full_name,
-            email: user.email,
+            name: user?.full_name,
+            email: user?.email,
         });
 
         return () =>
@@ -45,7 +51,15 @@ const ChangeProfile = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(value);
+        const payload = {
+            name: value.name,
+            email: value.email,
+            token: token,
+        };
+
+        dispatch(updateProfile(payload)).then((res) => {
+            res.payload.code === 200 && dispatch(getUser(token));
+        });
     };
 
     return (
@@ -66,6 +80,13 @@ const ChangeProfile = () => {
             </Stack>
 
             <Box mt={4}>
+                <AlertResponseError error={error} status={'error'} my={4} />
+                <AlertResponseInfo
+                    status={status}
+                    info={'Berhasil memperbaharui profil'}
+                    my={4}
+                />
+
                 <form onSubmit={handleSubmit} method='post' id='profileForm'>
                     <Stack spacing={4}>
                         <Box>
@@ -97,7 +118,7 @@ const ChangeProfile = () => {
                                 Role
                             </FormLabel>
                             <Flex align='center' columnGap={1}>
-                                {user.role[0] === 'admin' ? (
+                                {user?.role[0] === 'admin' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='green'
@@ -107,7 +128,7 @@ const ChangeProfile = () => {
                                     >
                                         Admin
                                     </Badge>
-                                ) : user.role[0] === 'employee' ? (
+                                ) : user?.role[0] === 'employee' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='blue'
@@ -117,7 +138,7 @@ const ChangeProfile = () => {
                                     >
                                         Employee
                                     </Badge>
-                                ) : user.role[0] === 'head' ? (
+                                ) : user?.role[0] === 'head' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='red'

@@ -6,6 +6,7 @@ import {
     logoutApi,
     registerApi,
     resetPasswordApi,
+    updateProfileApi,
 } from '../../api/auth/authApi';
 
 export const login = createAsyncThunk(
@@ -73,6 +74,20 @@ export const getUser = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await getUserApi(token);
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data);
+        }
+    }
+);
+
+export const updateProfile = createAsyncThunk(
+    'auth/updateProfile',
+    async (payload, thunkAPI) => {
+        try {
+            const { token } = payload;
+            delete payload.token;
+            const response = await updateProfileApi(payload, token);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

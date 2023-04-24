@@ -5,6 +5,7 @@ import {
     logout,
     register,
     resetPassword,
+    updateProfile,
 } from '@/stores/thunks/authThunk';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -144,6 +145,21 @@ const userSlice = createSlice({
                     localStorage.removeItem('token');
                     state.isAuthenticated = false;
                 }
+            });
+
+        // Update User
+        builder
+            .addCase(updateProfile.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.status = 'success';
+                console.log(action.payload);
+                state.error = null;
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
     },
 });
