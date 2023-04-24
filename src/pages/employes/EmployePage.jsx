@@ -15,13 +15,16 @@ import TableBasic from '@/components/tables/TableBasic';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
-import { getEmployee } from '@/stores/thunks/employeeThunk';
+import { getEmployee, nonActiveEmployee } from '@/stores/thunks/employeeThunk';
 import { dateParser } from '@/helpers/dateHelper';
 
 const EmployePage = () => {
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [employeId, setEmployeId] = useState(null);
+    const [selectedEmployee, serSelectedEmployee] = useState(null);
+    const employes = useSelector((state) => state.employes.employes);
+    const status = useSelector((state) => state.employes.status);
+    const token = useSelector((state) => state.auth.token);
 
     const navigate = useNavigate();
 
@@ -32,12 +35,15 @@ const EmployePage = () => {
     };
 
     const handleUnactive = (id) => {
-        console.log('ID Employes', id);
-    };
+        const payload = {
+            user_id: id,
+            token: token,
+        };
 
-    const employes = useSelector((state) => state.employes.employes);
-    const status = useSelector((state) => state.employes.status);
-    const token = useSelector((state) => state.auth.token);
+        dispatch(nonActiveEmployee(payload)).then((res) => {
+            res.payload.code === 200 && dispatch(getEmployee(token));
+        });
+    };
 
     useEffect(() => {
         status === 'idle' && dispatch(getEmployee(token));
@@ -117,7 +123,7 @@ const EmployePage = () => {
                                 textColor: 'white',
                             }}
                             onClick={() => {
-                                setEmployeId(employe.id);
+                                serSelectedEmployee(employe);
                                 onOpen();
                             }}
                         >
@@ -134,11 +140,18 @@ const EmployePage = () => {
             <AlertDeleteDialog
                 isOpen={isOpen}
                 onClose={onClose}
-                title={'Nonaktifkan Akun'}
-                detail={'Anda yakin untuk menonaktifkan akun ini?'}
-                btnText={'Nonaktifkan'}
+                title={
+                    selectedEmployee?.status
+                        ? 'Nonaktifkan Akun'
+                        : 'Aktifkan Akun'
+                }
+                detail={`Anda yakin untuk ${
+                    selectedEmployee?.status ? 'menonaktifkan' : 'mengaktifkan'
+                } akun ini?`}
+                btnText={selectedEmployee?.status ? 'Nonaktifkan' : 'Aktifkan'}
+                btnColor={selectedEmployee?.status ? 'red' : 'green'}
                 action={handleUnactive}
-                id={employeId}
+                id={selectedEmployee?.id}
             />
 
             <Box bg={'white'} p={6} rounded={'lg'}>

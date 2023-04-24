@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getEmployee } from '../thunks/employeeThunk';
+import { getEmployee, nonActiveEmployee } from '../thunks/employeeThunk';
 
 const initialState = {
     employes: [],
@@ -23,6 +23,19 @@ const employeeSlice = createSlice({
                 state.employes = action.payload.data;
             })
             .addCase(getEmployee.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // nonActiveEmployee
+        builder
+            .addCase(nonActiveEmployee.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(nonActiveEmployee.fulfilled, (state, action) => {
+                state.status = 'success';
+            })
+            .addCase(nonActiveEmployee.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

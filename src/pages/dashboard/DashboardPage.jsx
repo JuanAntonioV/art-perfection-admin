@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, logout } from '@/stores/thunks/authThunk';
 import { getGlobalAnalytics } from '@/stores/thunks/analyticsThunk';
+import { logoutAction } from '@/stores/reducers/authReducer';
 
 const DashboardPage = () => {
     // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
@@ -63,6 +64,12 @@ const DashboardPage = () => {
 
     useEffect(() => {
         status === 'idle' && dispatch(getGlobalAnalytics(token));
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getUser(token)).then((res) => {
+            if (res.payload.code === 401) dispatch(logoutAction(token));
+        });
     }, [dispatch]);
 
     // const indicators = [

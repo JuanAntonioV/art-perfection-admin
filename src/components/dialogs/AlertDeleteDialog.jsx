@@ -18,6 +18,7 @@ const AlertDeleteDialog = ({
     btnText,
     action,
     id,
+    btnColor = 'red',
 }) => {
     const cancelRef = useRef();
 
@@ -50,7 +51,11 @@ const AlertDeleteDialog = ({
                         <Button ref={cancelRef} onClick={onClose}>
                             Cancel
                         </Button>
-                        <Button colorScheme='red' onClick={handleDelete} ml={3}>
+                        <Button
+                            colorScheme={btnColor}
+                            onClick={handleDelete}
+                            ml={3}
+                        >
                             {btnText || 'Delete'}
                         </Button>
                     </AlertDialogFooter>

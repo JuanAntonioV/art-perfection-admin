@@ -8,3 +8,12 @@ export const getEmployeeApi = (token) => {
     });
     return response;
 };
+
+export const nonActiveEmployeeApi = (payload, token) => {
+    const response = api.post(`employee/non-active`, payload, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};
