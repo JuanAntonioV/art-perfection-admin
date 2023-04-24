@@ -1,3 +1,6 @@
+import AlertResponseError from '@/components/alerts/AlertResponseError';
+import AlertResponseInfo from '@/components/alerts/AlertResponseInfo';
+import { getUser, updatePassword } from '@/stores/thunks/authThunk';
 import {
     Box,
     Button,
@@ -9,10 +12,16 @@ import {
     Stack,
     Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ChangePassword = () => {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.auth.token);
+    const error = useSelector((state) => state.auth.error);
+    const status = useSelector((state) => state.auth.status);
+
     const [value, setValue] = useState({
         password: '',
         password_confirmation: '',
@@ -32,8 +41,27 @@ const ChangePassword = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log(value);
+        const payload = {
+            password: value.password,
+            password_confirmation: value.password_confirmation,
+            token: token,
+        };
+
+        dispatch(updatePassword(payload)).then((res) => {
+            res.payload.code === 200 &&
+                setValue({
+                    password: '',
+                    password_confirmation: '',
+                }) &&
+                setShow(false) &&
+                e.target.reset() &&
+                dispatch(getUser(token));
+        });
     };
+
+    useEffect(() => {
+        console.log(error);
+    }, [error]);
 
     return (
         <Box bg={'white'} p={6} rounded={'lg'}>
@@ -53,6 +81,8 @@ const ChangePassword = () => {
             </Stack>
 
             <Box mt={4}>
+                <AlertResponseError error={error} status={status} my={4} />
+
                 <form
                     method='post'
                     id='updatePasswordForm'

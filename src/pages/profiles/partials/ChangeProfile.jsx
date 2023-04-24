@@ -81,11 +81,6 @@ const ChangeProfile = () => {
 
             <Box mt={4}>
                 <AlertResponseError error={error} status={'error'} my={4} />
-                <AlertResponseInfo
-                    status={status}
-                    info={'Berhasil memperbaharui profil'}
-                    my={4}
-                />
 
                 <form onSubmit={handleSubmit} method='post' id='profileForm'>
                     <Stack spacing={4}>

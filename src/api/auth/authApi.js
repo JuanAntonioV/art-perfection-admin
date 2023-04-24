@@ -46,3 +46,12 @@ export const updateProfileApi = (payload, token) => {
     });
     return response;
 };
+
+export const updatePasswordApi = (payload, token) => {
+    const response = api.post('profile/update-password', payload, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};

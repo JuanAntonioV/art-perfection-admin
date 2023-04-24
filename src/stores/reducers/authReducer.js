@@ -5,6 +5,7 @@ import {
     logout,
     register,
     resetPassword,
+    updatePassword,
     updateProfile,
 } from '@/stores/thunks/authThunk';
 import { createSlice } from '@reduxjs/toolkit';
@@ -154,10 +155,23 @@ const userSlice = createSlice({
             })
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.status = 'success';
-                console.log(action.payload);
                 state.error = null;
             })
             .addCase(updateProfile.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // Update Password
+        builder
+            .addCase(updatePassword.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(updatePassword.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.error = null;
+            })
+            .addCase(updatePassword.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });
