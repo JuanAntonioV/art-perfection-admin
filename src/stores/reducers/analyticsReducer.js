@@ -3,6 +3,7 @@ import { getGlobalAnalytics } from '../thunks/analyticsThunk';
 
 const initialState = {
     analytics: [],
+    employeeAnalytics: [],
     status: 'idle', // idle | loading | succeeded | failed
     error: null,
 };

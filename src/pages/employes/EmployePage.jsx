@@ -2,7 +2,6 @@ import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import {
     Badge,
     Box,
-    Button,
     Heading,
     IconButton,
     Stack,
@@ -15,7 +14,11 @@ import TableBasic from '@/components/tables/TableBasic';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
 import { useNavigate } from 'react-router-dom';
-import { getEmployee, nonActiveEmployee } from '@/stores/thunks/employeeThunk';
+import {
+    getEmployee,
+    getEmployeeDetail,
+    nonActiveEmployee,
+} from '@/stores/thunks/employeeThunk';
 import { dateParser } from '@/helpers/dateHelper';
 
 const EmployePage = () => {
@@ -29,9 +32,14 @@ const EmployePage = () => {
     const navigate = useNavigate();
 
     const handleViewDetail = (id) => {
-        console.log('ID Employes', id);
+        const payload = {
+            id: id,
+            token: token,
+        };
 
-        navigate(`/employes/${id}`);
+        dispatch(getEmployeeDetail(payload)).then((res) => {
+            res.payload.code === 200 && navigate(`/employes/${id}`);
+        });
     };
 
     const handleUnactive = (id) => {

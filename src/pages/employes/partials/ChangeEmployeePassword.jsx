@@ -1,22 +1,20 @@
 import AlertResponseError from '@/components/alerts/AlertResponseError';
-import AlertResponseInfo from '@/components/alerts/AlertResponseInfo';
-import { getUser, updatePassword } from '@/stores/thunks/authThunk';
+import Wrapper from '@/components/wrappers/Wrapper';
+import { updatePassword } from '@/stores/thunks/authThunk';
 import {
     Box,
     Button,
     FormLabel,
-    Heading,
     Input,
     InputGroup,
     InputRightElement,
     Stack,
-    Text,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ChangePassword = () => {
+const ChangeEmployeePassword = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const user = useSelector((state) => state.auth.user);
@@ -43,7 +41,7 @@ const ChangePassword = () => {
         e.preventDefault();
 
         const payload = {
-            user_id: user.id,
+            user_id: employe.id,
             password: value.password,
             password_confirmation: value.password_confirmation,
             token: token,
@@ -56,35 +54,22 @@ const ChangePassword = () => {
                     password_confirmation: '',
                 }) &&
                 setShow(false) &&
-                e.target.reset() &&
-                dispatch(getUser(token));
+                e.target.reset();
         });
     };
 
     return (
-        <Box bg={'white'} p={6} rounded={'lg'}>
-            <Stack
-                spacing={1}
-                borderBottom={'1px'}
-                borderColor={'gray.200'}
-                pb={4}
-            >
-                <Heading as='h3' size='md'>
-                    Change Password
-                </Heading>
-
-                <Text fontSize={'sm'} color={'gray.500'}>
-                    Menu untuk merubah password akun.
-                </Text>
-            </Stack>
-
+        <Wrapper
+            title={'Change Password'}
+            description={'Menu ini digunakan untuk mengubah password employe'}
+        >
             <Box mt={4}>
                 <AlertResponseError error={error} status={status} my={4} />
 
                 <form
-                    method='post'
-                    id='updatePasswordForm'
+                    id='updateEmployeePasswordForm'
                     onSubmit={handleSubmit}
+                    method='post'
                 >
                     <Stack spacing={4}>
                         <Stack>
@@ -163,19 +148,19 @@ const ChangePassword = () => {
                     _hover={{
                         bg: 'blue.500',
                     }}
+                    form='updateEmployeePasswordForm'
                     isDisabled={
                         value.password === '' ||
                         value.password_confirmation === '' ||
                         value.password.length <= 6 ||
                         value.password_confirmation.length <= 6
                     }
-                    form='updatePasswordForm'
                 >
                     Simpan
                 </Button>
             </Box>
-        </Box>
+        </Wrapper>
     );
 };
 
-export default ChangePassword;
+export default ChangeEmployeePassword;

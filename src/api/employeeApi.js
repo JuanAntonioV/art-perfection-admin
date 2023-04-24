@@ -17,3 +17,12 @@ export const nonActiveEmployeeApi = (payload, token) => {
     });
     return response;
 };
+
+export const getEmployeeDetailApi = (id, token) => {
+    const response = api.get(`employee/${id}`, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};
