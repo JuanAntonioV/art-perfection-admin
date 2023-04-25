@@ -38,7 +38,7 @@ const EmployePage = () => {
         };
 
         dispatch(getEmployeeDetail(payload)).then((res) => {
-            res.payload.code === 200 && navigate(`/employes/${id}`);
+            res.payload.code === 200 && navigate(`/anggota/${id}`);
         });
     };
 
@@ -54,7 +54,7 @@ const EmployePage = () => {
     };
 
     useEffect(() => {
-        status === 'idle' && dispatch(getEmployee(token));
+        dispatch(getEmployee(token));
     }, [dispatch]);
 
     const columns = useMemo(
@@ -170,12 +170,11 @@ const EmployePage = () => {
                     pb={4}
                 >
                     <Heading as='h3' size='md'>
-                        Employes
+                        Anggota
                     </Heading>
 
                     <Text fontSize={'sm'} color={'gray.500'}>
-                        Menu untuk mengelola karyawan yang terdaftar pada
-                        sistem.
+                        Menu untuk mengelola anggota yang terdaftar pada sistem.
                     </Text>
                 </Stack>
 

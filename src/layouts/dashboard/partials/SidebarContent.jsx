@@ -19,21 +19,31 @@ const SidebarContent = ({ onClose, ...rest }) => {
             to: '/dashboard',
             devider: true,
         },
-        { name: 'Heads', icon: RiUserStarLine, to: '/heads', devider: false },
         {
-            name: 'Employes',
-            icon: HiOutlineUsers,
-            to: '/employes',
+            name: 'Pimpinan',
+            icon: RiUserStarLine,
+            to: '/pimpinan',
             devider: false,
         },
-        { name: 'Teams', icon: FiStar, to: '/teams', devider: true },
+        {
+            name: 'Anggota',
+            icon: HiOutlineUsers,
+            to: '/anggota',
+            devider: false,
+        },
+        { name: 'Tim', icon: FiStar, to: '/tim', devider: true },
         // {
         //     name: 'Analitics',
         //     icon: TbBrandGoogleAnalytics,
         //     to: '/analitics',
         //     devider: true,
         // },
-        { name: 'Settings', icon: FiSettings, to: '/settings', devider: false },
+        {
+            name: 'Pengaturan',
+            icon: FiSettings,
+            to: '/pengaturan',
+            devider: false,
+        },
     ];
 
     return (

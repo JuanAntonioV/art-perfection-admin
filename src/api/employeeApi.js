@@ -26,3 +26,12 @@ export const getEmployeeDetailApi = (id, token) => {
     });
     return response;
 };
+
+export const updateEmployeeApi = (id, payload, token) => {
+    const response = api.put(`employee/${id}`, payload, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};

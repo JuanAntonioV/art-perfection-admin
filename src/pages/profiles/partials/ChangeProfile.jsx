@@ -113,7 +113,7 @@ const ChangeProfile = () => {
                                 Role
                             </FormLabel>
                             <Flex align='center' columnGap={1}>
-                                {user?.role[0] === 'admin' ? (
+                                {user?.role === 'admin' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='green'
@@ -123,7 +123,7 @@ const ChangeProfile = () => {
                                     >
                                         Admin
                                     </Badge>
-                                ) : user?.role[0] === 'employee' ? (
+                                ) : user?.role === 'employee' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='blue'
@@ -133,7 +133,7 @@ const ChangeProfile = () => {
                                     >
                                         Employee
                                     </Badge>
-                                ) : user?.role[0] === 'head' ? (
+                                ) : user?.role === 'head' ? (
                                     <Badge
                                         variant='solid'
                                         colorScheme='red'
@@ -199,8 +199,8 @@ const ChangeProfile = () => {
                         bg: 'blue.500',
                     }}
                     isDisabled={
-                        value.name === user.full_name &&
-                        value.email === user.email
+                        value.name === user?.full_name &&
+                        value.email === user?.email
                     }
                 >
                     Simpan

@@ -7,7 +7,6 @@ import {
     Box,
     Button,
     Flex,
-    FormControl,
     FormHelperText,
     FormLabel,
     IconButton,
@@ -219,26 +218,26 @@ const TeamDetailPage = () => {
                 </Flex>
 
                 <Stack spacing={6}>
-                    <FormControl>
+                    <Box>
                         <FormLabel>Nama</FormLabel>
                         <Input type='text' maxLength={45} disabled={!isEdit} />
                         <FormHelperText>
                             Nama team yang akan dibuat
                         </FormHelperText>
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel>ID Pimpinan</FormLabel>
                         <Input type='text' maxLength={45} disabled={!isEdit} />
                         <FormHelperText>
                             Isi sesuai ID pada menu <b>Heads</b>
                         </FormHelperText>
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel>Deskripsi</FormLabel>
                         <Textarea type='text' rows={8} disabled={!isEdit} />
-                    </FormControl>
+                    </Box>
                 </Stack>
             </Wrapper>
 
@@ -249,7 +248,7 @@ const TeamDetailPage = () => {
                 }
             >
                 <VStack spacing={6}>
-                    <FormControl>
+                    <Box>
                         <FormLabel>ID Karyawan</FormLabel>
 
                         <Flex align={'center'}>
@@ -271,7 +270,7 @@ const TeamDetailPage = () => {
                         <FormHelperText>
                             Isi sesuai ID pada menu <b>Employes</b>
                         </FormHelperText>
-                    </FormControl>
+                    </Box>
                 </VStack>
 
                 <Box mt={6}>

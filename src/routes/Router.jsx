@@ -64,22 +64,22 @@ const Router = () => {
             >
                 <Route path='dashboard' Component={DashboardPage} />
 
-                {/* Employes */}
-                <Route path='employes' Component={EmployePage} />
-                <Route path='employes/:id' Component={EmployeDetailPage} />
+                {/* Anggota */}
+                <Route path='anggota' Component={EmployePage} />
+                <Route path='anggota/:id' Component={EmployeDetailPage} />
 
-                {/* Heads */}
-                <Route path='heads' Component={HeadPage} />
-                <Route path='heads/:id' Component={TeamDetailPage} />
-                <Route path='heads/create' Component={TeamCreatePage} />
+                {/* Pimpinan */}
+                <Route path='pimpinan' Component={HeadPage} />
+                <Route path='pimpinan/:id' Component={TeamDetailPage} />
+                <Route path='pimpinan/create' Component={TeamCreatePage} />
 
-                {/* Teams */}
-                <Route path='teams' Component={TeamPage} />
-                <Route path='teams/:id' Component={TeamDetailPage} />
-                <Route path='teams/create' Component={TeamCreatePage} />
+                {/* Tim */}
+                <Route path='tim' Component={TeamPage} />
+                <Route path='tim/:id' Component={TeamDetailPage} />
+                <Route path='tim/create' Component={TeamCreatePage} />
 
-                <Route path='settings' Component={SettingPage} />
-                <Route path='profiles' Component={ProfilePage} />
+                <Route path='pengaturan' Component={SettingPage} />
+                <Route path='profil' Component={ProfilePage} />
             </Route>
 
             <Route path='*' Component={NotFound} />

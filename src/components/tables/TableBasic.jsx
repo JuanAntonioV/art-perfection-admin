@@ -74,7 +74,7 @@ const TableBasic = ({ columns, data, addAction }) => {
                         size={'sm'}
                         onClick={addAction}
                     >
-                        New
+                        Create
                     </Button>
                 ) : null}
             </Flex>

@@ -25,11 +25,10 @@ const HeadPage = () => {
         console.log('ID Heads', id);
     };
 
-    const status = useSelector((state) => state.head.status);
     const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
-        status === 'idle' && dispatch(getHeads(token));
+        dispatch(getHeads(token));
     }, [dispatch]);
 
     const columns = useMemo(
@@ -137,7 +136,7 @@ const HeadPage = () => {
                     pb={4}
                 >
                     <Heading as='h3' size='md'>
-                        Heads
+                        Pimpinan
                     </Heading>
 
                     <Text fontSize={'sm'} color={'gray.500'}>

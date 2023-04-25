@@ -24,10 +24,9 @@ const StatSection = () => {
     const token = useSelector((state) => state.auth.token);
 
     const stats = useSelector((state) => state.stat.stats);
-    const status = useSelector((state) => state.stat.status);
 
     useEffect(() => {
-        status === 'idle' && dispatch(getStats(token));
+        dispatch(getStats(token));
     }, [dispatch]);
 
     return (
@@ -43,9 +42,9 @@ const StatSection = () => {
                         alignItems={'center'}
                     >
                         <Stack spacing={1}>
-                            <StatLabel>Total Teams</StatLabel>
+                            <StatLabel>Total Tim</StatLabel>
                             <StatNumber>{stats.total_teams}</StatNumber>
-                            <StatHelpText>Dari awal bulan</StatHelpText>
+                            <StatHelpText>Dari semua tim aktif</StatHelpText>
                         </Stack>
 
                         <Box
@@ -72,7 +71,7 @@ const StatSection = () => {
                         <Stack spacing={1}>
                             <StatLabel>Total Pimpinan</StatLabel>
                             <StatNumber>{stats.total_heads}</StatNumber>
-                            <StatHelpText>Dari awal bulan</StatHelpText>
+                            <StatHelpText>Dari semua pengguna</StatHelpText>
                         </Stack>
 
                         <Box
@@ -99,7 +98,7 @@ const StatSection = () => {
                         <Stack spacing={1}>
                             <StatLabel>Total Anggota</StatLabel>
                             <StatNumber>{stats.total_employee}</StatNumber>
-                            <StatHelpText>Dari awal bulan</StatHelpText>
+                            <StatHelpText>Dari semua pengguna</StatHelpText>
                         </Stack>
 
                         <Box

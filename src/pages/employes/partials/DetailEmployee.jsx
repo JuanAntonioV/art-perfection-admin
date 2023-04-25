@@ -1,11 +1,14 @@
+import AlertResponseError from '@/components/alerts/AlertResponseError';
 import Wrapper from '@/components/wrappers/Wrapper';
-import { getEmployeeDetail } from '@/stores/thunks/employeeThunk';
+import {
+    getEmployeeDetail,
+    updateEmployee,
+} from '@/stores/thunks/employeeThunk';
 import {
     Badge,
     Box,
     Button,
     Flex,
-    FormControl,
     FormLabel,
     Input,
     Select,
@@ -15,12 +18,15 @@ import {
 import { useEffect, useState } from 'react';
 import { FaRegQuestionCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const DetailEmployee = () => {
     const dispatch = useDispatch();
     const employee = useSelector((state) => state.employes.employee);
     const token = useSelector((state) => state.auth.token);
+    const error = useSelector((state) => state.employes.error);
+    const status = useSelector((state) => state.employes.status);
+    const navigate = useNavigate();
 
     const { id } = useParams();
 
@@ -43,27 +49,39 @@ const DetailEmployee = () => {
         e.preventDefault();
 
         const payload = {
-            name: value.name,
+            token: token,
+            id: id,
+            full_name: value.name,
             email: value.email,
-            role: value.role,
-            status: value.status,
+            role_id: value.role,
         };
+
+        dispatch(updateEmployee(payload)).then((res) => {
+            if (res.payload.status) {
+                handleFetchEmployee();
+                navigate('/anggota');
+            }
+        });
     };
 
-    useEffect(() => {
+    const handleFetchEmployee = () => {
         const payload = {
             id: id,
             token: token,
         };
 
         dispatch(getEmployeeDetail(payload));
+    };
+
+    useEffect(() => {
+        handleFetchEmployee();
     }, [dispatch, id]);
 
     useEffect(() => {
         setValue({
             name: employee?.full_name,
             email: employee?.email,
-            role: employee?.role ? employee?.role[0] : '',
+            role: employee?.role,
             status: employee?.status,
             registered_at: employee?.registered_at
                 ? new Date(employee?.registered_at).toISOString().slice(0, 10)
@@ -82,67 +100,78 @@ const DetailEmployee = () => {
 
     return (
         <Wrapper
-            title={'Detail Employe'}
-            description={'Menu ini digunakan untuk melihat detail employe'}
+            title={'Detail Anggota'}
+            description={'Menu ini digunakan untuk melihat detail anggota'}
         >
+            <AlertResponseError status={status} error={error} my={4} />
+
             <form onSubmit={handleSubmit}>
                 <Stack spacing={6}>
-                    <FormControl>
+                    <Box>
                         <FormLabel>Nama</FormLabel>
                         <Input
                             type='text'
                             maxLength={45}
+                            isDisabled={!value.role}
                             name='name'
                             value={value.name}
                             onChange={handleChange}
                             required
                         />
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel>Email</FormLabel>
                         <Input
                             type='email'
                             maxLength={45}
                             required
+                            isDisabled={!value.role}
                             name='email'
                             value={value.email}
                             onChange={handleChange}
                         />
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel>Tanggal Registrasi</FormLabel>
                         <Input
                             type='date'
                             maxLength={45}
-                            disabled
+                            isDisabled
                             name='registered_at'
                             value={value.registered_at}
                             onChange={handleChange}
                         />
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel fontSize={'sm'}>Role</FormLabel>
                         <Select
                             placeholder='Pilih role'
                             name={'role'}
+                            isDisabled={!value.role}
+                            value={
+                                value.role === 'employee' || value.role === '3'
+                                    ? '3'
+                                    : value.role === 'head' ||
+                                      value.role === '2'
+                                    ? '2'
+                                    : value.role === 'admin' ||
+                                      value.role === '1'
+                                    ? '1'
+                                    : '0'
+                            }
                             onChange={handleChange}
+                            required
                         >
-                            <option value='2' selected={value?.role === 'head'}>
-                                Head
-                            </option>
-                            <option
-                                value='3'
-                                selected={value?.role === 'employee'}
-                            >
-                                Employe
-                            </option>
+                            <option value='1'>Admin</option>
+                            <option value='2'>Pimpinan</option>
+                            <option value='3'>Anggota</option>
                         </Select>
-                    </FormControl>
+                    </Box>
 
-                    <FormControl>
+                    <Box>
                         <FormLabel fontSize={'sm'}>Status</FormLabel>
                         <Flex align='center' columnGap={1}>
                             {value.status ? (
@@ -195,7 +224,7 @@ const DetailEmployee = () => {
                                 </Button>
                             </Tooltip>
                         </Flex>
-                    </FormControl>
+                    </Box>
 
                     <Box>
                         <Button
@@ -204,6 +233,12 @@ const DetailEmployee = () => {
                             w={'full'}
                             size={'md'}
                             mt={6}
+                            isDisabled={
+                                !value.role ||
+                                (value.name === employee?.full_name &&
+                                    value.email === employee?.email &&
+                                    value.role === employee?.role)
+                            }
                         >
                             Simpan
                         </Button>

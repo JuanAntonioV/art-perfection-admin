@@ -3,6 +3,7 @@ import {
     getEmployee,
     getEmployeeDetail,
     nonActiveEmployee,
+    updateEmployee,
 } from '../thunks/employeeThunk';
 
 const initialState = {
@@ -54,6 +55,19 @@ const employeeSlice = createSlice({
                 state.employee = action.payload.data;
             })
             .addCase(getEmployeeDetail.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // updateEmployee
+        builder
+            .addCase(updateEmployee.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(updateEmployee.fulfilled, (state, action) => {
+                state.status = 'success';
+            })
+            .addCase(updateEmployee.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

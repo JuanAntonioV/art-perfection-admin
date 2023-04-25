@@ -33,19 +33,14 @@ const TeamPage = () => {
     };
 
     const handleAdd = () => {
-        navigate('/teams/create');
+        navigate('/tim/create');
     };
 
     const teams = useSelector((state) => state.team.teams);
-    const status = useSelector((state) => state.team.status);
     const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
-        console.log('teams', teams);
-    }, [teams]);
-
-    useEffect(() => {
-        status === 'idle' && dispatch(getTeams(token));
+        dispatch(getTeams(token));
     }, [dispatch]);
 
     const columns = useMemo(
@@ -143,7 +138,7 @@ const TeamPage = () => {
                     pb={4}
                 >
                     <Heading as='h3' size='md'>
-                        Teams
+                        Tim
                     </Heading>
 
                     <Text fontSize={'sm'} color={'gray.500'}>

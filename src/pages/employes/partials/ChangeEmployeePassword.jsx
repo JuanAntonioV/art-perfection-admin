@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 const ChangeEmployeePassword = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
-    const user = useSelector((state) => state.auth.user);
     const error = useSelector((state) => state.auth.error);
     const status = useSelector((state) => state.auth.status);
 

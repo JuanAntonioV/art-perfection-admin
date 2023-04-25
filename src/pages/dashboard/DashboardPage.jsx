@@ -63,7 +63,7 @@ const DashboardPage = () => {
     const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
-        status === 'idle' && dispatch(getGlobalAnalytics(token));
+        dispatch(getGlobalAnalytics(token));
     }, [dispatch]);
 
     useEffect(() => {

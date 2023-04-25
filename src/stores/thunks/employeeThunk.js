@@ -2,6 +2,7 @@ import {
     getEmployeeApi,
     getEmployeeDetailApi,
     nonActiveEmployeeApi,
+    updateEmployeeApi,
 } from '@/api/employeeApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -38,6 +39,20 @@ export const getEmployeeDetail = createAsyncThunk(
             const { token, id } = payload;
             delete payload.token;
             const response = await getEmployeeDetailApi(id, token);
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data);
+        }
+    }
+);
+
+export const updateEmployee = createAsyncThunk(
+    'employee/updateEmployee',
+    async (payload, thunkAPI) => {
+        try {
+            const { token, id } = payload;
+            delete payload.token;
+            const response = await updateEmployeeApi(id, payload, token);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

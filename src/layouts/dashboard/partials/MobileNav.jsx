@@ -1,5 +1,4 @@
 import { upperFirst } from '@/helpers/TextHelper';
-import { logoutAction } from '@/stores/reducers/authReducer';
 import { logout } from '@/stores/thunks/authThunk';
 import {
     Avatar,
@@ -15,7 +14,6 @@ import {
     Text,
     VStack,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { FiChevronDown, FiMenu } from 'react-icons/all';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -86,7 +84,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                     <Text fontSize='sm'>{user?.full_name}</Text>
                                     <Text fontSize='xs' color='gray.600'>
                                         {user?.role?.length > 0
-                                            ? upperFirst(user?.role[0])
+                                            ? upperFirst(user?.role)
                                             : ''}
                                     </Text>
                                 </VStack>
@@ -96,7 +94,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                             </HStack>
                         </MenuButton>
                         <MenuList bg={'white'} borderColor={'gray.200'}>
-                            <MenuItem onClick={() => navigate('/profiles')}>
+                            <MenuItem onClick={() => navigate('/profil')}>
                                 Profile
                             </MenuItem>
                             <MenuDivider />
