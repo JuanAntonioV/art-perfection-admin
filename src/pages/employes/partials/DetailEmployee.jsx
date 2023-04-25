@@ -197,7 +197,7 @@ const DetailEmployee = () => {
                             )}
 
                             <Tooltip
-                                label='Status aktif menunjukkan bahwa employe dapat melakukan login'
+                                label='Status aktif menunjukkan bahwa anggota dapat melakukan login'
                                 placement='right'
                                 bg={'yellow.100'}
                                 color={'black'}

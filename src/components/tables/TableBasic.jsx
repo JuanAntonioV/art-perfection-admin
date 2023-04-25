@@ -59,7 +59,7 @@ const TableBasic = ({ columns, data, addAction }) => {
     const { pageIndex, pageSize, globalFilter } = state;
 
     return (
-        <TableContainer mt={4}>
+        <TableContainer mt={4} pb={6}>
             <Flex align={'center'} justify={'end'} mb={4} gap={2}>
                 <GlobalFilter
                     filter={globalFilter}

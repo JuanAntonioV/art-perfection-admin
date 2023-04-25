@@ -62,8 +62,8 @@ const ChangeHeadPassword = () => {
 
     return (
         <Wrapper
-            title={'Change Password'}
-            description={'Menu ini digunakan untuk mengubah password employe'}
+            title={'Ganti Password'}
+            description={'Menu ini digunakan untuk mengubah password pimpinan'}
         >
             <Box mt={4}>
                 <AlertResponseError error={error} status={status} my={4} />

@@ -101,8 +101,8 @@ const DetailHead = () => {
 
     return (
         <Wrapper
-            title={'Detail Anggota'}
-            description={'Menu ini digunakan untuk melihat detail anggota'}
+            title={'Detail Pimpinan'}
+            description={'Menu ini digunakan untuk melihat detail pimpinan'}
         >
             <AlertResponseError status={status} error={error} my={4} />
 
@@ -198,7 +198,7 @@ const DetailHead = () => {
                             )}
 
                             <Tooltip
-                                label='Status aktif menunjukkan bahwa employe dapat melakukan login'
+                                label='Status aktif menunjukkan bahwa pimpinan dapat melakukan login'
                                 placement='right'
                                 bg={'yellow.100'}
                                 color={'black'}
