@@ -29,9 +29,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
             name: 'Anggota',
             icon: HiOutlineUsers,
             to: '/anggota',
-            devider: false,
+            devider: true,
         },
-        { name: 'Tim', icon: FiStar, to: '/tim', devider: true },
+        // { name: 'Tim', icon: FiStar, to: '/tim', devider: true },
         // {
         //     name: 'Analitics',
         //     icon: TbBrandGoogleAnalytics,

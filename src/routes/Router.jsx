@@ -74,9 +74,9 @@ const Router = () => {
                 <Route path='pimpinan/:id' Component={HeadDetailPage} />
 
                 {/* Tim */}
-                <Route path='tim' Component={TeamPage} />
+                {/* <Route path='tim' Component={TeamPage} />
                 <Route path='tim/:id' Component={TeamDetailPage} />
-                <Route path='tim/create' Component={TeamCreatePage} />
+                <Route path='tim/create' Component={TeamCreatePage} /> */}
 
                 <Route path='pengaturan' Component={SettingPage} />
                 <Route path='profil' Component={ProfilePage} />
