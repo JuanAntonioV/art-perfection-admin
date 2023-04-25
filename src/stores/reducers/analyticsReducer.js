@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getGlobalAnalytics } from '../thunks/analyticsThunk';
+import { getGlobalAnalytics, getUserAnalytics } from '../thunks/analyticsThunk';
 
 const initialState = {
     analytics: [],
-    employeeAnalytics: [],
-    status: 'idle', // idle | loading | succeeded | failed
+    userAnalytics: [],
+    status: 'idle', // idle | loading | success | failed
     error: null,
 };
 
@@ -19,10 +19,24 @@ const analyticsSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(getGlobalAnalytics.fulfilled, (state, action) => {
-                state.status = 'succeeded';
+                state.status = 'success';
                 state.analytics = action.payload.data;
             })
             .addCase(getGlobalAnalytics.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // Get user analytics
+        builder
+            .addCase(getUserAnalytics.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(getUserAnalytics.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.userAnalytics = action.payload.data;
+            })
+            .addCase(getUserAnalytics.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

@@ -15,7 +15,7 @@ import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-const ChangeEmployeePassword = () => {
+const ChangeHeadPassword = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const error = useSelector((state) => state.auth.error);
@@ -165,4 +165,4 @@ const ChangeEmployeePassword = () => {
     );
 };
 
-export default ChangeEmployeePassword;
+export default ChangeHeadPassword;

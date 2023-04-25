@@ -10,7 +10,7 @@ export const getEmployeeApi = (token) => {
 };
 
 export const nonActiveEmployeeApi = (payload, token) => {
-    const response = api.post(`employee/non-active`, payload, {
+    const response = api.post(`user/non-active`, payload, {
         headers: {
             Authorization: token,
         },

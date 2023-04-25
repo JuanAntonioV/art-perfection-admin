@@ -1,4 +1,4 @@
-import { getGlobalAnalyticsApi } from '@/api/analyticsApi';
+import { getGlobalAnalyticsApi, getUserAnalyticsApi } from '@/api/analyticsApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getGlobalAnalytics = createAsyncThunk(
@@ -6,6 +6,19 @@ export const getGlobalAnalytics = createAsyncThunk(
     async (token, thunkAPI) => {
         try {
             const response = await getGlobalAnalyticsApi(token);
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data);
+        }
+    }
+);
+
+export const getUserAnalytics = createAsyncThunk(
+    'analytics/getUserAnalytics',
+    async (payload, thunkAPI) => {
+        try {
+            const { id, token } = payload;
+            const response = await getUserAnalyticsApi(id, token);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

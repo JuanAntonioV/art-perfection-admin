@@ -1,6 +1,11 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
-import { getHeads } from '@/stores/thunks/headsThunk';
+import { dateParser } from '@/helpers/dateHelper';
+import {
+    downGradeHead,
+    getHeads,
+    nonActiveHead,
+} from '@/stores/thunks/headsThunk';
 import {
     Badge,
     Box,
@@ -11,21 +16,50 @@ import {
     useDisclosure,
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
+import { BsPersonDown } from 'react-icons/bs';
 import { TbUserSearch } from 'react-icons/tb';
 import { TiWarningOutline } from 'react-icons/ti';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const HeadPage = () => {
     const dispatch = useDispatch();
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const navigate = useNavigate();
+    const {
+        isOpen: downGradeIsOpen,
+        onOpen: downGradeOpen,
+        onClose: downGradeClose,
+    } = useDisclosure();
+    const {
+        isOpen: nonActiveIsOpen,
+        onOpen: nonActiveOpen,
+        onClose: nonActiveClose,
+    } = useDisclosure();
     const [headsId, setHeadsId] = useState(null);
     const heads = useSelector((state) => state.head.heads);
+    const token = useSelector((state) => state.auth.token);
 
-    const handleUnactive = (id) => {
-        console.log('ID Heads', id);
+    const handleDowngrade = (id) => {
+        const payload = {
+            user_id: id,
+            token: token,
+        };
+
+        dispatch(downGradeHead(payload)).then((res) => {
+            res.payload.status && dispatch(getHeads(token));
+        });
     };
 
-    const token = useSelector((state) => state.auth.token);
+    const handleUnactive = (id) => {
+        const payload = {
+            user_id: id,
+            token: token,
+        };
+
+        dispatch(nonActiveHead(payload)).then((res) => {
+            res.payload.status && dispatch(getHeads(token));
+        });
+    };
 
     useEffect(() => {
         dispatch(getHeads(token));
@@ -34,8 +68,8 @@ const HeadPage = () => {
     const columns = useMemo(
         () => [
             {
-                Header: '#',
-                accessor: 'count',
+                Header: 'ID',
+                accessor: 'id',
             },
             {
                 Header: 'Name',
@@ -65,22 +99,22 @@ const HeadPage = () => {
         let count = 1;
         return heads.map((heads) => {
             return {
-                count: count++,
-                name: heads.name,
+                id: heads.id,
+                name: heads.full_name,
                 email: heads.email,
                 status: (
                     <Badge
                         px={3}
                         py={1}
-                        bg={heads.status == 'active' ? 'green.400' : 'red'}
+                        bg={heads.status ? 'green.400' : 'red'}
                         textColor={'white'}
                         rounded={'md'}
                         fontSize={'x-small'}
                     >
-                        {heads.status == 'active' ? 'Aktif' : 'Nonaktif'}
+                        {heads.status ? 'Aktif' : 'Nonaktif'}
                     </Badge>
                 ),
-                registeredAt: heads.registeredAt,
+                registeredAt: dateParser(heads.registered_at),
                 action: (
                     <Box>
                         <IconButton
@@ -91,6 +125,7 @@ const HeadPage = () => {
                                 bg: 'blue.400',
                                 textColor: 'white',
                             }}
+                            onClick={() => navigate(`/pimpinan/${heads.id}`)}
                         >
                             <TbUserSearch size={20} />
                         </IconButton>
@@ -105,7 +140,23 @@ const HeadPage = () => {
                             }}
                             onClick={() => {
                                 setHeadsId(heads.id);
-                                onOpen();
+                                downGradeOpen();
+                            }}
+                        >
+                            <BsPersonDown size={20} />
+                        </IconButton>
+                        <IconButton
+                            size='sm'
+                            ml={2}
+                            textColor={'red'}
+                            bg={'transparent'}
+                            _hover={{
+                                bg: 'red',
+                                textColor: 'white',
+                            }}
+                            onClick={() => {
+                                setHeadsId(heads.id);
+                                nonActiveOpen();
                             }}
                         >
                             <TiWarningOutline size={20} />
@@ -119,8 +170,18 @@ const HeadPage = () => {
     return (
         <>
             <AlertDeleteDialog
-                isOpen={isOpen}
-                onClose={onClose}
+                isOpen={downGradeIsOpen}
+                onClose={downGradeClose}
+                title={'Turunkan Akun'}
+                detail={'Anda yakin untuk merubah role akun ini?'}
+                btnText={'Ya, Turunkan!'}
+                action={handleDowngrade}
+                id={headsId}
+            />
+
+            <AlertDeleteDialog
+                isOpen={nonActiveIsOpen}
+                onClose={nonActiveClose}
                 title={'Nonaktifkan Akun'}
                 detail={'Anda yakin untuk menonaktifkan akun ini?'}
                 btnText={'Nonaktifkan'}

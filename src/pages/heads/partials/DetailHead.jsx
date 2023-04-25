@@ -4,6 +4,7 @@ import {
     getEmployeeDetail,
     updateEmployee,
 } from '@/stores/thunks/employeeThunk';
+import { getHeadDetail, updateHead } from '@/stores/thunks/headsThunk';
 import {
     Badge,
     Box,
@@ -20,12 +21,12 @@ import { FaRegQuestionCircle } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const DetailEmployee = () => {
+const DetailHead = () => {
     const dispatch = useDispatch();
-    const employee = useSelector((state) => state.employes.employee);
+    const head = useSelector((state) => state.head.head);
     const token = useSelector((state) => state.auth.token);
-    const error = useSelector((state) => state.employes.error);
-    const status = useSelector((state) => state.employes.status);
+    const error = useSelector((state) => state.head.error);
+    const status = useSelector((state) => state.head.status);
     const navigate = useNavigate();
 
     const { id } = useParams();
@@ -53,38 +54,38 @@ const DetailEmployee = () => {
             id: id,
             full_name: value.name,
             email: value.email,
-            role_id: value.role === employee.role ? null : value.role,
+            role_id: value.role === head.role ? null : value.role,
         };
 
-        dispatch(updateEmployee(payload)).then((res) => {
+        dispatch(updateHead(payload)).then((res) => {
             if (res.payload.status) {
-                handleFetchEmployee();
-                navigate('/anggota');
+                handleFetchHead();
+                navigate('/pimpinan');
             }
         });
     };
 
-    const handleFetchEmployee = () => {
+    const handleFetchHead = () => {
         const payload = {
             id: id,
             token: token,
         };
 
-        dispatch(getEmployeeDetail(payload));
+        dispatch(getHeadDetail(payload));
     };
 
     useEffect(() => {
-        handleFetchEmployee();
+        handleFetchHead();
     }, [dispatch, id]);
 
     useEffect(() => {
         setValue({
-            name: employee?.full_name,
-            email: employee?.email,
-            role: employee?.role,
-            status: employee?.status,
-            registered_at: employee?.registered_at
-                ? new Date(employee?.registered_at).toISOString().slice(0, 10)
+            name: head?.full_name,
+            email: head?.email,
+            role: head?.role,
+            status: head?.status,
+            registered_at: head?.registered_at
+                ? new Date(head?.registered_at).toISOString().slice(0, 10)
                 : '',
         });
 
@@ -96,7 +97,7 @@ const DetailEmployee = () => {
                 status: '',
                 registered_at: '',
             });
-    }, [employee]);
+    }, [head]);
 
     return (
         <Wrapper
@@ -112,7 +113,7 @@ const DetailEmployee = () => {
                         <Input
                             type='text'
                             maxLength={45}
-                            isDisabled={!value.role}
+                            isDisabled={!value.name}
                             name='name'
                             value={value.name}
                             onChange={handleChange}
@@ -126,7 +127,7 @@ const DetailEmployee = () => {
                             type='email'
                             maxLength={45}
                             required
-                            isDisabled={!value.role}
+                            isDisabled={!value.email}
                             name='email'
                             value={value.email}
                             onChange={handleChange}
@@ -234,10 +235,10 @@ const DetailEmployee = () => {
                             size={'md'}
                             mt={6}
                             isDisabled={
-                                !value.role ||
-                                (value.name === employee?.full_name &&
-                                    value.email === employee?.email &&
-                                    value.role === employee?.role)
+                                !value.email ||
+                                (value.name === head?.full_name &&
+                                    value.email === head?.email &&
+                                    value.role === head?.role)
                             }
                         >
                             Simpan
@@ -249,4 +250,4 @@ const DetailEmployee = () => {
     );
 };
 
-export default DetailEmployee;
+export default DetailHead;

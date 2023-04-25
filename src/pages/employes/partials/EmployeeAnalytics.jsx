@@ -1,10 +1,26 @@
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import Wrapper from '@/components/wrappers/Wrapper';
+import { getUserAnalytics } from '@/stores/thunks/analyticsThunk';
 import { Badge, Box, Flex, Text } from '@chakra-ui/react';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const EmployeeAnalytics = () => {
-    const analytics = useSelector((state) => state.analytics.employeeAnalytics);
+    const dispatch = useDispatch();
+    const analytics = useSelector((state) => state.analytics.userAnalytics);
+    const token = useSelector((state) => state.auth.token);
+
+    const { id } = useParams();
+
+    useEffect(() => {
+        const payload = {
+            id: id,
+            token: token,
+        };
+
+        dispatch(getUserAnalytics(payload));
+    }, [dispatch, id]);
 
     return (
         <Wrapper

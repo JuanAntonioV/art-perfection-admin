@@ -9,3 +9,13 @@ export const getGlobalAnalyticsApi = (token) => {
 
     return response;
 };
+
+export const getUserAnalyticsApi = (id, token) => {
+    const response = api.get(`analytics/user/${id}`, {
+        headers: {
+            Authorization: token,
+        },
+    });
+
+    return response;
+};

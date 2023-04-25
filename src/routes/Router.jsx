@@ -17,6 +17,7 @@ import SettingPage from '@/pages/settings/SettingPage';
 import TeamCreatePage from '@/pages/teams/TeamCreatePage';
 import EmployeDetailPage from '@/pages/employes/EmployeDetailPage';
 import { Authenticated, Guest } from './middleware/AuthMiddleware';
+import HeadDetailPage from '@/pages/heads/HeadDetailPage';
 
 const Router = () => {
     return (
@@ -70,8 +71,7 @@ const Router = () => {
 
                 {/* Pimpinan */}
                 <Route path='pimpinan' Component={HeadPage} />
-                <Route path='pimpinan/:id' Component={TeamDetailPage} />
-                <Route path='pimpinan/create' Component={TeamCreatePage} />
+                <Route path='pimpinan/:id' Component={HeadDetailPage} />
 
                 {/* Tim */}
                 <Route path='tim' Component={TeamPage} />

@@ -60,8 +60,8 @@ const EmployePage = () => {
     const columns = useMemo(
         () => [
             {
-                Header: '#',
-                accessor: 'count',
+                Header: 'ID',
+                accessor: 'id',
             },
             {
                 Header: 'Name',
@@ -91,7 +91,7 @@ const EmployePage = () => {
         let count = 1;
         return employes.map((employe) => {
             return {
-                count: count++,
+                id: employe.id,
                 name: employe.full_name,
                 email: employe.email,
                 status: (
