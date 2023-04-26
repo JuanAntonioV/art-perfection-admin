@@ -9,10 +9,6 @@ const DashboardLayout = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const user = useSelector((state) => state.auth.user);
 
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
-
     return (
         <Box minH='100vh' bg={'gray.100'}>
             <SidebarContent
