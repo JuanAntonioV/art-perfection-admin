@@ -1,6 +1,6 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
-import { dateParser } from '@/helpers/dateHelper';
+import { dateParser } from '@/helpers/date-helper';
 import {
     downGradeHead,
     getHeads,
@@ -96,7 +96,7 @@ const HeadPage = () => {
     );
 
     const data = useMemo(() => {
-        let count = 1;
+        // let count = 1;
         return heads.map((heads) => {
             return {
                 id: heads.id,

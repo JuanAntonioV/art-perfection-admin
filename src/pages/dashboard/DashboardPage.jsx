@@ -1,13 +1,22 @@
-import { Badge, Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import {
+    Badge,
+    Box,
+    Flex,
+    Heading,
+    Skeleton,
+    Stack,
+    Text,
+} from '@chakra-ui/react';
 
 import StatSection from './partials/StatSection';
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
-import { dateParser } from '@/helpers/dateHelper';
+import { dateParser } from '@/helpers/date-helper';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser, logout } from '@/stores/thunks/authThunk';
 import { getGlobalAnalytics } from '@/stores/thunks/analyticsThunk';
 import { logoutAction } from '@/stores/reducers/authReducer';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 
 const DashboardPage = () => {
     // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
@@ -58,8 +67,7 @@ const DashboardPage = () => {
     // }, []);
 
     const dispatch = useDispatch();
-    const status = useSelector((state) => state.analytics.status);
-    const analytics = useSelector((state) => state.analytics.analytics);
+    const { analytics, status } = useSelector((state) => state.analytics);
     const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
@@ -94,7 +102,9 @@ const DashboardPage = () => {
     return (
         <>
             <Stack spacing={10}>
-                <StatSection />
+                <PermissionMiddleware permisionKey={'view stats'}>
+                    <StatSection />
+                </PermissionMiddleware>
 
                 <Box bg={'white'} p={6} rounded={'lg'}>
                     <Stack
@@ -113,68 +123,72 @@ const DashboardPage = () => {
                         </Text>
                     </Stack>
 
-                    <Box mt={6}>
-                        <Flex
-                            flexDirection={{ base: 'column', lg: 'row' }}
-                            justifyContent='start'
-                            align={{ base: 'start', md: 'center' }}
-                            gap={2}
-                            mb={5}
-                        >
-                            <Badge
-                                bg='#FF0000'
-                                color={'white'}
-                                rounded={'sm'}
-                                px={4}
-                                py={1}
-                                w={{ base: 'auto', md: '100%', lg: 'auto' }}
-                                textAlign={{ base: 'left', md: 'center' }}
+                    <PermissionMiddleware permisionKey={'view dashboard chart'}>
+                        <Box mt={6}>
+                            <Flex
+                                flexDirection={{ base: 'column', lg: 'row' }}
+                                justifyContent='start'
+                                align={{ base: 'start', md: 'center' }}
+                                gap={2}
+                                mb={5}
                             >
-                                1: Sangat Tidak Sesuai
-                            </Badge>
-                            <Badge
-                                bg='#FFFF00'
-                                color={'black'}
-                                rounded={'sm'}
-                                px={4}
-                                py={1}
-                                w={{ base: 'auto', md: '100%', lg: 'auto' }}
-                                textAlign={{ base: 'left', md: 'center' }}
-                            >
-                                2: Tidak Sesuai
-                            </Badge>
-                            <Badge
-                                bg={'#FF9900'}
-                                color={'white'}
-                                rounded={'sm'}
-                                px={4}
-                                py={1}
-                                w={{ base: 'auto', md: '100%', lg: 'auto' }}
-                                textAlign={{ base: 'left', md: 'center' }}
-                            >
-                                3: Sesuai
-                            </Badge>
-                            <Badge
-                                bg={'#00FF00'}
-                                color={'white'}
-                                rounded={'sm'}
-                                px={4}
-                                py={1}
-                                w={{ base: 'auto', md: '100%', lg: 'auto' }}
-                                textAlign={{ base: 'left', md: 'center' }}
-                            >
-                                4: Sangat Sesuai
-                            </Badge>
-                        </Flex>
+                                <Badge
+                                    bg='#FF0000'
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    1: Sangat Tidak Sesuai
+                                </Badge>
+                                <Badge
+                                    bg='#FFFF00'
+                                    color={'black'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    2: Tidak Sesuai
+                                </Badge>
+                                <Badge
+                                    bg={'#FF9900'}
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    3: Sesuai
+                                </Badge>
+                                <Badge
+                                    bg={'#00FF00'}
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    4: Sangat Sesuai
+                                </Badge>
+                            </Flex>
 
-                        {analytics ? (
-                            <DefaultLineChart data={analytics} />
-                        ) : (
-                            <Text fontSize={'sm'} color={'gray.500'}>
-                                Data tidak ditemukan
-                            </Text>
-                        )}
-                    </Box>
+                            <Skeleton isLoaded={analytics}>
+                                {analytics ? (
+                                    <DefaultLineChart data={analytics} />
+                                ) : (
+                                    <Text fontSize={'sm'} color={'gray.500'}>
+                                        Data tidak ditemukan
+                                    </Text>
+                                )}
+                            </Skeleton>
+                        </Box>
+                    </PermissionMiddleware>
                 </Box>
             </Stack>
         </>

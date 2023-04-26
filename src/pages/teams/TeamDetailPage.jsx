@@ -1,7 +1,7 @@
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
-import { dateParser } from '@/helpers/dateHelper';
+import { dateParser } from '@/helpers/date-helper';
 import {
     Badge,
     Box,

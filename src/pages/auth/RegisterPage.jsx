@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import RegisterForm from './partials/RegisterForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '@/stores/thunks/authThunk';
-import { upperFirst } from '@/helpers/TextHelper';
+import { upperFirst } from '@/helpers/text-helper';
 
 const RegisterPage = () => {
     const navigate = useNavigate();

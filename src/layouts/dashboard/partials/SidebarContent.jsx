@@ -10,6 +10,7 @@ import { HiOutlineUsers } from 'react-icons/hi';
 
 import NavbarItem from './NavbarItem';
 import React from 'react';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 
 const SidebarContent = ({ onClose, ...rest }) => {
     const LinkItems = [
@@ -18,18 +19,21 @@ const SidebarContent = ({ onClose, ...rest }) => {
             icon: RxDashboard,
             to: '/dashboard',
             devider: true,
+            permision: 'view dashboard',
         },
         {
             name: 'Pimpinan',
             icon: RiUserStarLine,
             to: '/pimpinan',
             devider: false,
+            permision: 'view head menu',
         },
         {
             name: 'Anggota',
             icon: HiOutlineUsers,
             to: '/anggota',
             devider: true,
+            permision: 'view employee menu',
         },
         // { name: 'Tim', icon: FiStar, to: '/tim', devider: true },
         // {
@@ -43,6 +47,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             icon: FiSettings,
             to: '/pengaturan',
             devider: false,
+            permision: 'view settings menu',
         },
     ];
 
@@ -74,7 +79,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             </Flex>
 
             {LinkItems.map((link, index) => (
-                <React.Fragment key={index}>
+                <PermissionMiddleware key={index} permisionKey={link.permision}>
                     <NavbarItem
                         icon={link.icon}
                         link={link.to}
@@ -86,7 +91,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                     {link.devider ? (
                         <Box mx='8' my='2' h='px' bg='gray.600' />
                     ) : null}
-                </React.Fragment>
+                </PermissionMiddleware>
             ))}
         </Box>
     );

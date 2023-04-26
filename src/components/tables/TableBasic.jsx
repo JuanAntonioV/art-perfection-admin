@@ -170,7 +170,7 @@ const TableBasic = ({ columns, data, addAction }) => {
                             variant={'outline'}
                             size={'sm'}
                             onClick={() => previousPage()}
-                            disabled={!canPreviousPage}
+                            isDisabled={!canPreviousPage}
                             _hover={{
                                 bg: 'blue.400',
                                 textColor: 'white',
@@ -182,7 +182,7 @@ const TableBasic = ({ columns, data, addAction }) => {
                             variant={'outline'}
                             size={'sm'}
                             onClick={() => nextPage()}
-                            disabled={!canNextPage}
+                            isDisabled={!canNextPage}
                             _hover={{
                                 bg: 'blue.400',
                                 textColor: 'white',

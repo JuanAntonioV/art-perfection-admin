@@ -19,7 +19,7 @@ import {
     getEmployeeDetail,
     nonActiveEmployee,
 } from '@/stores/thunks/employeeThunk';
-import { dateParser } from '@/helpers/dateHelper';
+import { dateParser } from '@/helpers/date-helper';
 
 const EmployePage = () => {
     const dispatch = useDispatch();

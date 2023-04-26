@@ -1,4 +1,4 @@
-import { upperFirst } from '@/helpers/TextHelper';
+import { upperFirst } from '../../helpers/text-helper';
 import { Alert, AlertTitle } from '@chakra-ui/react';
 
 const AlertResponseError = ({ status, error, my = 0 }) => {
