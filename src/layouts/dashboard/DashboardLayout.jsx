@@ -2,12 +2,9 @@ import { Box, Drawer, DrawerContent, useDisclosure } from '@chakra-ui/react';
 import { Outlet } from 'react-router-dom';
 import SidebarContent from './partials/SidebarContent';
 import MobileNav from './partials/MobileNav';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 
 const DashboardLayout = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const user = useSelector((state) => state.auth.user);
 
     return (
         <Box minH='100vh' bg={'gray.100'}>

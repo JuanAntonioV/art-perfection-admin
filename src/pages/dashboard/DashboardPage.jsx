@@ -2,6 +2,7 @@ import {
     Badge,
     Box,
     Flex,
+    Grid,
     Heading,
     Skeleton,
     Stack,
@@ -10,13 +11,18 @@ import {
 
 import StatSection from './partials/StatSection';
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
-import { dateParser } from '@/helpers/date-helper';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUser, logout } from '@/stores/thunks/authThunk';
+import { getUser } from '@/stores/thunks/authThunk';
 import { getGlobalAnalytics } from '@/stores/thunks/analyticsThunk';
 import { logoutAction } from '@/stores/reducers/authReducer';
 import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
+import Wrapper from '@/components/wrappers/Wrapper';
+import { getAllHolidayThunk } from '@/stores/thunks/holidayThunk';
+import TableBasic from '@/components/tables/TableBasic';
+import { dateParser } from '@/helpers/date-helper';
+import VoteSection from './partials/VoteSection';
+import HolidaySection from '@/layouts/dashboard/partials/HolidaySection';
 
 const DashboardPage = () => {
     // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
@@ -67,11 +73,12 @@ const DashboardPage = () => {
     // }, []);
 
     const dispatch = useDispatch();
-    const { analytics, status } = useSelector((state) => state.analytics);
+    const { analytics } = useSelector((state) => state.analytics);
     const token = useSelector((state) => state.auth.token);
 
     useEffect(() => {
         dispatch(getGlobalAnalytics(token));
+        dispatch(getAllHolidayThunk(token));
     }, [dispatch]);
 
     useEffect(() => {
@@ -105,6 +112,17 @@ const DashboardPage = () => {
                 <PermissionMiddleware permisionKey={'view stats'}>
                     <StatSection />
                 </PermissionMiddleware>
+
+                <Grid
+                    templateColumns={{
+                        base: 'repeat(1, 1fr)',
+                        md: 'repeat(2, 1fr)',
+                    }}
+                    gap={6}
+                >
+                    <VoteSection />
+                    <HolidaySection />
+                </Grid>
 
                 <Box bg={'white'} p={6} rounded={'lg'}>
                     <Stack

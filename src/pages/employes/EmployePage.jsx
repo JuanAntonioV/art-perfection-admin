@@ -26,7 +26,6 @@ const EmployePage = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedEmployee, serSelectedEmployee] = useState(null);
     const employes = useSelector((state) => state.employes.employes);
-    const status = useSelector((state) => state.employes.status);
     const token = useSelector((state) => state.auth.token);
 
     const navigate = useNavigate();
