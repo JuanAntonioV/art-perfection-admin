@@ -1,5 +1,9 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import Wrapper from '@/components/wrappers/Wrapper';
+import {
+    getGlobalAnalytics,
+    getUserAnalytics,
+} from '@/stores/thunks/analyticsThunk';
 import { createVote } from '@/stores/thunks/voteThunk';
 import {
     Button,
@@ -82,7 +86,14 @@ const VoteSection = () => {
         };
 
         dispatch(createVote(payload)).then((res) => {
+            const payloadAnalytics = {
+                id: user?.id,
+                token: token,
+            };
+
             onClose();
+            dispatch(getGlobalAnalytics(token));
+            dispatch(getUserAnalytics(payloadAnalytics));
         });
     };
 
