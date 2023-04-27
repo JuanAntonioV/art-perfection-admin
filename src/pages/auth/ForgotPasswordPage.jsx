@@ -15,7 +15,7 @@ import {
     Link as ChakraLink,
     Text,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
@@ -24,9 +24,9 @@ const ForgotPasswordPage = () => {
 
     const [email, setEmail] = useState('');
     const [isSending, setIsSending] = useState(false);
+    const [successSend, setSuccessSend] = useState('');
 
-    const error = useSelector((state) => state.auth.error);
-    const status = useSelector((state) => state.auth.status);
+    const { status, error } = useSelector((state) => state.auth);
     const expiredAt = useSelector((state) => state.auth.forgotPassword.expires);
 
     const handleChange = (e) => {
@@ -48,9 +48,16 @@ const ForgotPasswordPage = () => {
         };
 
         dispatch(forgotPassword(payload)).then((res) => {
-            if (res.payload.data.code === 200) setIsSending(true);
+            if (res.payload.code === 200) {
+                setIsSending(true);
+                setSuccessSend('success');
+            }
         });
     };
+
+    useEffect(() => {
+        console.log(successSend);
+    }, [successSend]);
 
     return (
         <AuthLayout>
@@ -68,7 +75,7 @@ const ForgotPasswordPage = () => {
 
                     <AlertResponseError status={status} error={error} />
                     <AlertResponseInfo
-                        status={status}
+                        status={successSend}
                         info={'Link berhasil dikirim'}
                     />
 
