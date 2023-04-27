@@ -23,7 +23,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const DetailEmployee = () => {
     const dispatch = useDispatch();
     const employee = useSelector((state) => state.employes.employee);
-    const token = useSelector((state) => state.auth.token);
+    const { user, token } = useSelector((state) => state.auth);
     const error = useSelector((state) => state.employes.error);
     const status = useSelector((state) => state.employes.status);
     const navigate = useNavigate();
@@ -112,7 +112,7 @@ const DetailEmployee = () => {
                         <Input
                             type='text'
                             maxLength={45}
-                            isDisabled={!value.role}
+                            isDisabled={!value.role || user.role !== 'admin'}
                             name='name'
                             value={value.name}
                             onChange={handleChange}
@@ -126,7 +126,7 @@ const DetailEmployee = () => {
                             type='email'
                             maxLength={45}
                             required
-                            isDisabled={!value.role}
+                            isDisabled={!value.role || user.role !== 'admin'}
                             name='email'
                             value={value.email}
                             onChange={handleChange}
@@ -150,7 +150,7 @@ const DetailEmployee = () => {
                         <Select
                             placeholder='Pilih role'
                             name={'role'}
-                            isDisabled={!value.role}
+                            isDisabled={!value.role || user.role !== 'admin'}
                             value={
                                 value.role === 'employee' || value.role === '3'
                                     ? '3'
@@ -227,21 +227,23 @@ const DetailEmployee = () => {
                     </Box>
 
                     <Box>
-                        <Button
-                            type='submit'
-                            colorScheme='blue'
-                            w={'full'}
-                            size={'md'}
-                            mt={6}
-                            isDisabled={
-                                !value.role ||
-                                (value.name === employee?.full_name &&
-                                    value.email === employee?.email &&
-                                    value.role === employee?.role)
-                            }
-                        >
-                            Simpan
-                        </Button>
+                        {user.role !== 'admin' ? null : (
+                            <Button
+                                type='submit'
+                                colorScheme='blue'
+                                w={'full'}
+                                size={'md'}
+                                mt={6}
+                                isDisabled={
+                                    !value.role ||
+                                    (value.name === employee?.full_name &&
+                                        value.email === employee?.email &&
+                                        value.role === employee?.role)
+                                }
+                            >
+                                Simpan
+                            </Button>
+                        )}
                     </Box>
                 </Stack>
             </form>

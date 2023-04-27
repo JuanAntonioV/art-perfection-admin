@@ -131,7 +131,7 @@ const ChangeProfile = () => {
                                         px={4}
                                         rounded={'md'}
                                     >
-                                        Employee
+                                        Anggota
                                     </Badge>
                                 ) : user?.role === 'head' ? (
                                     <Badge
@@ -141,7 +141,7 @@ const ChangeProfile = () => {
                                         px={4}
                                         rounded={'md'}
                                     >
-                                        Head
+                                        Pimpinan
                                     </Badge>
                                 ) : (
                                     <Badge

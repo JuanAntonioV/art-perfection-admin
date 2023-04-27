@@ -20,6 +20,7 @@ import {
     nonActiveEmployee,
 } from '@/stores/thunks/employeeThunk';
 import { dateParser } from '@/helpers/date-helper';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 
 const EmployePage = () => {
     const dispatch = useDispatch();
@@ -108,34 +109,42 @@ const EmployePage = () => {
                 registeredAt: dateParser(employe.registered_at),
                 action: (
                     <Box>
-                        <IconButton
-                            size='sm'
-                            textColor={'blue.400'}
-                            bg={'transparent'}
-                            _hover={{
-                                bg: 'blue.400',
-                                textColor: 'white',
-                            }}
-                            onClick={() => handleViewDetail(employe.id)}
+                        <PermissionMiddleware
+                            permisionKey={'view employee detail action'}
                         >
-                            <TbUserSearch size={20} />
-                        </IconButton>
-                        <IconButton
-                            size='sm'
-                            ml={2}
-                            textColor={'red'}
-                            bg={'transparent'}
-                            _hover={{
-                                bg: 'red',
-                                textColor: 'white',
-                            }}
-                            onClick={() => {
-                                serSelectedEmployee(employe);
-                                onOpen();
-                            }}
+                            <IconButton
+                                size='sm'
+                                textColor={'blue.400'}
+                                bg={'transparent'}
+                                _hover={{
+                                    bg: 'blue.400',
+                                    textColor: 'white',
+                                }}
+                                onClick={() => handleViewDetail(employe.id)}
+                            >
+                                <TbUserSearch size={20} />
+                            </IconButton>
+                        </PermissionMiddleware>
+                        <PermissionMiddleware
+                            permisionKey={'nonactive employee action'}
                         >
-                            <TiWarningOutline size={20} />
-                        </IconButton>
+                            <IconButton
+                                size='sm'
+                                ml={2}
+                                textColor={'red'}
+                                bg={'transparent'}
+                                _hover={{
+                                    bg: 'red',
+                                    textColor: 'white',
+                                }}
+                                onClick={() => {
+                                    serSelectedEmployee(employe);
+                                    onOpen();
+                                }}
+                            >
+                                <TiWarningOutline size={20} />
+                            </IconButton>
+                        </PermissionMiddleware>
                     </Box>
                 ),
             };

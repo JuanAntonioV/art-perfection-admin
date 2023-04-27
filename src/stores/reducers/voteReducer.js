@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createVote } from '../thunks/voteThunk';
+import { checkHeadCanVote, createVote } from '../thunks/voteThunk';
 
 const initialState = {
     votes: [],
@@ -9,7 +9,7 @@ const initialState = {
 };
 
 const voteSlice = createSlice({
-    name: 'votes',
+    name: 'vote',
     initialState,
     reducers: {},
     extraReducers(builder) {
@@ -22,6 +22,19 @@ const voteSlice = createSlice({
                 state.status = 'success';
             })
             .addCase(createVote.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // checkHeadCanVote
+        builder
+            .addCase(checkHeadCanVote.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(checkHeadCanVote.fulfilled, (state, action) => {
+                state.status = 'success';
+            })
+            .addCase(checkHeadCanVote.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

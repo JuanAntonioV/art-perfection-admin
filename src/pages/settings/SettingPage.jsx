@@ -50,6 +50,7 @@ const SettingPage = () => {
         };
 
         dispatch(createHolidayThunk(payload)).then((res) => {
+            console.log(res);
             if (res.payload?.code === 200) {
                 setForm({ title: '', description: '', date: '' });
                 dispatch(getAllHolidayThunk(token));
@@ -152,7 +153,18 @@ const SettingPage = () => {
                         'Pengaturan ini untuk menambahkan hari libur pada sistem.'
                     }
                 >
-                    <AlertResponseError status={status} error={error} my={4} />
+                    <AlertResponseError
+                        status={status}
+                        error={
+                            error?.message.includes('SQLSTATE[23000]')
+                                ? {
+                                      message:
+                                          'Data hari libur sudah ada pada sistem.',
+                                  }
+                                : error
+                        }
+                        my={4}
+                    />
 
                     <form onSubmit={handleSubmit}>
                         <Stack spacing={4}>

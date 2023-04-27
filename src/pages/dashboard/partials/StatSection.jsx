@@ -24,7 +24,7 @@ const StatSection = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
 
-    const { stats, status } = useSelector((state) => state.stat);
+    const { stats } = useSelector((state) => state.stat);
 
     useEffect(() => {
         dispatch(getStats(token));
@@ -44,11 +44,9 @@ const StatSection = () => {
                             alignItems={'center'}
                         >
                             <Stack spacing={1}>
-                                <StatLabel>Total Tim</StatLabel>
-                                <StatNumber>{stats.total_teams}</StatNumber>
-                                <StatHelpText>
-                                    Dari semua tim aktif
-                                </StatHelpText>
+                                <StatLabel>Total Users</StatLabel>
+                                <StatNumber>{stats.total_users}</StatNumber>
+                                <StatHelpText>Dari semua pengguna</StatHelpText>
                             </Stack>
 
                             <Box

@@ -1,14 +1,14 @@
 import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { getUserAnalytics } from '@/stores/thunks/analyticsThunk';
-import { Badge, Box, Flex, Text } from '@chakra-ui/react';
+import { Badge, Box, Flex, Skeleton, Text } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const EmployeeAnalytics = () => {
     const dispatch = useDispatch();
-    const analytics = useSelector((state) => state.analytics.userAnalytics);
+    const userAnalytics = useSelector((state) => state.analytics.userAnalytics);
     const token = useSelector((state) => state.auth.token);
 
     const { id } = useParams();
@@ -81,8 +81,10 @@ const EmployeeAnalytics = () => {
                     </Badge>
                 </Flex>
 
-                {analytics ? (
-                    <DefaultLineChart data={analytics} />
+                {userAnalytics.length > 0 ? (
+                    <Skeleton isLoaded={userAnalytics}>
+                        <DefaultLineChart data={userAnalytics} />
+                    </Skeleton>
                 ) : (
                     <Text fontSize={'sm'} color={'gray.500'}>
                         Data tidak ditemukan

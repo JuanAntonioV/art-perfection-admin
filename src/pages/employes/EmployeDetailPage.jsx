@@ -2,6 +2,8 @@ import { Grid, Stack } from '@chakra-ui/react';
 import DetailEmployee from './partials/DetailEmployee';
 import ChangeEmployeePassword from './partials/ChangeEmployeePassword';
 import EmployeeAnalytics from './partials/EmployeeAnalytics';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
+import VoteSection from '../dashboard/partials/VoteSection';
 
 const EmployeDetailPage = () => {
     return (
@@ -13,12 +15,24 @@ const EmployeDetailPage = () => {
                 }}
                 gap={4}
             >
+                <PermissionMiddleware
+                    roleKeyException={'admin'}
+                    permisionKey={'view employee vote section'}
+                >
+                    <VoteSection />
+                </PermissionMiddleware>
                 <DetailEmployee />
 
-                <ChangeEmployeePassword />
+                <PermissionMiddleware
+                    permisionKey={'view employee change password'}
+                >
+                    <ChangeEmployeePassword />
+                </PermissionMiddleware>
             </Grid>
 
-            <EmployeeAnalytics />
+            <PermissionMiddleware permisionKey={'view employee activities'}>
+                <EmployeeAnalytics />
+            </PermissionMiddleware>
         </Stack>
     );
 };

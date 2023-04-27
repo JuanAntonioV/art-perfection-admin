@@ -6,5 +6,14 @@ export const createVoteApi = async (token, data) => {
             Authorization: token,
         },
     });
-    return response.data;
+    return response;
+};
+
+export const checkHeadCanVoteApi = async (token, data) => {
+    const response = await api.post('/vote/check', data, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
 };

@@ -83,9 +83,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
                                 >
                                     <Text fontSize='sm'>{user?.full_name}</Text>
                                     <Text fontSize='xs' color='gray.600'>
-                                        {user?.role?.length > 0
-                                            ? upperFirst(user?.role)
-                                            : ''}
+                                        {user?.role === 'admin'
+                                            ? 'Administrator'
+                                            : user?.role === 'head'
+                                            ? 'Pimpinan'
+                                            : user?.role === 'anggota'
+                                            ? 'Anggota'
+                                            : 'Pengguna'}
                                     </Text>
                                 </VStack>
                                 <Box display={{ base: 'none', md: 'flex' }}>
