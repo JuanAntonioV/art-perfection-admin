@@ -14,7 +14,10 @@ import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '@/stores/thunks/authThunk';
-import { getGlobalAnalytics } from '@/stores/thunks/analyticsThunk';
+import {
+    getGlobalAnalytics,
+    getUserAnalytics,
+} from '@/stores/thunks/analyticsThunk';
 import { logoutAction } from '@/stores/reducers/authReducer';
 import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 import Wrapper from '@/components/wrappers/Wrapper';
@@ -74,10 +77,20 @@ const DashboardPage = () => {
 
     const dispatch = useDispatch();
     const { analytics } = useSelector((state) => state.analytics);
-    const token = useSelector((state) => state.auth.token);
+    const { token, user } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        dispatch(getGlobalAnalytics(token));
+        const payload = {
+            id: user?.id,
+            token: token,
+        };
+
+        if (user?.role === 'employee') {
+            dispatch(getUserAnalytics(payload));
+        } else {
+            dispatch(getGlobalAnalytics(token));
+        }
+
         dispatch(getAllHolidayThunk(token));
     }, [dispatch]);
 
@@ -124,24 +137,24 @@ const DashboardPage = () => {
                     <HolidaySection />
                 </Grid>
 
-                <Box bg={'white'} p={6} rounded={'lg'}>
-                    <Stack
-                        spacing={1}
-                        borderBottom={'1px'}
-                        borderColor={'gray.200'}
-                        pb={4}
-                    >
-                        <Heading as='h3' size='md'>
-                            Dashboard
-                        </Heading>
+                <PermissionMiddleware permisionKey={'view dashboard chart'}>
+                    <Box bg={'white'} p={6} rounded={'lg'}>
+                        <Stack
+                            spacing={1}
+                            borderBottom={'1px'}
+                            borderColor={'gray.200'}
+                            pb={4}
+                        >
+                            <Heading as='h3' size='md'>
+                                Dashboard
+                            </Heading>
 
-                        <Text fontSize={'sm'} color={'gray.500'}>
-                            Menu ini berisi informasi mengenai data yang ada
-                            pada votes system.
-                        </Text>
-                    </Stack>
+                            <Text fontSize={'sm'} color={'gray.500'}>
+                                Menu ini berisi informasi mengenai data yang ada
+                                pada votes system.
+                            </Text>
+                        </Stack>
 
-                    <PermissionMiddleware permisionKey={'view dashboard chart'}>
                         <Box mt={6}>
                             <Flex
                                 flexDirection={{ base: 'column', lg: 'row' }}
@@ -206,8 +219,95 @@ const DashboardPage = () => {
                                 )}
                             </Skeleton>
                         </Box>
-                    </PermissionMiddleware>
-                </Box>
+                    </Box>
+                </PermissionMiddleware>
+
+                <PermissionMiddleware
+                    permisionKey={'view dashboard user chart'}
+                >
+                    <Box bg={'white'} p={6} rounded={'lg'}>
+                        <Stack
+                            spacing={1}
+                            borderBottom={'1px'}
+                            borderColor={'gray.200'}
+                            pb={4}
+                        >
+                            <Heading as='h3' size='md'>
+                                Dashboard
+                            </Heading>
+
+                            <Text fontSize={'sm'} color={'gray.500'}>
+                                Menu ini berisi informasi mengenai data yang ada
+                                pada votes system.
+                            </Text>
+                        </Stack>
+
+                        <Box mt={6}>
+                            <Flex
+                                flexDirection={{ base: 'column', lg: 'row' }}
+                                justifyContent='start'
+                                align={{ base: 'start', md: 'center' }}
+                                gap={2}
+                                mb={5}
+                            >
+                                <Badge
+                                    bg='#FF0000'
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    1: Sangat Tidak Sesuai
+                                </Badge>
+                                <Badge
+                                    bg='#FFFF00'
+                                    color={'black'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    2: Tidak Sesuai
+                                </Badge>
+                                <Badge
+                                    bg={'#FF9900'}
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    3: Sesuai
+                                </Badge>
+                                <Badge
+                                    bg={'#00FF00'}
+                                    color={'white'}
+                                    rounded={'sm'}
+                                    px={4}
+                                    py={1}
+                                    w={{ base: 'auto', md: '100%', lg: 'auto' }}
+                                    textAlign={{ base: 'left', md: 'center' }}
+                                >
+                                    4: Sangat Sesuai
+                                </Badge>
+                            </Flex>
+
+                            {analytics ? (
+                                <Skeleton isLoaded={analytics}>
+                                    <DefaultLineChart data={analytics} />
+                                </Skeleton>
+                            ) : (
+                                <Text fontSize={'sm'} color={'gray.500'}>
+                                    Data tidak ditemukan
+                                </Text>
+                            )}
+                        </Box>
+                    </Box>
+                </PermissionMiddleware>
             </Stack>
         </>
     );

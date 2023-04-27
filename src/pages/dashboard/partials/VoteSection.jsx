@@ -94,6 +94,12 @@ const VoteSection = () => {
             onClose();
             dispatch(getGlobalAnalytics(token));
             dispatch(getUserAnalytics(payloadAnalytics));
+            setKehadiran(1);
+            setKedisiplinan(1);
+            setKemandirian(1);
+            setMenerimaSaran(1);
+            setKetepatanKerja(1);
+            setProgressKerja(1);
         });
     };
 

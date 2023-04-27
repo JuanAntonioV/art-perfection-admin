@@ -1,4 +1,3 @@
-import { Skeleton } from '@chakra-ui/react';
 import { useSelector } from 'react-redux';
 
 const PermissionMiddleware = ({ children, permisionKey }) => {
@@ -14,7 +13,7 @@ const PermissionMiddleware = ({ children, permisionKey }) => {
         }
     }
 
-    return <Skeleton isLoaded={false}>{children}</Skeleton>;
+    return null;
 };
 
 export default PermissionMiddleware;
