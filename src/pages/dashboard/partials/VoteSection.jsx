@@ -68,7 +68,7 @@ const VoteSection = () => {
                 });
             }
         }
-    }, [dispatch, userId, user]);
+    }, [userId, user]);
 
     const handlePostVote = () => {
         // get the today date in Indonesia with format yyyy-mm-dd
