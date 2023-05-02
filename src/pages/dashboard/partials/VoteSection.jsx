@@ -71,21 +71,8 @@ const VoteSection = () => {
     }, [userId, user]);
 
     const handlePostVote = () => {
-        // get the today date in Indonesia with format yyyy-mm-dd
-        const toDayDate = new Date().toLocaleDateString('id-ID');
-
-        // make toDayDate format to 2023-01-01
-        const toDayDateString = toDayDate
-            .split('/')
-            .reverse()
-            .join('-')
-            .replace('/', '-');
-
-        // if the date is 1-9, make it to 01-09
-        const toDayDateFormatted =
-            toDayDateString.length === 9
-                ? toDayDateString.replace('-', '-0')
-                : toDayDateString;
+        const date = new Date(Date.now());
+        const toDayDateFormatted = date.toISOString().split('T')[0];
 
         const payload = {
             // if user is employee, get the user id from user, else get the user id from url params
