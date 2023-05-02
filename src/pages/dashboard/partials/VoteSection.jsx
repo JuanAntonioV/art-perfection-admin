@@ -490,7 +490,7 @@ const VoteSection = () => {
                                         fontWeight={'bold'}
                                         textColor={'blue.500'}
                                     >
-                                        Terima kasih telah memberikan penilaian!
+                                        Tidak dapat memberikan penilaian!
                                     </Text>
 
                                     <Text
