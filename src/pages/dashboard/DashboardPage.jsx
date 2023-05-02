@@ -96,9 +96,11 @@ const DashboardPage = () => {
         } else if (user?.role === 'admin') {
             dispatch(getGlobalAnalytics(token));
         }
+    }, [user]);
 
+    useEffect(() => {
         dispatch(getAllHolidayThunk(token));
-    }, [dispatch, user]);
+    }, [token]);
 
     useEffect(() => {
         dispatch(getUser(token)).then((res) => {
