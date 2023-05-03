@@ -1,6 +1,11 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
-import { getTeams } from '@/stores/thunks/teamsThunk';
+import { dateParser } from '@/helpers/date-helper';
+import {
+    deleteTeam,
+    getTeamDetails,
+    getTeams,
+} from '@/stores/thunks/teamsThunk';
 import {
     Badge,
     Box,
@@ -24,16 +29,29 @@ const TeamPage = () => {
     const [teamId, setTeamId] = useState(null);
 
     const handleDelete = (id) => {
-        console.log('ID teams', id);
+        const payload = {
+            token: token,
+            teamId: id,
+        };
+
+        dispatch(deleteTeam(payload)).then((res) => {
+            res.payload.status ? dispatch(getTeams(token)) : null;
+        });
     };
 
     const handleViewDetail = (id) => {
-        console.log('ID teams', id);
-        navigate(`/teams/${id}`);
+        const payload = {
+            token: token,
+            teamId: id,
+        };
+
+        dispatch(getTeamDetails(payload)).then(() => {
+            navigate(`/teams/${id}`);
+        });
     };
 
     const handleAdd = () => {
-        navigate('/tim/create');
+        navigate('/teams/create');
     };
 
     const teams = useSelector((state) => state.team.teams);
@@ -79,9 +97,9 @@ const TeamPage = () => {
             return {
                 count: count++,
                 name: team.name,
-                head: team.head,
-                employeeTotal: team.employeeTotal + ' Orang',
-                createdAt: team.createdAt,
+                head: team.head_name,
+                employeeTotal: team.total_user + ' Orang',
+                createdAt: dateParser(team.created_at),
                 action: (
                     <Box>
                         <IconButton

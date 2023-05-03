@@ -30,7 +30,7 @@ import {
 } from 'react-table';
 import TableNoData from '../handlers/TableNoData';
 
-const TableBasic = ({ columns, data, addAction }) => {
+const TableBasic = ({ columns, data, addAction, noFilter }) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -61,10 +61,12 @@ const TableBasic = ({ columns, data, addAction }) => {
     return (
         <TableContainer mt={4} pb={6}>
             <Flex align={'center'} justify={'end'} mb={4} gap={2}>
-                <GlobalFilter
-                    filter={globalFilter}
-                    setFilter={setGlobalFilter}
-                />
+                {noFilter ? null : (
+                    <GlobalFilter
+                        filter={globalFilter}
+                        setFilter={setGlobalFilter}
+                    />
+                )}
 
                 {addAction ? (
                     <Button
@@ -169,7 +171,7 @@ const TableBasic = ({ columns, data, addAction }) => {
                         <IconButton
                             variant={'outline'}
                             size={'sm'}
-                            onClick={() => previousPage()}
+                            onClick={previousPage}
                             isDisabled={!canPreviousPage}
                             _hover={{
                                 bg: 'blue.400',
@@ -181,7 +183,7 @@ const TableBasic = ({ columns, data, addAction }) => {
                         <IconButton
                             variant={'outline'}
                             size={'sm'}
-                            onClick={() => nextPage()}
+                            onClick={nextPage}
                             isDisabled={!canNextPage}
                             _hover={{
                                 bg: 'blue.400',

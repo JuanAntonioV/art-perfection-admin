@@ -18,7 +18,7 @@ const NavbarItem = ({ icon, children, link, onClick, ...rest }) => {
                 role='group'
                 cursor='pointer'
                 _hover={{
-                    bg: 'blue.400',
+                    bg: '#b28c64',
                     color: 'white',
                 }}
                 {...rest}

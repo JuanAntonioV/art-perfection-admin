@@ -1,16 +1,18 @@
-import { Box, CloseButton, Flex, Text } from '@chakra-ui/react';
+import { Box, CloseButton, Flex, Image, Text } from '@chakra-ui/react';
 import {
     FiStar,
     RxDashboard,
     RiUserStarLine,
     FiSettings,
+    TbBrandGoogleAnalytics,
 } from 'react-icons/all';
 
 import { HiOutlineUsers } from 'react-icons/hi';
 
 import NavbarItem from './NavbarItem';
-import React from 'react';
 import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
+
+import Logo from '@/assets/logo.png';
 
 const SidebarContent = ({ onClose, ...rest }) => {
     const LinkItems = [
@@ -22,30 +24,37 @@ const SidebarContent = ({ onClose, ...rest }) => {
             permision: 'view dashboard',
         },
         {
-            name: 'Pimpinan',
+            name: 'Head',
             icon: RiUserStarLine,
-            to: '/pimpinan',
+            to: '/head',
             devider: false,
             permision: 'view head menu',
         },
         {
-            name: 'Anggota',
+            name: 'Employee',
             icon: HiOutlineUsers,
-            to: '/anggota',
-            devider: true,
+            to: '/employee',
+            devider: false,
             permision: 'view employee menu',
         },
-        // { name: 'Tim', icon: FiStar, to: '/tim', devider: true },
-        // {
-        //     name: 'Analitics',
-        //     icon: TbBrandGoogleAnalytics,
-        //     to: '/analitics',
-        //     devider: true,
-        // },
         {
-            name: 'Pengaturan',
+            name: 'Teams',
+            icon: FiStar,
+            to: '/teams',
+            devider: false,
+            permision: 'view teams menu',
+        },
+        {
+            name: 'Analytics',
+            icon: TbBrandGoogleAnalytics,
+            to: '/analytics',
+            devider: true,
+            permision: 'view analytics menu',
+        },
+        {
+            name: 'Settings',
             icon: FiSettings,
-            to: '/pengaturan',
+            to: '/settings',
             devider: false,
             permision: 'view settings menu',
         },
@@ -67,11 +76,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
                 h='20'
                 alignItems='center'
                 mx='8'
+                mb={{ base: '0', md: '4' }}
                 justifyContent='space-between'
             >
-                <Text fontSize='2xl' fontFamily='monospace' fontWeight='bold'>
-                    AP Group
-                </Text>
+                <Box
+                    display={{ base: 'flex' }}
+                    flex={{ base: 1 }}
+                    justifyContent={{ base: 'center' }}
+                >
+                    <Image src={Logo} alt='AP Group' w={12} />
+                </Box>
                 <CloseButton
                     display={{ base: 'flex', md: 'none' }}
                     onClick={onClose}

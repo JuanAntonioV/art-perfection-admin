@@ -25,7 +25,7 @@ import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 const EmployePage = () => {
     const dispatch = useDispatch();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [selectedEmployee, serSelectedEmployee] = useState(null);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
     const employes = useSelector((state) => state.employes.employes);
     const token = useSelector((state) => state.auth.token);
 
@@ -38,7 +38,7 @@ const EmployePage = () => {
         };
 
         dispatch(getEmployeeDetail(payload)).then((res) => {
-            res.payload.code === 200 && navigate(`/anggota/${id}`);
+            res.payload.code === 200 && navigate(`/employee/${id}`);
         });
     };
 
@@ -138,7 +138,7 @@ const EmployePage = () => {
                                     textColor: 'white',
                                 }}
                                 onClick={() => {
-                                    serSelectedEmployee(employe);
+                                    setSelectedEmployee(employe);
                                     onOpen();
                                 }}
                             >

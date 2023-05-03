@@ -60,7 +60,7 @@ const DetailHead = () => {
         dispatch(updateHead(payload)).then((res) => {
             if (res.payload.status) {
                 handleFetchHead();
-                navigate('/pimpinan');
+                navigate('/employee');
             }
         });
     };

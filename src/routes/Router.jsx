@@ -18,6 +18,7 @@ import TeamCreatePage from '@/pages/teams/TeamCreatePage';
 import EmployeDetailPage from '@/pages/employes/EmployeDetailPage';
 import { Authenticated, Guest } from './middleware/AuthMiddleware';
 import HeadDetailPage from '@/pages/heads/HeadDetailPage';
+import AnalyticPage from '@/pages/analytics/AnalyticPage';
 
 const Router = () => {
     return (
@@ -66,20 +67,22 @@ const Router = () => {
                 <Route path='dashboard' Component={DashboardPage} />
 
                 {/* Anggota */}
-                <Route path='anggota' Component={EmployePage} />
-                <Route path='anggota/:id' Component={EmployeDetailPage} />
+                <Route path='employee' Component={EmployePage} />
+                <Route path='employee/:id' Component={EmployeDetailPage} />
 
                 {/* Pimpinan */}
-                <Route path='pimpinan' Component={HeadPage} />
-                <Route path='pimpinan/:id' Component={HeadDetailPage} />
+                <Route path='head' Component={HeadPage} />
+                <Route path='head/:id' Component={HeadDetailPage} />
 
                 {/* Tim */}
-                {/* <Route path='tim' Component={TeamPage} />
-                <Route path='tim/:id' Component={TeamDetailPage} />
-                <Route path='tim/create' Component={TeamCreatePage} /> */}
+                <Route path='teams' Component={TeamPage} />
+                <Route path='teams/:id' Component={TeamDetailPage} />
+                <Route path='teams/create' Component={TeamCreatePage} />
 
-                <Route path='pengaturan' Component={SettingPage} />
-                <Route path='profil' Component={ProfilePage} />
+                <Route path='settings' Component={SettingPage} />
+                <Route path='profile' Component={ProfilePage} />
+
+                <Route path='analytics' Component={AnalyticPage} />
             </Route>
 
             <Route path='*' Component={NotFound} />

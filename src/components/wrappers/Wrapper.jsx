@@ -1,8 +1,8 @@
 import { Box, Heading, Stack, Text } from '@chakra-ui/react';
 
-const Wrapper = ({ children, title, description }) => {
+const Wrapper = ({ children, title, description, ...rest }) => {
     return (
-        <Box bg={'white'} p={6} rounded={'lg'} h={'fit-content'}>
+        <Box bg={'white'} p={6} rounded={'lg'} h={'fit-content'} {...rest}>
             <Stack
                 spacing={1}
                 borderBottom={'1px'}
