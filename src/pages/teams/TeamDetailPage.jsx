@@ -3,6 +3,7 @@ import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { dateParser } from '@/helpers/date-helper';
+import { getEmployeeDetail } from '@/stores/thunks/employeeThunk';
 import {
     assignUserToTeam,
     getTeamDetails,
@@ -25,12 +26,14 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
+import { TbUserSearch } from 'react-icons/tb';
 import { TiTrash, TiWarningOutline } from 'react-icons/ti';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const TeamDetailPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { id: teamId } = useParams();
     const token = useSelector((state) => state.auth.token);
     const [isEdit, setIsEdit] = useState(false);
@@ -132,6 +135,17 @@ const TeamDetailPage = () => {
         []
     );
 
+    const handleViewDetail = (id) => {
+        const payload = {
+            id: id,
+            token: token,
+        };
+
+        dispatch(getEmployeeDetail(payload)).then((res) => {
+            res.payload.code === 200 && navigate(`/employee/${id}`);
+        });
+    };
+
     const data = useMemo(() => {
         const userTeam = team ? team.users : [];
 
@@ -143,6 +157,18 @@ const TeamDetailPage = () => {
                       email: user.email,
                       action: (
                           <Box>
+                              <IconButton
+                                  size='sm'
+                                  textColor={'blue.400'}
+                                  bg={'transparent'}
+                                  _hover={{
+                                      bg: 'blue.400',
+                                      textColor: 'white',
+                                  }}
+                                  onClick={() => handleViewDetail(user.id)}
+                              >
+                                  <TbUserSearch size={20} />
+                              </IconButton>
                               <IconButton
                                   size='sm'
                                   ml={2}

@@ -137,11 +137,29 @@ const DashboardPage = () => {
                     <StatSection />
                 </PermissionMiddleware>
 
-                {user?.role !== 'admin' ? (
+                <PermissionMiddleware
+                    permisionKey={'view today user voted list'}
+                >
                     <Grid
                         templateColumns={{
                             base: 'repeat(1, 1fr)',
                             md: 'repeat(2, 1fr)',
+                        }}
+                        gap={6}
+                    >
+                        <DataNoVoteSection />
+                        <DataVoteSection />
+                    </Grid>
+                </PermissionMiddleware>
+
+                {user?.role !== 'admin' ? (
+                    <Grid
+                        templateColumns={{
+                            base: 'repeat(1, 1fr)',
+                            md:
+                                user?.role === 'employee'
+                                    ? 'repeat(2, 1fr)'
+                                    : 'repeat(1, 1fr)',
                         }}
                         gap={6}
                     >
@@ -159,21 +177,6 @@ const DashboardPage = () => {
                         </PermissionMiddleware>
                     </Grid>
                 ) : null}
-
-                <PermissionMiddleware
-                    permisionKey={'view today user voted list'}
-                >
-                    <Grid
-                        templateColumns={{
-                            base: 'repeat(1, 1fr)',
-                            md: 'repeat(2, 1fr)',
-                        }}
-                        gap={6}
-                    >
-                        <DataNoVoteSection />
-                        <DataVoteSection />
-                    </Grid>
-                </PermissionMiddleware>
 
                 <MotivationSection />
 
