@@ -26,6 +26,7 @@ import HolidaySection from '@/pages/dashboard/partials/HolidaySection';
 import MotivationSection from '@/pages/dashboard/partials/MotivationSection';
 import DataVoteSection from './partials/DataVoteSection';
 import DataNoVoteSection from './partials/DataNoVoteSection';
+import { getAllUserVotedToday } from '@/stores/thunks/voteThunk';
 
 const DashboardPage = () => {
     // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
@@ -104,7 +105,7 @@ const DashboardPage = () => {
         dispatch(getUser(token)).then((res) => {
             if (res.payload.code === 401) dispatch(logoutAction(token));
         });
-    }, [dispatch]);
+    }, [token]);
 
     // const indicators = [
     //     {
@@ -124,6 +125,10 @@ const DashboardPage = () => {
     //         value: 4,
     //     },
     // ];
+
+    useEffect(() => {
+        dispatch(getAllUserVotedToday(token));
+    }, [token]);
 
     return (
         <>
@@ -155,16 +160,20 @@ const DashboardPage = () => {
                     </Grid>
                 ) : null}
 
-                <Grid
-                    templateColumns={{
-                        base: 'repeat(1, 1fr)',
-                        md: 'repeat(2, 1fr)',
-                    }}
-                    gap={6}
+                <PermissionMiddleware
+                    permisionKey={'view today user voted list'}
                 >
-                    <DataNoVoteSection />
-                    <DataVoteSection />
-                </Grid>
+                    <Grid
+                        templateColumns={{
+                            base: 'repeat(1, 1fr)',
+                            md: 'repeat(2, 1fr)',
+                        }}
+                        gap={6}
+                    >
+                        <DataNoVoteSection />
+                        <DataVoteSection />
+                    </Grid>
+                </PermissionMiddleware>
 
                 <MotivationSection />
 

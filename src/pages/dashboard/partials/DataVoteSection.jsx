@@ -2,43 +2,17 @@ import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { dateParser } from '@/helpers/date-helper';
 import { Badge } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
+import { useSelector } from 'react-redux';
 
 export default function DataVoteSection() {
-    const [employeVote, setEmployeVote] = useState([
-        {
-            id: 1,
-            full_name: 'Rizky',
-            status: true,
-            date: '2023-05-02',
-        },
-        {
-            id: 2,
-            full_name: 'Rizky',
-            status: true,
-            date: '2023-05-02',
-        },
-        {
-            id: 3,
-            full_name: 'Rizky',
-            status: true,
-            date: '2023-05-02',
-        },
-        {
-            id: 4,
-            full_name: 'Rizky',
-            status: true,
-            date: '2023-05-02',
-        },
-        {
-            id: 5,
-            full_name: 'Rizky',
-            status: true,
-            date: '2023-05-02',
-        },
-    ]);
+    const { userVoted } = useSelector((state) => state.vote);
+
+    useEffect(() => {
+        console.log('userVoted', userVoted);
+    }, [userVoted]);
 
     const columns = useMemo(
         () => [
@@ -63,30 +37,30 @@ export default function DataVoteSection() {
     );
 
     const data = useMemo(() => {
-        return employeVote.map((employe) => {
+        return userVoted.map((user) => {
             return {
-                id: employe.id,
-                name: employe.full_name,
+                id: user.id,
+                name: user.full_name,
                 status: (
                     <Badge
                         px={1}
                         py={1}
-                        bg={employe.status ? 'green.400' : 'red'}
+                        bg={user.status ? 'green.400' : 'red'}
                         textColor={'white'}
                         rounded={'md'}
                         fontSize={'x-small'}
                     >
-                        {employe.status ? (
+                        {user.status ? (
                             <BsCheckLg color={'white'} size={18} />
                         ) : (
                             <IoMdClose color={'white'} size={18} />
                         )}
                     </Badge>
                 ),
-                date: dateParser(employe.date),
+                date: dateParser(user.today_vote_date),
             };
         });
-    }, [employeVote]);
+    }, [userVoted]);
 
     return (
         <Wrapper

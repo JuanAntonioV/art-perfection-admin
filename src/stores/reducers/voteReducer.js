@@ -1,10 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { checkHeadCanVote, createVote } from '../thunks/voteThunk';
+import {
+    checkHeadCanVote,
+    createVote,
+    getAllUserVotedToday,
+} from '../thunks/voteThunk';
 
 const initialState = {
     votes: [],
     vote: {},
     status: 'idle', // 'idle' | 'loading' | 'success' | 'failed'
+    userNotVoted: [],
+    userVoted: [],
     error: null,
 };
 
@@ -35,6 +41,21 @@ const voteSlice = createSlice({
                 state.status = 'success';
             })
             .addCase(checkHeadCanVote.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
+            });
+
+        // getAllUserVotedToday
+        builder
+            .addCase(getAllUserVotedToday.pending, (state, action) => {
+                state.status = 'loading';
+            })
+            .addCase(getAllUserVotedToday.fulfilled, (state, action) => {
+                state.status = 'success';
+                state.userNotVoted = action.payload.data.user_not_voted;
+                state.userVoted = action.payload.data.user_voted;
+            })
+            .addCase(getAllUserVotedToday.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
             });

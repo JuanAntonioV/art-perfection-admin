@@ -1,4 +1,8 @@
-import { checkHeadCanVoteApi, createVoteApi } from '@/api/voteApi';
+import {
+    checkHeadCanVoteApi,
+    createVoteApi,
+    getAllUserVotedTodayApi,
+} from '@/api/voteApi';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const createVote = createAsyncThunk(
@@ -22,6 +26,19 @@ export const checkHeadCanVote = createAsyncThunk(
             const { token } = payload;
             delete payload.token;
             const response = await checkHeadCanVoteApi(token, payload);
+            return response.data;
+        } catch (err) {
+            return thunkAPI.rejectWithValue(err.response?.data);
+        }
+    }
+);
+
+export const getAllUserVotedToday = createAsyncThunk(
+    'votes/getAllUserVotedToday',
+    async (payload, thunkAPI) => {
+        try {
+            const response = await getAllUserVotedTodayApi(payload);
+            console.log(response.data);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

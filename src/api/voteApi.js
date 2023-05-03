@@ -17,3 +17,12 @@ export const checkHeadCanVoteApi = async (token, data) => {
     });
     return response;
 };
+
+export const getAllUserVotedTodayApi = async (token) => {
+    const response = await api.get(`/vote/users`, {
+        headers: {
+            Authorization: token,
+        },
+    });
+    return response;
+};
