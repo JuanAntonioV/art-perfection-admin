@@ -9,6 +9,7 @@ import statsReducer from './reducers/statsReducer';
 import analyticsReducer from './reducers/analyticsReducer';
 import holidayReducer from './reducers/holidayReducer';
 import voteReducer from './reducers/voteReducer';
+import motivationReducer from './reducers/motivationReducer';
 
 export const store = configureStore({
     reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
         analytics: analyticsReducer,
         holiday: holidayReducer,
         vote: voteReducer,
+        motivation: motivationReducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

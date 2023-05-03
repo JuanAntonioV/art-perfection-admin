@@ -15,7 +15,7 @@ import {
     Textarea,
     VStack,
 } from '@chakra-ui/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { HiPlus } from 'react-icons/hi';
 import { TiTrash, TiWarningOutline } from 'react-icons/ti';
 import { useDispatch, useSelector } from 'react-redux';

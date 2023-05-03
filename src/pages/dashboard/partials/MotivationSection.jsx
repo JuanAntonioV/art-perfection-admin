@@ -1,7 +1,15 @@
+import AlertResponseError from '@/components/alerts/AlertResponseError';
+import AlertResponseInfo from '@/components/alerts/AlertResponseInfo';
 import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { textParser } from '@/helpers/text-helper';
 import {
+    createMotivation,
+    getAllMotivation,
+    getMotivationById,
+} from '@/stores/thunks/motivationThunk';
+import {
+    Badge,
     Box,
     Button,
     Drawer,
@@ -13,47 +21,28 @@ import {
     DrawerOverlay,
     FormLabel,
     IconButton,
+    Input,
     Stack,
     Textarea,
     useDisclosure,
 } from '@chakra-ui/react';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { FaReadme } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function MotivationSection() {
-    const [employeVote, setEmployeVote] = useState([
-        {
-            id: 1,
-            full_name: 'Rizky',
-            content:
-                'Hari Indah dasijdoiasjdoi ajoisdjaoi sjdoiaj odjaso asdjaoisj doia sjiod jaiso jdioas jdoia jsiodjasod aisojdoias jdioajs doaj sdio adsioj asjidj aosidjoas jdioa sjioijd oias djoiasjdoijasoid joiasdj',
-            postDate: '07:20',
-        },
-        {
-            id: 2,
-            full_name: 'Rizky',
-            content: 'Hari Indah',
-            postDate: '07:20',
-        },
-        {
-            id: 3,
-            full_name: 'Rizky',
-            content: 'Hari Indah',
-            postDate: '07:20',
-        },
-        {
-            id: 4,
-            full_name: 'Rizky',
-            content: 'Hari Indah',
-            postDate: '07:20',
-        },
-        {
-            id: 5,
-            full_name: 'Rizky',
-            content: 'Hari Indah',
-            postDate: '07:20',
-        },
-    ]);
+    const dispatch = useDispatch();
+    const { motivations, motivation, error, status } = useSelector(
+        (state) => state.motivation
+    );
+    const token = useSelector((state) => state.auth.token);
+    const [motivationForm, setMotivationForm] = useState({
+        motivation: '',
+    });
+
+    useEffect(() => {
+        dispatch(getAllMotivation(token));
+    }, [dispatch]);
 
     const columns = useMemo(
         () => [
@@ -74,6 +63,10 @@ export default function MotivationSection() {
                 accessor: 'postDate',
             },
             {
+                Header: 'Status',
+                accessor: 'status',
+            },
+            {
                 Header: 'Action',
                 accessor: 'action',
             },
@@ -82,17 +75,35 @@ export default function MotivationSection() {
     );
 
     const handleViewDetail = (id) => {
-        console.log(id);
-        openMotivation();
+        const payload = {
+            id: id,
+            token: token,
+        };
+
+        dispatch(getMotivationById(payload)).then((res) => {
+            res.payload.status ? openMotivation() : null;
+        });
     };
 
     const data = useMemo(() => {
-        return employeVote.map((employe) => {
+        return motivations.map((motiv) => {
             return {
-                id: employe.id,
-                motivation: textParser(employe.content, 50),
-                name: employe.full_name,
-                postDate: employe.postDate,
+                id: motiv.id,
+                motivation: textParser(motiv.content, 50),
+                name: motiv.full_name,
+                postDate: motiv.post_hours,
+                status: (
+                    <Badge
+                        px={3}
+                        py={1}
+                        bg={!motiv.isLate ? 'green.400' : 'red'}
+                        textColor={'white'}
+                        rounded={'md'}
+                        fontSize={'x-small'}
+                    >
+                        {motiv.isLate ? 'Telat' : 'Tepat Waktu'}
+                    </Badge>
+                ),
                 action: (
                     <Box>
                         <IconButton
@@ -103,7 +114,7 @@ export default function MotivationSection() {
                                 bg: 'blue.400',
                                 textColor: 'white',
                             }}
-                            onClick={() => handleViewDetail(employe.id)}
+                            onClick={() => handleViewDetail(motiv.id)}
                         >
                             <FaReadme size={20} />
                         </IconButton>
@@ -111,7 +122,7 @@ export default function MotivationSection() {
                 ),
             };
         });
-    }, [employeVote]);
+    }, [motivations]);
 
     const {
         isOpen: isOpenMotivation,
@@ -126,13 +137,30 @@ export default function MotivationSection() {
     const btnRef = useRef();
 
     const handleCreateMotivation = () => {
-        console.log('create motivation');
         openCreateMotivation();
     };
 
     const handleSubmitCreateMotivation = (e) => {
         e.preventDefault();
-        console.log('submit create motivation');
+
+        const payload = {
+            token: token,
+            content: motivationForm.motivation,
+        };
+
+        dispatch(createMotivation(payload)).then((res) => {
+            if (res.payload.status) {
+                dispatch(getAllMotivation(token));
+                closeCreateMotivation();
+            }
+        });
+    };
+
+    const handleChange = (e) => {
+        setMotivationForm({
+            ...motivationForm,
+            [e.target.name]: e.target.value,
+        });
     };
 
     return (
@@ -149,9 +177,72 @@ export default function MotivationSection() {
                     <DrawerCloseButton />
                     <DrawerHeader>Lihat motivasi</DrawerHeader>
 
+                    <AlertResponseInfo status={status} info={error?.message} />
+
                     <DrawerBody>
                         {
-                            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum?'
+                            motivation ? (
+                                <Stack spacing={6}>
+                                    <Box>
+                                        <FormLabel htmlFor='motivation'>
+                                            Motivasi
+                                        </FormLabel>
+                                        <Textarea
+                                            id='motivation'
+                                            name='motivation'
+                                            rows={8}
+                                            value={motivation.content}
+                                            readOnly
+                                        />
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel htmlFor='name'>
+                                            Nama
+                                        </FormLabel>
+                                        <Input
+                                            id='name'
+                                            name='name'
+                                            value={motivation.full_name}
+                                            readOnly
+                                        />
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel htmlFor='postDate'>
+                                            Jam Kirim
+                                        </FormLabel>
+                                        <Input
+                                            id='postDate'
+                                            name='postDate'
+                                            value={motivation.post_hours}
+                                            readOnly
+                                        />
+                                    </Box>
+
+                                    <Box>
+                                        <FormLabel htmlFor='postDate'>
+                                            Status
+                                        </FormLabel>
+                                        <Badge
+                                            px={3}
+                                            py={1}
+                                            bg={
+                                                !motivation?.isLate
+                                                    ? 'green.400'
+                                                    : 'red'
+                                            }
+                                            textColor={'white'}
+                                            rounded={'md'}
+                                            fontSize={'xs'}
+                                        >
+                                            {motivation?.isLate
+                                                ? 'Telat'
+                                                : 'Tepat Waktu'}
+                                        </Badge>
+                                    </Box>
+                                </Stack>
+                            ) : null // TODO: add skeleton
                         }
                     </DrawerBody>
 
@@ -190,6 +281,8 @@ export default function MotivationSection() {
                                         id='motivation'
                                         name='motivation'
                                         rows={5}
+                                        value={motivationForm.motivation}
+                                        onChange={handleChange}
                                     />
                                 </Box>
                             </Stack>
