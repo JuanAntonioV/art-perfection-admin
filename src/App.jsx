@@ -14,7 +14,7 @@ const App = () => {
         dispatch(getUser(token)).then((res) => {
             if (res.payload.code === 401) dispatch(logoutAction(token));
         });
-    }, [dispatch]);
+    }, [dispatch, token]);
 
     return (
         <ChakraProvider resetCSS theme={theme}>

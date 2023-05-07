@@ -29,7 +29,7 @@ const DefaultLineChart = ({ data }) => {
                 margin={{ top: 5, right: 20, bottom: 5, left: -10 }}
             >
                 {data[0]?.criteria?.map((entry, index) => (
-                    <Area
+                    <Line
                         key={entry.criteria}
                         type='monotone'
                         dataKey={`criteria[${index}].total_score`}
