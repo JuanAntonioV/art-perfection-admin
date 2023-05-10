@@ -19,6 +19,7 @@ import EmployeDetailPage from '@/pages/employes/EmployeDetailPage';
 import { Authenticated, Guest } from './middleware/AuthMiddleware';
 import HeadDetailPage from '@/pages/heads/HeadDetailPage';
 import AnalyticPage from '@/pages/analytics/AnalyticPage';
+import ComingSoonPage from '@/pages/ComingSoonPage';
 
 const Router = () => {
     return (
@@ -83,6 +84,8 @@ const Router = () => {
                 <Route path='profile' Component={ProfilePage} />
 
                 <Route path='analytics' Component={AnalyticPage} />
+
+                <Route path='coming-soon' Component={ComingSoonPage} />
             </Route>
 
             <Route path='*' Component={NotFound} />

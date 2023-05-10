@@ -8,7 +8,11 @@ const PermissionMiddleware = ({ children, permisionKey, roleKeyException }) => {
             (permission) => permission === permisionKey
         );
 
-        if (permission || permisionKey === 'view dashboard') {
+        if (
+            permission ||
+            permisionKey === 'view dashboard' ||
+            permisionKey === 'coming-soon'
+        ) {
             return children;
         }
     }

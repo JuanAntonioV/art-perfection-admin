@@ -5,6 +5,10 @@ import {
     RiUserStarLine,
     FiSettings,
     TbBrandGoogleAnalytics,
+    BiPaint,
+    MdOutlineMonetizationOn,
+    GiProgression,
+    MdSettingsInputAntenna,
 } from 'react-icons/all';
 
 import { HiOutlineUsers } from 'react-icons/hi';
@@ -52,6 +56,34 @@ const SidebarContent = ({ onClose, ...rest }) => {
             permision: 'view analytics menu',
         },
         {
+            name: 'Creations',
+            icon: BiPaint,
+            to: '/coming-soon',
+            devider: false,
+            permision: 'coming-soon',
+        },
+        {
+            name: 'Bonus',
+            icon: MdOutlineMonetizationOn,
+            to: '/coming-soon',
+            devider: false,
+            permision: 'coming-soon',
+        },
+        {
+            name: 'Progress',
+            icon: GiProgression,
+            to: '/coming-soon',
+            devider: false,
+            permision: 'coming-soon',
+        },
+        {
+            name: 'SOP',
+            icon: MdSettingsInputAntenna,
+            to: '/coming-soon',
+            devider: true,
+            permision: 'coming-soon',
+        },
+        {
             name: 'Settings',
             icon: FiSettings,
             to: '/settings',
@@ -70,6 +102,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
             w={{ base: 'full', md: 60 }}
             pos='fixed'
             h='full'
+            overflowY={'auto'}
             {...rest}
         >
             <Flex
