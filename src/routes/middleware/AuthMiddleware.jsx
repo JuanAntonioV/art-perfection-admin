@@ -16,3 +16,13 @@ export const Authenticated = ({ children }) => {
 
     return children;
 };
+
+export const RolePermissions = ({ children, role }) => {
+    const user = useSelector((state) => state.auth.user);
+
+    const canView = role.includes(user.role);
+
+    if (canView) return children;
+
+    return <Navigate to={'/not-found'} />;
+};
