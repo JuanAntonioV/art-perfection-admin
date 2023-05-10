@@ -3,6 +3,7 @@ import DefaultLineChart from '@/components/charts/DefaultLineChart';
 import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { dateParser } from '@/helpers/date-helper';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 import { getEmployeeDetail } from '@/stores/thunks/employeeThunk';
 import {
     assignUserToTeam,
@@ -271,78 +272,84 @@ const TeamDetailPage = () => {
                             />
                         </Box>
 
-                        <Flex align={'center'} justifyContent={'end'}>
-                            {isEdit ? (
-                                <Button
-                                    colorScheme={'blue'}
-                                    onClick={handleSave}
-                                >
-                                    Simpan
-                                </Button>
-                            ) : (
-                                <Button
-                                    colorScheme={'green'}
-                                    onClick={() => setIsEdit(true)}
-                                >
-                                    Edit
-                                </Button>
-                            )}
-                        </Flex>
+                        <PermissionMiddleware
+                            permisionKey={'edit teams action'}
+                        >
+                            <Flex align={'center'} justifyContent={'end'}>
+                                {isEdit ? (
+                                    <Button
+                                        colorScheme={'blue'}
+                                        onClick={handleSave}
+                                    >
+                                        Simpan
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        colorScheme={'green'}
+                                        onClick={() => setIsEdit(true)}
+                                    >
+                                        Edit
+                                    </Button>
+                                )}
+                            </Flex>
+                        </PermissionMiddleware>
                     </Stack>
                 </form>
             </Wrapper>
 
-            <Wrapper
-                title={'Assign Employee to Team'}
-                description={
-                    'Menu ini digunakan untuk menambahkan karyawan ke team'
-                }
-            >
-                <AlertResponseError
-                    error={
-                        error?.error?.includes('SQLSTATE[23000]')
-                            ? {
-                                  message: 'User sudah ada pada tim.',
-                              }
-                            : error
+            <PermissionMiddleware permisionKey={'view assign teams'}>
+                <Wrapper
+                    title={'Assign Employee to Team'}
+                    description={
+                        'Menu ini digunakan untuk menambahkan karyawan ke team'
                     }
-                    status={status}
-                    my={4}
-                />
+                >
+                    <AlertResponseError
+                        error={
+                            error?.error?.includes('SQLSTATE[23000]')
+                                ? {
+                                      message: 'User sudah ada pada tim.',
+                                  }
+                                : error
+                        }
+                        status={status}
+                        my={4}
+                    />
 
-                <VStack spacing={6}>
-                    <FormControl>
-                        <FormLabel>ID Karyawan</FormLabel>
+                    <VStack spacing={6}>
+                        <FormControl>
+                            <FormLabel>ID Karyawan</FormLabel>
 
-                        <Flex align={'center'}>
-                            <Input
-                                type='number'
-                                maxLength={45}
-                                value={userId}
-                                pattern='[0-9]*'
-                                placeholder='Masukkan ID Karyawan'
-                                onChange={(e) => setUserId(e.target.value)}
-                            />
-                            <Button
-                                colorScheme={'blue'}
-                                leftIcon={<HiPlus />}
-                                ml={2}
-                                onClick={handleAddUserToTeam}
-                            >
-                                Tambah
-                            </Button>
-                        </Flex>
+                            <Flex align={'center'}>
+                                <Input
+                                    type='number'
+                                    maxLength={45}
+                                    value={userId}
+                                    pattern='[0-9]*'
+                                    placeholder='Masukkan ID Karyawan'
+                                    onChange={(e) => setUserId(e.target.value)}
+                                />
+                                <Button
+                                    colorScheme={'blue'}
+                                    leftIcon={<HiPlus />}
+                                    ml={2}
+                                    onClick={handleAddUserToTeam}
+                                >
+                                    Tambah
+                                </Button>
+                            </Flex>
 
-                        <FormHelperText>
-                            Isi sesuai ID pada menu <b>Employes</b>
-                        </FormHelperText>
-                    </FormControl>
-                </VStack>
+                            <FormHelperText>
+                                Isi sesuai ID pada menu <b>Employes</b>
+                            </FormHelperText>
+                        </FormControl>
+                    </VStack>
 
-                <Box mt={6}>
-                    <TableBasic columns={columns} data={data} />
-                </Box>
-            </Wrapper>
+                    <Box mt={6}>
+                        <TableBasic columns={columns} data={data} />
+                    </Box>
+                </Wrapper>
+            </PermissionMiddleware>
         </Stack>
     );
 };

@@ -50,7 +50,6 @@ const SettingPage = () => {
         };
 
         dispatch(createHolidayThunk(payload)).then((res) => {
-            console.log(res);
             if (res.payload?.code === 200) {
                 setForm({ title: '', description: '', date: '' });
                 dispatch(getAllHolidayThunk(token));

@@ -38,7 +38,6 @@ export const getAllUserVotedToday = createAsyncThunk(
     async (payload, thunkAPI) => {
         try {
             const response = await getAllUserVotedTodayApi(payload);
-            console.log(response.data);
             return response.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.response?.data);

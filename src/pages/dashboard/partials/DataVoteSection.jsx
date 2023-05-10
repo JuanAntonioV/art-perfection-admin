@@ -2,17 +2,13 @@ import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { dateParser } from '@/helpers/date-helper';
 import { Badge } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { BsCheckLg } from 'react-icons/bs';
 import { IoMdClose } from 'react-icons/io';
 import { useSelector } from 'react-redux';
 
 export default function DataVoteSection() {
     const { userVoted } = useSelector((state) => state.vote);
-
-    useEffect(() => {
-        console.log('userVoted', userVoted);
-    }, [userVoted]);
 
     const columns = useMemo(
         () => [

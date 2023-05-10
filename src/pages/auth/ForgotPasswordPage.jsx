@@ -55,10 +55,6 @@ const ForgotPasswordPage = () => {
         });
     };
 
-    useEffect(() => {
-        console.log(successSend);
-    }, [successSend]);
-
     return (
         <AuthLayout>
             <Box rounded={'2xl'} bg={'white'} boxShadow={'lg'} p={8}>

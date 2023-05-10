@@ -10,10 +10,6 @@ import { useSelector } from 'react-redux';
 export default function DataNoVoteSection() {
     const { userNotVoted } = useSelector((state) => state.vote);
 
-    useEffect(() => {
-        console.log('userNotVoted', userNotVoted);
-    }, [userNotVoted]);
-
     const columns = useMemo(
         () => [
             {

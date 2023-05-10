@@ -1,88 +1,21 @@
 import AlertResponseError from '@/components/alerts/AlertResponseError';
-import TableBasic from '@/components/tables/TableBasic';
 import Wrapper from '@/components/wrappers/Wrapper';
 import { createTeam } from '@/stores/thunks/teamsThunk';
 import {
     Box,
     Button,
-    Flex,
     FormControl,
     FormHelperText,
     FormLabel,
-    IconButton,
     Input,
     Stack,
     Textarea,
-    VStack,
 } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
-import { HiPlus } from 'react-icons/hi';
-import { TiTrash, TiWarningOutline } from 'react-icons/ti';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const TeamCreatePage = () => {
-    // const employes = useSelector((state) => state.employes.employes);
-
-    // const handleDelete = (id) => {
-    //     console.log('ID Employe', id);
-    // };
-
-    // const columns = useMemo(
-    //     () => [
-    //         {
-    //             Header: '#',
-    //             accessor: 'count',
-    //         },
-    //         {
-    //             Header: 'ID',
-    //             accessor: 'id',
-    //         },
-    //         {
-    //             Header: 'Name',
-    //             accessor: 'name',
-    //         },
-    //         {
-    //             Header: 'Email',
-    //             accessor: 'email',
-    //         },
-    //         {
-    //             Header: 'Action',
-    //             accessor: 'action',
-    //         },
-    //     ],
-    //     []
-    // );
-
-    // const data = useMemo(() => {
-    //     let count = 1;
-    //     return employes.map((employe) => {
-    //         return {
-    //             count: count++,
-    //             id: employe.id,
-    //             name: employe.name,
-    //             email: employe.email,
-    //             action: (
-    //                 <Box>
-    //                     <IconButton
-    //                         size='sm'
-    //                         ml={2}
-    //                         textColor={'red'}
-    //                         bg={'transparent'}
-    //                         _hover={{
-    //                             bg: 'red',
-    //                             textColor: 'white',
-    //                         }}
-    //                         onClick={() => handleDelete(employe.id)}
-    //                     >
-    //                         <TiTrash size={20} />
-    //                     </IconButton>
-    //                 </Box>
-    //             ),
-    //         };
-    //     });
-    // }, [employes]);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setForm] = useState({

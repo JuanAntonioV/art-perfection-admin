@@ -29,53 +29,6 @@ import DataNoVoteSection from './partials/DataNoVoteSection';
 import { getAllUserVotedToday } from '@/stores/thunks/voteThunk';
 
 const DashboardPage = () => {
-    // generate random data 30 days with the key of date and have the value of kehadiran, kedisiplinan, kemandirian, saran, ketepatan, progress and the value is random number between 0 and 4, and also plus the last value to the current date
-    // const [data, setData] = useState([]);
-
-    // useEffect(() => {
-    //     const data = [];
-
-    //     for (let i = 0; i < 30; i++) {
-    //         const date = new Date();
-    //         date.setDate(date.getDate() - i);
-
-    //         data.push({
-    //             date: dateParser(date),
-    //             kehadiran:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].kehadiran),
-    //             kedisiplinan:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].kedisiplinan),
-    //             kemandirian:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].kemandirian),
-    //             saran:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].saran),
-    //             ketepatan:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].ketepatan),
-    //             progress:
-    //                 Math.floor(Math.random() * 4) +
-    //                 1 +
-    //                 (i === 0 ? 0 : data[i - 1].progress),
-    //             iSangatTidakSesuai:
-    //                 1 + (i === 0 ? 0 : data[i - 1].iSangatTidakSesuai),
-    //             iTidakSesuai: 2 + (i === 0 ? 0 : data[i - 1].iTidakSesuai),
-    //             iSesuai: 3 + (i === 0 ? 0 : data[i - 1].iSesuai),
-    //             iSangatSesuai: 4 + (i === 0 ? 0 : data[i - 1].iSangatSesuai),
-    //         });
-
-    //         setData(data);
-    //     }
-    // }, []);
-
     const dispatch = useDispatch();
     const { userAnalytics, error: analyticError } = useSelector(
         (state) => state.analytics

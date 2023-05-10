@@ -1,6 +1,7 @@
 import AlertDeleteDialog from '@/components/dialogs/AlertDeleteDialog';
 import TableBasic from '@/components/tables/TableBasic';
 import { dateParser } from '@/helpers/date-helper';
+import PermissionMiddleware from '@/routes/middleware/PermissionMiddleware';
 import {
     deleteTeam,
     getTeamDetails,
@@ -27,6 +28,7 @@ const TeamPage = () => {
     const navigate = useNavigate();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [teamId, setTeamId] = useState(null);
+    const user = useSelector((state) => state.auth.user);
 
     const handleDelete = (id) => {
         const payload = {
@@ -114,22 +116,26 @@ const TeamPage = () => {
                         >
                             <MdManageSearch size={20} />
                         </IconButton>
-                        <IconButton
-                            size='sm'
-                            ml={2}
-                            textColor={'red'}
-                            bg={'transparent'}
-                            _hover={{
-                                bg: 'red',
-                                textColor: 'white',
-                            }}
-                            onClick={() => {
-                                setTeamId(team.id);
-                                onOpen();
-                            }}
+                        <PermissionMiddleware
+                            permisionKey={'delete teams action'}
                         >
-                            <TiTrash size={20} />
-                        </IconButton>
+                            <IconButton
+                                size='sm'
+                                ml={2}
+                                textColor={'red'}
+                                bg={'transparent'}
+                                _hover={{
+                                    bg: 'red',
+                                    textColor: 'white',
+                                }}
+                                onClick={() => {
+                                    setTeamId(team.id);
+                                    onOpen();
+                                }}
+                            >
+                                <TiTrash size={20} />
+                            </IconButton>
+                        </PermissionMiddleware>
                     </Box>
                 ),
             };
@@ -168,7 +174,7 @@ const TeamPage = () => {
                 <TableBasic
                     columns={columns}
                     data={data}
-                    addAction={handleAdd}
+                    addAction={user?.role === 'employee' ? null : handleAdd}
                 />
             </Box>
         </>

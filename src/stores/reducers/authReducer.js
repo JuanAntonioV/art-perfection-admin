@@ -16,6 +16,7 @@ const initialState = {
         email: '',
         role: '',
         status: '',
+        can_vote: false,
     },
     token: localStorage.getItem('token') || null,
     forgotPassword: {
