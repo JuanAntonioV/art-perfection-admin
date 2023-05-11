@@ -63,13 +63,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
             permision: 'coming-soon',
         },
         {
-            name: 'Bonus',
-            icon: MdOutlineMonetizationOn,
-            to: '/coming-soon',
-            devider: false,
-            permision: 'coming-soon',
-        },
-        {
             name: 'Progress',
             icon: GiProgression,
             to: '/coming-soon',
