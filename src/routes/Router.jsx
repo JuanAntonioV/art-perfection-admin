@@ -29,117 +29,51 @@ const Router = () => {
     return (
         <Routes>
             <Route path='/' element={<Navigate to={'login'} />} />
-            <Route
-                path='/login'
-                element={
-                    <Guest>
-                        <LoginPage />
-                    </Guest>
-                }
-            />
-            <Route
-                path='/register'
-                element={
-                    <Guest>
-                        <RegisterPage />
-                    </Guest>
-                }
-            />
-            <Route
-                path='/forgot-password'
-                element={
-                    <Guest>
-                        <ForgotPasswordPage />
-                    </Guest>
-                }
-            />
-            <Route
-                path='/reset-password'
-                element={
-                    <Guest>
-                        <ResetPasswordPage />
-                    </Guest>
-                }
-            />
 
-            <Route
-                element={
-                    <Authenticated>
-                        <DashboardLayout />
-                    </Authenticated>
-                }
-            >
-                <Route path='dashboard' Component={DashboardPage} />
+            <Route element={<Guest />}>
+                <Route path='/login' Component={LoginPage} />
+                <Route path='/register' Component={RegisterPage} />
+                <Route path='/forgot-password' Component={ForgotPasswordPage} />
+                <Route path='/reset-password' Component={ResetPasswordPage} />
+            </Route>
 
-                {/* Anggota */}
-                <Route
-                    path='employee'
-                    element={
-                        <RolePermissions role={['admin', 'head']}>
-                            <EmployePage />
-                        </RolePermissions>
-                    }
-                />
-                <Route
-                    path='employee/:id'
-                    element={
-                        <RolePermissions role={['admin', 'head']}>
-                            <EmployeDetailPage />
-                        </RolePermissions>
-                    }
-                />
+            <Route element={<Authenticated />}>
+                <Route Component={DashboardLayout}>
+                    <Route path='dashboard' Component={DashboardPage} />
 
-                {/* Pimpinan */}
-                <Route
-                    path='head'
-                    element={
-                        <RolePermissions role={['admin']}>
-                            <HeadPage />
-                        </RolePermissions>
-                    }
-                />
-                <Route
-                    path='head/:id'
-                    element={
-                        <RolePermissions role={['admin']}>
-                            <HeadDetailPage />
-                        </RolePermissions>
-                    }
-                />
+                    {/* Anggota */}
+                    <Route
+                        element={<RolePermissions role={['admin', 'head']} />}
+                    >
+                        <Route path='employee' Component={EmployePage} />
+                        <Route
+                            path='employee/:id'
+                            Component={EmployeDetailPage}
+                        />
+                    </Route>
 
-                {/* Tim */}
-                <Route path='teams' Component={TeamPage} />
-                <Route path='teams/:id' Component={TeamDetailPage} />
-                <Route
-                    path='teams/create'
-                    element={
-                        <RolePermissions role={['admin']}>
-                            <TeamCreatePage />
-                        </RolePermissions>
-                    }
-                />
+                    {/* Pimpinan */}
+                    <Route element={<RolePermissions role={['admin']} />}>
+                        <Route path='head' Component={HeadPage} />
+                        <Route path='head/:id' Component={HeadDetailPage} />
+                    </Route>
 
-                <Route
-                    path='settings'
-                    element={
-                        <RolePermissions role={['admin']}>
-                            <SettingPage />
-                        </RolePermissions>
-                    }
-                />
+                    {/* Tim */}
+                    <Route path='teams' Component={TeamPage} />
+                    <Route path='teams/:id' Component={TeamDetailPage} />
 
-                <Route path='profile' Component={ProfilePage} />
+                    <Route element={<RolePermissions role={['admin']} />}>
+                        <Route path='teams/create' Component={TeamCreatePage} />
 
-                <Route
-                    path='analytics'
-                    element={
-                        <RolePermissions role={['admin']}>
-                            <AnalyticPage />
-                        </RolePermissions>
-                    }
-                />
+                        <Route path='settings' Component={SettingPage} />
 
-                <Route path='coming-soon' Component={ComingSoonPage} />
+                        <Route path='analytics' Component={AnalyticPage} />
+                    </Route>
+
+                    <Route path='profile' Component={ProfilePage} />
+
+                    <Route path='coming-soon' Component={ComingSoonPage} />
+                </Route>
             </Route>
 
             <Route path='not-found' Component={NotFound} />

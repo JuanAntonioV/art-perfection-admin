@@ -1,28 +1,34 @@
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
-export const Guest = ({ children }) => {
-    const isAuth = useSelector((state) => state.auth.isAuthenticated);
-
-    if (isAuth) return <Navigate to={'/dashboard'} />;
-
-    return children;
-};
-
-export const Authenticated = ({ children }) => {
-    const isAuth = useSelector((state) => state.auth.isAuthenticated);
-
-    if (!isAuth) return <Navigate to={'/login'} />;
-
-    return children;
-};
-
-export const RolePermissions = ({ children, role }) => {
+export const Guest = () => {
     const user = useSelector((state) => state.auth.user);
+    const location = useLocation();
+    const from = location?.state?.from?.pathname || '/dashboard';
 
-    const canView = role.includes(user.role);
+    return user ? <Navigate to={from} replace /> : <Outlet />;
+};
 
-    if (canView) return children;
+export const Authenticated = () => {
+    const user = useSelector((state) => state.auth.user);
+    const location = useLocation();
 
-    return <Navigate to={'/not-found'} />;
+    return user ? (
+        <Outlet />
+    ) : (
+        <Navigate to={'/login'} state={{ from: location }} replace />
+    );
+};
+
+export const RolePermissions = ({ role }) => {
+    const user = useSelector((state) => state.auth.user);
+    const location = useLocation();
+
+    return user?.role?.includes(role) ? (
+        <Outlet />
+    ) : user ? (
+        <Navigate to={'/dashboard'} replace />
+    ) : (
+        <Navigate to={'/login'} state={{ from: location }} replace />
+    );
 };

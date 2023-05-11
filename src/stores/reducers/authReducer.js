@@ -11,13 +11,7 @@ import {
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    user: {
-        name: '',
-        email: '',
-        role: '',
-        status: '',
-        can_vote: false,
-    },
+    user: {},
     token: localStorage.getItem('token') || null,
     forgotPassword: {
         email: '',
