@@ -14,13 +14,20 @@ import {
 const DefaultLineChart = ({ data }) => {
     const colors = [
         // make randomg colors that not the same with indicator colors and eye catching
-        '#B22222',
-        '#FFA500',
-        '#FFD700',
-        '#008000',
+        '#4A86E8',
+        '#9900FF',
+        '#0000FF',
+        '#999999',
+        '#46BDC6',
+        '#FF00FF',
     ];
 
-    const indicatorColors = ['#FF0000', '#FFFF00', '#FF9900', '#00FF00'];
+    const indicatorColors = [
+        '#FF000033',
+        '#FFFF0033',
+        '#FF990033',
+        '#00FF0033',
+    ];
 
     return (
         <ResponsiveContainer width='100%' height={400}>
