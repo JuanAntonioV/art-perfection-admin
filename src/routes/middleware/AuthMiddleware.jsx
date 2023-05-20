@@ -3,10 +3,11 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export const Guest = () => {
     const user = useSelector((state) => state.auth.user);
+    const token = useSelector((state) => state.auth.token);
     const location = useLocation();
     const from = location?.state?.from?.pathname || '/dashboard';
 
-    return user ? <Navigate to={from} replace /> : <Outlet />;
+    return user && token ? <Navigate to={from} replace /> : <Outlet />;
 };
 
 export const Authenticated = () => {
